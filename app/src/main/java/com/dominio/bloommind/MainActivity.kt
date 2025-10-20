@@ -1,67 +1,109 @@
 package com.dominio.bloommind
 
 import android.os.Bundle
-//import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-//import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-//import androidx.compose.ui.graphics.Color
-import com.dominio.bloommind.viewmodel.GeminiViewModel
-
-
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.dominio.bloommind.data.datastore.ProfileRepository
+import com.dominio.bloommind.ui.components.BottomNavigationBar
+import com.dominio.bloommind.ui.navigation.BloomMindNavItems
+import com.dominio.bloommind.ui.navigation.Routes
+import com.dominio.bloommind.ui.screens.ProfileScreen
+import com.dominio.bloommind.ui.screens.SignUpScreen
+import com.dominio.bloommind.ui.theme.BloomMindTheme
+import com.dominio.bloommind.viewmodel.ProfileState
+import com.dominio.bloommind.viewmodel.ProfileViewModel
+import com.dominio.bloommind.viewmodel.ProfileViewModelFactory
+@Composable
+fun PlaceholderScreen(screenName: String) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = "Pantalla: $screenName")
+    }
+}
 class MainActivity : ComponentActivity() {
+    private val profileViewModel: ProfileViewModel by viewModels {
+        ProfileViewModelFactory(profileRepository)
+    }
+    private lateinit var profileRepository: ProfileRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
-            ) {
-                val viewModel: GeminiViewModel = viewModel()
-                val response by viewModel.geminiResponse.collectAsState()
-                var userInput by remember { mutableStateOf("") }
+        profileRepository = ProfileRepository(applicationContext)
 
-                Column(Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center)
-                {
-                    Text("Bienvenido!!", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text("Soy tu asistente personal, impulsada con Gemini", style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-                    Spacer(Modifier.height(16.dp))
-                    Text(response ?: "")
-                    Spacer(Modifier.height(16.dp))
-                    OutlinedTextField(
-                        value = userInput,
-                        onValueChange = { userInput = it },
-                        label = { Text("Escribe tu mensaje...") },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Button(onClick = { viewModel.sendMessage(userInput) }) {
-                        Text("Enviar")
+        setContent {
+            BloomMindTheme {
+                val navController = rememberNavController()
+                val currentState by profileViewModel.profileState.collectAsStateWithLifecycle()
+
+                val navItems = listOf(
+                    BloomMindNavItems.Home,
+                    BloomMindNavItems.Chat,
+                    BloomMindNavItems.Profile
+                )
+                when (val state = currentState) {
+                    is ProfileState.Loading -> {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                    is ProfileState.LoggedIn, is ProfileState.NotLoggedIn -> {
+                        val startDestination = if (state is ProfileState.LoggedIn) {
+                            BloomMindNavItems.Home.route
+                        } else {
+                            Routes.SIGN_UP
+                        }
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentRoute = navBackStackEntry?.destination?.route
+                        val showScaffold = currentRoute != Routes.SIGN_UP
+                        Scaffold(
+                            bottomBar = {
+                                if (showScaffold) {
+                                    BottomNavigationBar(navController = navController, items = navItems)
+                                }
+                            }
+                        ) { innerPadding ->
+                            NavHost(
+                                navController = navController,
+                                startDestination = startDestination,
+                                modifier = Modifier.padding(innerPadding)
+                            ) {
+                                composable(Routes.SIGN_UP) {
+                                    SignUpScreen(
+                                        profileRepository = profileRepository,
+                                        onSignUpComplete = {
+                                            navController.navigate(BloomMindNavItems.Home.route) {
+                                                popUpTo(Routes.SIGN_UP) { inclusive = true }
+                                            }
+                                        }
+                                    )
+                                }
+                                // Rutas principales
+                                composable(BloomMindNavItems.Home.route) { PlaceholderScreen("Home") }
+                                composable(BloomMindNavItems.Chat.route) { PlaceholderScreen("Chat") }
+                                composable(BloomMindNavItems.Profile.route) {
+                                    if (state is ProfileState.LoggedIn) {
+                                        ProfileScreen(userProfile = state.userProfile)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
-
         }
     }
-
-
 }

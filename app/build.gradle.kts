@@ -1,3 +1,4 @@
+
 import java.util.Properties
 import java.io.FileInputStream
 val secretPropsFile = rootProject.file("secret.properties")
@@ -52,9 +53,6 @@ android {
         buildConfig = true
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.6.10"
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -65,6 +63,11 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.material.icons.extended)
 
     /* Retrofit y Gson */
     implementation(libs.gson)
