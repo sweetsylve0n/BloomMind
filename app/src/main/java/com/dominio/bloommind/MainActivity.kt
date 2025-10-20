@@ -28,6 +28,8 @@ import com.dominio.bloommind.ui.theme.BloomMindTheme
 import com.dominio.bloommind.viewmodel.ProfileState
 import com.dominio.bloommind.viewmodel.ProfileViewModel
 import com.dominio.bloommind.viewmodel.ProfileViewModelFactory
+import com.dominio.bloommind.ui.screens.ChatScreen
+
 @Composable
 fun PlaceholderScreen(screenName: String) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -93,7 +95,7 @@ class MainActivity : ComponentActivity() {
                                 }
                                 // Rutas principales
                                 composable(BloomMindNavItems.Home.route) { PlaceholderScreen("Home") }
-                                composable(BloomMindNavItems.Chat.route) { PlaceholderScreen("Chat") }
+                                composable(BloomMindNavItems.Chat.route) { ChatScreen() }
                                 composable(BloomMindNavItems.Profile.route) {
                                     if (state is ProfileState.LoggedIn) {
                                         ProfileScreen(userProfile = state.userProfile)
