@@ -1,4 +1,3 @@
-
 import java.util.Properties
 import java.io.FileInputStream
 val secretPropsFile = rootProject.file("secret.properties")
@@ -64,12 +63,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
-
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.core)
     implementation(libs.androidx.material.icons.extended)
-
-    /* Retrofit y Gson */
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dominio.bloommind.data.datastore.ProfileRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow // <-- Importa la función correcta
-import kotlinx.coroutines.flow.update     // <-- Importa la función correcta
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
 class SignUpViewModel : ViewModel() {
     private val _name = MutableStateFlow("")
     val name = _name.asStateFlow()

@@ -1,6 +1,5 @@
 package com.dominio.bloommind.ui.screens
 
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,7 +18,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dominio.bloommind.viewmodel.ChatViewModel
 import com.dominio.bloommind.viewmodel.Message
 import kotlinx.coroutines.launch
-
 @Composable
 fun ChatScreen() {
     val chatViewModel: ChatViewModel = viewModel()
@@ -27,7 +25,6 @@ fun ChatScreen() {
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    // Scroll automático al final cuando llega un nuevo mensaje
     LaunchedEffect(uiState.messages.size) {
         if (uiState.messages.isNotEmpty()) {
             coroutineScope.launch {
@@ -47,7 +44,6 @@ fun ChatScreen() {
             warningThreshold = uiState.quotaWarningThreshold
         )
 
-        // Lista de mensajes que ocupa el espacio restante
         LazyColumn(
             state = lazyListState,
             modifier = Modifier.weight(1f),
@@ -58,13 +54,11 @@ fun ChatScreen() {
             }
             if (uiState.isSending) {
                 item {
-                    // Indicador de "escribiendo..."
                     MessageBubble(Message("...", isFromUser = false))
                 }
             }
         }
 
-        // Campo de entrada y botón
         MessageInput(
             onSendMessage = { text -> chatViewModel.sendMessage(text) },
             isEnabled = !uiState.quotaReached && !uiState.isSending
@@ -77,7 +71,7 @@ fun QuotaBanner(quotaLeft: Int, quotaReached: Boolean, warningThreshold: Int) {
     val bannerText = when {
         quotaReached -> "Has alcanzado tu límite de hoy. ¡Regresa en 24 horas para continuar!"
         quotaLeft <= warningThreshold -> "Te quedan $quotaLeft solicitudes restantes."
-        else -> null // No mostrar nada si la cuota es alta
+        else -> null
     }
 
     if (bannerText != null) {

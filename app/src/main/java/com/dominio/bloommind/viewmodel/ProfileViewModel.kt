@@ -29,7 +29,7 @@ class ProfileViewModel(profileRepository: ProfileRepository) : ViewModel() {
             initialValue = ProfileState.Loading
         )
 }
-//factoriaaaaa
+//la factoriaaaaa
 class ProfileViewModelFactory(
     private val profileRepository: ProfileRepository
 ) : ViewModelProvider.Factory {

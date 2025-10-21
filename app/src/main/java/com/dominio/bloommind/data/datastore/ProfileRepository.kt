@@ -1,6 +1,5 @@
 package com.dominio.bloommind.data.datastore
 
-
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -12,17 +11,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
-
 data class UserProfile(
     val name: String,
     val email: String,
-    val birthDate: String, // Simplificado
+    val birthDate: String,
     val gender: String
 )
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_profile_prefs")
-
 class ProfileRepository(context: Context) {
-
     private val dataStore = context.dataStore
     private object PreferencesKeys {
         val USER_NAME = stringPreferencesKey("user_name")
@@ -58,7 +54,6 @@ class ProfileRepository(context: Context) {
             preferences[PreferencesKeys.USER_GENDER] = gender
         }
     }
-
     suspend fun clearProfile() {
         dataStore.edit { it.clear() }
     }
