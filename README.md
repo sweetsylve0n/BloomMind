@@ -34,6 +34,7 @@ Instrucciones para ejecutar
 3. Colocar la API Key (explicación abajo). Sin la clave, la funcionalidad de chat que usa la API externa puede no funcionar.
    
    - Para poder demostrar la funcionalidad de chat en la entrega, por favor añada su `secret.properties` con la API Key antes de ejecutar la app.
+   - Hacer las modificaciones pertinentes (GeminiApiInterface URL,...)
      
 4. Seleccione el módulo `app` y ejecute (Run) en un emulador o dispositivo físico.
 
