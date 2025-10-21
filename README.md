@@ -1,6 +1,6 @@
 Resumen 
 -----------------------------------------------
-BloomMind es una aplicación Android escrita en Kotlin (Jetpack Compose) desarrollada como proyecto de Programación Móvil, por mi, Silvia Chaves Mata. Mi intención es desarrollar un app de monitoreo emocional diario, con un chat integrado y además, información sobre los números de emergencia disponibles en Costa Rica para cualquier persona que se sienta en peligro y no sepa o tenga a quien llamar, estoy a medio camino todavía, pero muy motivada. En esta guía encontrará:
+BloomMind es una aplicación Android escrita en Kotlin (Jetpack Compose) desarrollada como proyecto de Programación Móvil, por mi persona, Silvia Chaves Mata. Mi intención es desarrollar un app de monitoreo emocional diario interactivo, con un chat integrado y además, información sobre los números de emergencia disponibles en Costa Rica para cualquier persona que se sienta en peligro y no sepa o tenga a quien llamar, estoy a medio camino todavía, pero muy motivada. En esta guía encontrará:
 - Una explicación general de la arquitectura seguida.
 - Qué funcionalidades están preparadas/implementadas.
 - Instrucciones paso a paso para ejecutar la app en su equipo y cómo configurar la API Key (para la funcionalidad de chat).
