@@ -17,11 +17,16 @@ sealed class BloomMindNavItems(
 }
 
 object Routes {
+    // Sign-Up Flow
+    const val AUTH_GRAPH = "auth_graph"
     const val ICON_SELECTION = "icon_selection"
-    const val SIGN_UP = "signup/{iconId}" // Route with argument
+    const val SIGN_UP = "signup/{iconId}"
     fun createSignUpRoute(iconId: String) = "signup/$iconId"
 
-    // Existing routes - kept for future use
+    // Profile edit flow
+    const val ICON_SELECTION_FROM_PROFILE = "icon_selection_from_profile"
+
+    // Other routes
     const val MAIN_APP_GRAPH = "main_app_graph"
     const val CATEGORIES = "categories"
     const val CATEGORY_DETAIL = "category_detail"

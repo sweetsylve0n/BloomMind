@@ -1,5 +1,7 @@
 import java.util.Properties
 import java.io.FileInputStream
+
+
 val secretPropsFile = rootProject.file("secret.properties")
 val secretProps = Properties()
 

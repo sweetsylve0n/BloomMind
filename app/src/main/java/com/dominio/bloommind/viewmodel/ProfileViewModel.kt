@@ -9,12 +9,16 @@ import com.dominio.bloommind.data.datastore.UserProfile
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+
 sealed class ProfileState {
     object Loading : ProfileState()
     data class LoggedIn(val userProfile: UserProfile) : ProfileState()
     object NotLoggedIn : ProfileState()
 }
-class ProfileViewModel(profileRepository: ProfileRepository) : ViewModel() {
+
+class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewModel() {
+
     val profileState: StateFlow<ProfileState> = profileRepository.userProfileFlow
         .map { userProfile ->
             if (userProfile != null) {
@@ -28,7 +32,14 @@ class ProfileViewModel(profileRepository: ProfileRepository) : ViewModel() {
             started = SharingStarted.Eagerly,
             initialValue = ProfileState.Loading
         )
+
+    fun updateProfile(name: String, email: String, birthDate: String, gender: String, iconId: String) {
+        viewModelScope.launch {
+            profileRepository.saveProfile(name, email, birthDate, gender, iconId)
+        }
+    }
 }
+
 //la factoriaaaaa
 class ProfileViewModelFactory(
     private val profileRepository: ProfileRepository

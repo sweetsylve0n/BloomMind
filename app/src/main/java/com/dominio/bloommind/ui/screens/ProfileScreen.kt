@@ -1,14 +1,17 @@
 package com.dominio.bloommind.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,55 +21,97 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.dominio.bloommind.data.datastore.UserProfile
+import com.dominio.bloommind.ui.components.DatePickerField
+import com.dominio.bloommind.ui.components.GenderDropdown
+import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.ui.utils.IconProvider
+import com.dominio.bloommind.viewmodel.ProfileViewModel
 
 @Composable
-fun ProfileScreen(userProfile: UserProfile) {
-    var name by remember { mutableStateOf(userProfile.name) }
-    var email by remember { mutableStateOf(userProfile.email) }
-    var birthDate by remember { mutableStateOf(userProfile.birthDate) }
-    var gender by remember { mutableStateOf(userProfile.gender) }
+fun ProfileScreen(
+    userProfile: UserProfile,
+    profileViewModel: ProfileViewModel,
+    navController: NavController,
+    newIconId: String?
+) {
+    var name by remember(userProfile.name) { mutableStateOf(userProfile.name) }
+    var email by remember(userProfile.email) { mutableStateOf(userProfile.email) }
+    var birthDate by remember(userProfile.birthDate) { mutableStateOf(userProfile.birthDate) }
+    var gender by remember(userProfile.gender) { mutableStateOf(userProfile.gender) }
+    var iconId by remember(userProfile.iconId) { mutableStateOf(userProfile.iconId) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Mi Perfil",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+    LaunchedEffect(newIconId) {
+        if (newIconId != null) iconId = newIconId
+    }
 
-        ProfileImage(iconId = userProfile.iconId)
+    val hasChanges = name != userProfile.name ||
+            email != userProfile.email ||
+            birthDate != userProfile.birthDate ||
+            gender != userProfile.gender ||
+            iconId != userProfile.iconId
 
-        Spacer(modifier = Modifier.height(24.dp))
+    Scaffold(
+        floatingActionButton = {
+            if (hasChanges) {
+                FloatingActionButton(
+                    onClick = {
+                        profileViewModel.updateProfile(name, email, birthDate, gender, iconId)
+                    }
+                ) {
+                    Icon(Icons.Default.Save, contentDescription = "Guardar cambios")
+                }
+            }
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Mi Perfil",
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
-        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start) {
+            ProfileImage(
+                iconId = iconId,
+                onEditClick = { navController.navigate(Routes.ICON_SELECTION_FROM_PROFILE) }
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
             EditableProfileField(label = "Nombre", value = name, onValueChange = { name = it })
             EditableProfileField(label = "Email", value = email, onValueChange = { email = it })
-            EditableProfileField(label = "Fecha de Nacimiento", value = birthDate, onValueChange = { birthDate = it }, isDateField = true)
-            EditableProfileField(label = "Género", value = gender, onValueChange = { gender = it })
-        }
 
-        Spacer(modifier = Modifier.weight(1f))
+            DatePickerField(label = "Fecha de Nacimiento", selectedDate = birthDate, onDateSelected = { birthDate = it })
 
-        Text(
-            text = "Eliminar Cuenta",
-            color = MaterialTheme.colorScheme.error,
-            modifier = Modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(),
-                onClick = { /* TODO: Implementar borrado */ }
+            GenderDropdown(selectedGender = gender, onGenderSelected = { gender = it })
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Text(
+                text = "Eliminar Cuenta",
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = LocalIndication.current,
+                        onClick = { /* TODO: Implementar borrado */ }
+                    )
+                    .padding(16.dp)
             )
-        )
+        }
     }
 }
 
 @Composable
-fun ProfileImage(iconId: String) {
+private fun ProfileImage(iconId: String, onEditClick: () -> Unit) {
     val resourceId = IconProvider.getIconResource(iconId)
 
     Box(contentAlignment = Alignment.BottomEnd) {
@@ -76,12 +121,7 @@ fun ProfileImage(iconId: String) {
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surface)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = rememberRipple(bounded = false),
-                    onClick = { /* TODO: Implementar selección de imagen */ }
-                ),
+                .background(MaterialTheme.colorScheme.surface),
             contentScale = ContentScale.Crop
         )
         Icon(
@@ -92,32 +132,25 @@ fun ProfileImage(iconId: String) {
                 .size(32.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primary)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = LocalIndication.current,
+                    onClick = onEditClick
+                )
                 .padding(6.dp)
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditableProfileField(label: String, value: String, onValueChange: (String) -> Unit, isDateField: Boolean = false) {
-    Column(modifier = Modifier.padding(bottom = 16.dp)) {
-        Text(text = label, style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(bottom = 4.dp))
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = Color.Transparent
-            ),
-            readOnly = isDateField,
-            trailingIcon = {
-                if(isDateField) {
-                    Icon(imageVector = Icons.Default.Edit, contentDescription = "Select Date")
-                }
-            }
-        )
-    }
+private fun EditableProfileField(label: String, value: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp),
+        singleLine = true
+    )
 }

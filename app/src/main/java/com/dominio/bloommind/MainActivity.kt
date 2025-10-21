@@ -41,14 +41,16 @@ fun PlaceholderScreen(screenName: String) {
 }
 
 class MainActivity : ComponentActivity() {
-    private val profileViewModel: ProfileViewModel by viewModels {
-        ProfileViewModelFactory(profileRepository)
-    }
     private lateinit var profileRepository: ProfileRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         profileRepository = ProfileRepository(applicationContext)
+
+        // Create ViewModel after repository is initialized
+        val profileViewModel: ProfileViewModel by viewModels {
+            ProfileViewModelFactory(profileRepository)
+        }
 
         setContent {
             BloomMindTheme {
@@ -70,14 +72,13 @@ class MainActivity : ComponentActivity() {
                         val startDestination = if (state is ProfileState.LoggedIn) {
                             BloomMindNavItems.Home.route
                         } else {
-                            Routes.ICON_SELECTION // New starting point for sign up
+                            Routes.AUTH_GRAPH
                         }
 
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val currentRoute = navBackStackEntry?.destination?.route
 
-                        // Condition to show Scaffold (and BottomNavBar)
-                        val showScaffold = currentRoute !in listOf(Routes.ICON_SELECTION, Routes.SIGN_UP)
+                        val showScaffold = currentRoute !in listOf(Routes.AUTH_GRAPH, Routes.SIGN_UP)
 
                         Scaffold(
                             bottomBar = {
@@ -91,13 +92,9 @@ class MainActivity : ComponentActivity() {
                                 startDestination = startDestination,
                                 modifier = Modifier.padding(innerPadding)
                             ) {
-                                // New Sign-Up Flow
-                                composable(Routes.ICON_SELECTION) {
-                                    IconSelectionScreen(onIconSelected = {
-                                        navController.navigate(Routes.createSignUpRoute(it))
-                                    })
+                                composable(Routes.AUTH_GRAPH) {
+                                    IconSelectionScreen(onIconSelected = { navController.navigate(Routes.createSignUpRoute(it)) })
                                 }
-
                                 composable(
                                     route = Routes.SIGN_UP,
                                     arguments = listOf(navArgument("iconId") { type = NavType.StringType })
@@ -106,22 +103,31 @@ class MainActivity : ComponentActivity() {
                                     SignUpScreen(
                                         profileRepository = profileRepository,
                                         iconId = iconId,
-                                        onSignUpComplete = {
-                                            navController.navigate(BloomMindNavItems.Home.route) {
-                                                // Clear the whole sign-up flow from the back stack
-                                                popUpTo(Routes.ICON_SELECTION) { inclusive = true }
-                                            }
-                                        }
+                                        onSignUpComplete = { navController.navigate(BloomMindNavItems.Home.route) { popUpTo(Routes.AUTH_GRAPH) { inclusive = true } } }
                                     )
                                 }
 
-                                // Main App Screens
                                 composable(BloomMindNavItems.Home.route) { PlaceholderScreen("Home") }
                                 composable(BloomMindNavItems.Chat.route) { ChatScreen() }
-                                composable(BloomMindNavItems.Profile.route) {
+
+                                composable(BloomMindNavItems.Profile.route) { navBackStackEntry ->
+                                    val newIconId = navBackStackEntry.savedStateHandle.get<String>("newIconId")
                                     if (state is ProfileState.LoggedIn) {
-                                        ProfileScreen(userProfile = state.userProfile)
+                                        ProfileScreen(
+                                            userProfile = state.userProfile,
+                                            profileViewModel = profileViewModel,
+                                            navController = navController,
+                                            newIconId = newIconId
+                                        )
+                                        navBackStackEntry.savedStateHandle.remove<String>("newIconId")
                                     }
+                                }
+
+                                composable(Routes.ICON_SELECTION_FROM_PROFILE) {
+                                    IconSelectionScreen(onIconSelected = {
+                                        navController.previousBackStackEntry?.savedStateHandle?.set("newIconId", it)
+                                        navController.popBackStack()
+                                    })
                                 }
                             }
                         }
