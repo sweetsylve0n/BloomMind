@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
-
 data class UserProfile(
     val name: String,
     val email: String,
@@ -19,7 +18,6 @@ data class UserProfile(
     val gender: String,
     val iconId: String
 )
-
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_profile_prefs")
 
 class ProfileRepository(context: Context) {

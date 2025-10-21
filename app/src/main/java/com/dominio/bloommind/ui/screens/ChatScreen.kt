@@ -70,7 +70,7 @@ fun ChatScreen() {
 fun QuotaBanner(quotaLeft: Int, quotaReached: Boolean, warningThreshold: Int) {
     val bannerText = when {
         quotaReached -> "Has alcanzado tu límite de hoy. ¡Regresa en 24 horas para continuar!"
-        quotaLeft <= warningThreshold -> "Te quedan $quotaLeft solicitudes restantes."
+        quotaLeft <= warningThreshold -> "Te quedan $quotaLeft solicitudes restantes por hoy"
         else -> null
     }
 

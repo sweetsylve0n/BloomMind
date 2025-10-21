@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-
 sealed class ProfileState {
     object Loading : ProfileState()
     data class LoggedIn(val userProfile: UserProfile) : ProfileState()
@@ -18,7 +17,6 @@ sealed class ProfileState {
 }
 
 class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewModel() {
-
     val profileState: StateFlow<ProfileState> = profileRepository.userProfileFlow
         .map { userProfile ->
             if (userProfile != null) {

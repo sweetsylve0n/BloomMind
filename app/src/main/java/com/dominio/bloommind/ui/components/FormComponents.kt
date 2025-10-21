@@ -13,7 +13,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import java.util.*
-
 @Composable
 fun DatePickerField(
     label: String,
@@ -67,7 +66,7 @@ fun GenderDropdown(selectedGender: String, onGenderSelected: (String) -> Unit) {
             value = selectedGender,
             onValueChange = {},
             readOnly = true,
-            label = { Text("Género") },
+            label = { Text("Género:") },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
                 .menuAnchor()

@@ -7,10 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
 class SignUpViewModel : ViewModel() {
-
-    // User details state
     private val _name = MutableStateFlow("")
     val name = _name.asStateFlow()
 
@@ -23,20 +20,15 @@ class SignUpViewModel : ViewModel() {
     private val _gender = MutableStateFlow("")
     val gender = _gender.asStateFlow()
 
-    // --- Event Handlers ---
-
     fun onNameChange(newName: String) {
         _name.update { newName }
     }
-
     fun onEmailChange(newEmail: String) {
         _email.update { newEmail }
     }
-
     fun onBirthDateChange(newDate: String) {
         _birthDate.update { newDate }
     }
-
     fun onGenderChange(newGender: String) {
         _gender.update { newGender }
     }

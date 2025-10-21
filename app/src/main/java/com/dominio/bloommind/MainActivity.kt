@@ -32,7 +32,6 @@ import com.dominio.bloommind.viewmodel.ProfileState
 import com.dominio.bloommind.viewmodel.ProfileViewModel
 import com.dominio.bloommind.viewmodel.ProfileViewModelFactory
 import com.dominio.bloommind.ui.screens.ChatScreen
-
 @Composable
 fun PlaceholderScreen(screenName: String) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -47,7 +46,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         profileRepository = ProfileRepository(applicationContext)
 
-        // Create ViewModel after repository is initialized
         val profileViewModel: ProfileViewModel by viewModels {
             ProfileViewModelFactory(profileRepository)
         }

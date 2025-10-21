@@ -16,7 +16,6 @@ import com.dominio.bloommind.data.datastore.ProfileRepository
 import com.dominio.bloommind.ui.components.DatePickerField
 import com.dominio.bloommind.ui.components.GenderDropdown
 import com.dominio.bloommind.viewmodel.SignUpViewModel
-
 @Composable
 fun SignUpScreen(
     profileRepository: ProfileRepository,
@@ -65,14 +64,14 @@ fun UserDetailsStep(
         OutlinedTextField(
             value = name,
             onValueChange = onNameChange,
-            label = { Text("Nombre") },
+            label = { Text("Nombre:") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         DatePickerField(
-            label = "Fecha de Nacimiento",
+            label = "Fecha de Nacimiento:",
             selectedDate = birthDate,
             onDateSelected = onBirthDateChange
         )
@@ -87,7 +86,7 @@ fun UserDetailsStep(
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
-            label = { Text("Email") },
+            label = { Text("Email:") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )

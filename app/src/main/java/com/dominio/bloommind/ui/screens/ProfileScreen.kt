@@ -17,7 +17,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -28,7 +27,6 @@ import com.dominio.bloommind.ui.components.GenderDropdown
 import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.ui.utils.IconProvider
 import com.dominio.bloommind.viewmodel.ProfileViewModel
-
 @Composable
 fun ProfileScreen(
     userProfile: UserProfile,
@@ -74,7 +72,7 @@ fun ProfileScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Mi Perfil",
+                text = "Perfil",
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -86,10 +84,10 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            EditableProfileField(label = "Nombre", value = name, onValueChange = { name = it })
-            EditableProfileField(label = "Email", value = email, onValueChange = { email = it })
+            EditableProfileField(label = "Nombre:", value = name, onValueChange = { name = it })
+            EditableProfileField(label = "Email:", value = email, onValueChange = { email = it })
 
-            DatePickerField(label = "Fecha de Nacimiento", selectedDate = birthDate, onDateSelected = { birthDate = it })
+            DatePickerField(label = "Fecha de Nacimiento:", selectedDate = birthDate, onDateSelected = { birthDate = it })
 
             GenderDropdown(selectedGender = gender, onGenderSelected = { gender = it })
 
@@ -102,7 +100,7 @@ fun ProfileScreen(
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = LocalIndication.current,
-                        onClick = { /* TODO: Implementar borrado */ }
+                        onClick = {  }
                     )
                     .padding(16.dp)
             )

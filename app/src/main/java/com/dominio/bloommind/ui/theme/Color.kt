@@ -10,7 +10,6 @@ val LightOnBackground = Color(0xFF455978)
 val LightOnSurface = Color(0xFF455978)
 val LightError = Color(0xFFB00020)
 
-
 // Dark Theme Colors
 val DarkBackground = Color(0xFF455978)
 val DarkSurface = Color(0xFF59739B)

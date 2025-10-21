@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dominio.bloommind.ui.utils.IconProvider
 import com.dominio.bloommind.viewmodel.IconSelectionViewModel
-
 @Composable
 fun IconSelectionScreen(
     iconSelectionViewModel: IconSelectionViewModel = viewModel(),
