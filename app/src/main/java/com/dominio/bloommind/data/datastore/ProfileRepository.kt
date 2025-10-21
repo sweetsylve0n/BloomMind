@@ -11,21 +11,28 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
+
 data class UserProfile(
     val name: String,
     val email: String,
     val birthDate: String,
-    val gender: String
+    val gender: String,
+    val iconId: String
 )
+
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_profile_prefs")
+
 class ProfileRepository(context: Context) {
     private val dataStore = context.dataStore
+
     private object PreferencesKeys {
         val USER_NAME = stringPreferencesKey("user_name")
         val USER_EMAIL = stringPreferencesKey("user_email")
         val USER_BIRTH_DATE = stringPreferencesKey("user_birth_date")
         val USER_GENDER = stringPreferencesKey("user_gender")
+        val USER_ICON_ID = stringPreferencesKey("user_icon_id")
     }
+
     val userProfileFlow: Flow<UserProfile?> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
@@ -39,21 +46,25 @@ class ProfileRepository(context: Context) {
             val email = preferences[PreferencesKeys.USER_EMAIL]
             val birthDate = preferences[PreferencesKeys.USER_BIRTH_DATE]
             val gender = preferences[PreferencesKeys.USER_GENDER]
+            val iconId = preferences[PreferencesKeys.USER_ICON_ID]
 
-            if (name != null && email != null && birthDate != null && gender != null) {
-                UserProfile(name, email, birthDate, gender)
+            if (name != null && email != null && birthDate != null && gender != null && iconId != null) {
+                UserProfile(name, email, birthDate, gender, iconId)
             } else {
                 null
             }
         }
-    suspend fun saveProfile(name: String, email: String,  birthDate: String, gender: String) {
+
+    suspend fun saveProfile(name: String, email: String, birthDate: String, gender: String, iconId: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.USER_NAME] = name
             preferences[PreferencesKeys.USER_EMAIL] = email
             preferences[PreferencesKeys.USER_BIRTH_DATE] = birthDate
             preferences[PreferencesKeys.USER_GENDER] = gender
+            preferences[PreferencesKeys.USER_ICON_ID] = iconId
         }
     }
+
     suspend fun clearProfile() {
         dataStore.edit { it.clear() }
     }

@@ -14,14 +14,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.dominio.bloommind.data.datastore.ProfileRepository
 import com.dominio.bloommind.ui.components.BottomNavigationBar
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
 import com.dominio.bloommind.ui.navigation.Routes
+import com.dominio.bloommind.ui.screens.IconSelectionScreen
 import com.dominio.bloommind.ui.screens.ProfileScreen
 import com.dominio.bloommind.ui.screens.SignUpScreen
 import com.dominio.bloommind.ui.theme.BloomMindTheme
@@ -29,12 +32,14 @@ import com.dominio.bloommind.viewmodel.ProfileState
 import com.dominio.bloommind.viewmodel.ProfileViewModel
 import com.dominio.bloommind.viewmodel.ProfileViewModelFactory
 import com.dominio.bloommind.ui.screens.ChatScreen
+
 @Composable
 fun PlaceholderScreen(screenName: String) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "Pantalla: $screenName")
     }
 }
+
 class MainActivity : ComponentActivity() {
     private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(profileRepository)
@@ -65,11 +70,15 @@ class MainActivity : ComponentActivity() {
                         val startDestination = if (state is ProfileState.LoggedIn) {
                             BloomMindNavItems.Home.route
                         } else {
-                            Routes.SIGN_UP
+                            Routes.ICON_SELECTION // New starting point for sign up
                         }
+
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val currentRoute = navBackStackEntry?.destination?.route
-                        val showScaffold = currentRoute != Routes.SIGN_UP
+
+                        // Condition to show Scaffold (and BottomNavBar)
+                        val showScaffold = currentRoute !in listOf(Routes.ICON_SELECTION, Routes.SIGN_UP)
+
                         Scaffold(
                             bottomBar = {
                                 if (showScaffold) {
@@ -82,16 +91,31 @@ class MainActivity : ComponentActivity() {
                                 startDestination = startDestination,
                                 modifier = Modifier.padding(innerPadding)
                             ) {
-                                composable(Routes.SIGN_UP) {
+                                // New Sign-Up Flow
+                                composable(Routes.ICON_SELECTION) {
+                                    IconSelectionScreen(onIconSelected = {
+                                        navController.navigate(Routes.createSignUpRoute(it))
+                                    })
+                                }
+
+                                composable(
+                                    route = Routes.SIGN_UP,
+                                    arguments = listOf(navArgument("iconId") { type = NavType.StringType })
+                                ) { backStackEntry ->
+                                    val iconId = backStackEntry.arguments?.getString("iconId") ?: "icon1"
                                     SignUpScreen(
                                         profileRepository = profileRepository,
+                                        iconId = iconId,
                                         onSignUpComplete = {
                                             navController.navigate(BloomMindNavItems.Home.route) {
-                                                popUpTo(Routes.SIGN_UP) { inclusive = true }
+                                                // Clear the whole sign-up flow from the back stack
+                                                popUpTo(Routes.ICON_SELECTION) { inclusive = true }
                                             }
                                         }
                                     )
                                 }
+
+                                // Main App Screens
                                 composable(BloomMindNavItems.Home.route) { PlaceholderScreen("Home") }
                                 composable(BloomMindNavItems.Chat.route) { ChatScreen() }
                                 composable(BloomMindNavItems.Profile.route) {

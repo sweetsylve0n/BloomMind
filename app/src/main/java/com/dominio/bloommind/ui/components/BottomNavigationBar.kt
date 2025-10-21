@@ -1,17 +1,18 @@
 package com.dominio.bloommind.ui.components
 
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
+
 @Composable
 fun BottomNavigationBar(navController: NavController, items: List<BloomMindNavItems>) {
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
@@ -28,7 +29,14 @@ fun BottomNavigationBar(navController: NavController, items: List<BloomMindNavIt
                     }
                 },
                 icon = { Icon(imageVector = item.icon, contentDescription = item.displayName) },
-                label = { Text(text = item.displayName) }
+                label = { Text(text = item.displayName) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
+                    indicatorColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.1f)
+                )
             )
         }
     }
