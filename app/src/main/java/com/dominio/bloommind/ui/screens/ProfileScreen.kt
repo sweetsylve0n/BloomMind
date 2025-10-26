@@ -27,6 +27,7 @@ import com.dominio.bloommind.ui.components.GenderDropdown
 import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.ui.utils.IconProvider
 import com.dominio.bloommind.viewmodel.ProfileViewModel
+
 @Composable
 fun ProfileScreen(
     userProfile: UserProfile,
@@ -39,6 +40,7 @@ fun ProfileScreen(
     var birthDate by remember(userProfile.birthDate) { mutableStateOf(userProfile.birthDate) }
     var gender by remember(userProfile.gender) { mutableStateOf(userProfile.gender) }
     var iconId by remember(userProfile.iconId) { mutableStateOf(userProfile.iconId) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(newIconId) {
         if (newIconId != null) iconId = newIconId
@@ -50,13 +52,42 @@ fun ProfileScreen(
             gender != userProfile.gender ||
             iconId != userProfile.iconId
 
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = { Text("Eliminar Cuenta") },
+            text = { Text("¿Estás seguro de que quieres eliminar tu cuenta? Todos tus datos se perderán permanentemente.") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        profileViewModel.deleteProfile()
+                        showDeleteDialog = false
+                        navController.navigate(Routes.AUTH_GRAPH) {
+                            popUpTo(navController.graph.id) { inclusive = true }
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                ) {
+                    Text("Aceptar")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { showDeleteDialog = false }) {
+                    Text("Cancelar")
+                }
+            }
+        )
+    }
+
     Scaffold(
         floatingActionButton = {
             if (hasChanges) {
                 FloatingActionButton(
                     onClick = {
                         profileViewModel.updateProfile(name, email, birthDate, gender, iconId)
-                    }
+                    },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 ) {
                     Icon(Icons.Default.Save, contentDescription = "Guardar cambios")
                 }
@@ -89,6 +120,8 @@ fun ProfileScreen(
 
             DatePickerField(label = "Fecha de Nacimiento:", selectedDate = birthDate, onDateSelected = { birthDate = it })
 
+            Spacer(modifier = Modifier.height(24.dp))
+
             GenderDropdown(selectedGender = gender, onGenderSelected = { gender = it })
 
             Spacer(modifier = Modifier.weight(1f))
@@ -100,7 +133,7 @@ fun ProfileScreen(
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = LocalIndication.current,
-                        onClick = {  }
+                        onClick = { showDeleteDialog = true }
                     )
                     .padding(16.dp)
             )
@@ -152,3 +185,4 @@ private fun EditableProfileField(label: String, value: String, onValueChange: (S
         singleLine = true
     )
 }
+

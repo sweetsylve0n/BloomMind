@@ -17,6 +17,7 @@ sealed class ProfileState {
 }
 
 class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewModel() {
+
     val profileState: StateFlow<ProfileState> = profileRepository.userProfileFlow
         .map { userProfile ->
             if (userProfile != null) {
@@ -34,6 +35,12 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     fun updateProfile(name: String, email: String, birthDate: String, gender: String, iconId: String) {
         viewModelScope.launch {
             profileRepository.saveProfile(name, email, birthDate, gender, iconId)
+        }
+    }
+
+    fun deleteProfile() {
+        viewModelScope.launch {
+            profileRepository.clearProfile()
         }
     }
 }
