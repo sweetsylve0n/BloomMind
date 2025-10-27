@@ -1,40 +1,34 @@
 package com.dominio.bloommind.ui.components
 
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
+
 @Composable
 fun BottomNavigationBar(navController: NavController, items: List<BloomMindNavItems>) {
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary
-    ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
+    NavigationBar {
         items.forEach { item ->
             NavigationBarItem(
-                selected = currentRoute == item.route,
+                icon = { Icon(item.icon, contentDescription = stringResource(id = item.displayNameRes)) },
+                label = { Text(stringResource(id = item.displayNameRes)) },
+                selected = currentDestination?.route == item.route,
                 onClick = {
                     navController.navigate(item.route) {
                         popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
                         }
                         launchSingleTop = true
-                        restoreState = true
                     }
-                },
-                icon = { Icon(imageVector = item.icon, contentDescription = item.displayName) },
-                label = { Text(text = item.displayName) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                    selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
-                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
-                    indicatorColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.1f)
-                )
+                }
             )
         }
     }

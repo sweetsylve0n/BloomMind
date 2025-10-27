@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- English Resources, Error messages -->
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_context_required">Context required for AffirmationRepository</string>
+    <string name="error_unknown_viewmodel">Unknown ViewModel class</string>
+    <string name="error_not_allowed_fetch_affirmation">Not allowed to fetch new affirmation yet, and no cache available.</string>
+    <string name="error_empty_affirmation_list">Empty affirmation list received</string>
+    <string name="error_not_allowed_fetch_advice">Not allowed to fetch new advice yet.</string>
+    <string name="affirmation_card_prompt">Discover what we have for you today</string>
+    <!-- Chat -->
+    <string name="chat_quota_reached">You have reached your limit for today. Come back in 24 hours to continue!</string>
+    <string name="chat_quota_remaining">You have %d requests remaining today</string>
+    <string name="chat_input_hint">Write your message…</string>
+    <string name="chat_limit_reached">Limit reached</string>
+    <string name="send_button">Send</string>
+    <!-- Icon selection -->
+    <string name="icon_selection_title">Welcome to BloomMind</string>
+    <string name="icon_selection_subtitle">Before we start, pick your icon</string>
+    <string name="next_button">Next</string>
+    <string name="profile_icon_desc">Profile icon %1$s</string>
+    <!-- Sign up -->
+    <string name="signup_intro">Tell us a bit about yourself</string>
+    <string name="label_name">Name:</string>
+    <string name="label_birthdate">Birthdate:</string>
+    <string name="label_email">Email:</string>
+    <string name="signup_save_continue">Save and continue</string>
+    <!-- Profile -->
+    <string name="profile_delete_title">Delete Account</string>
+    <string name="profile_delete_confirmation">Are you sure you want to delete your account? All your data will be lost permanently.</string>
+    <string name="accept_button">Accept</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="save_changes_desc">Save changes</string>
+    <string name="profile_title">Profile</string>
+    <string name="delete_account_label">Delete Account</string>
+    <!-- Form components -->
+    <string name="date_picker_cd">Select date</string>
+    <string name="gender_label">Gender:</string>
+    <string name="gender_option_she">She/Her</string>
+    <string name="gender_option_he">He/Him</string>
+    <string name="gender_option_other">Other</string>
+    <!-- Home -->
+    <string name="card_checkin_title">Check-in</string>
+    <string name="card_checkin_prompt">How are you feeling today?</string>
+    <string name="card_affirmation_title">Daily Affirmation</string>
+    <string name="card_tip_title">Today\'s Tip!</string>
+    <string name="emergency_carousel_title">Help Lines</string>
+    <!-- Placeholder Screens -->
+    <string name="checkin_screen_placeholder">Check-in Screen (In development)</string>
+    <!-- Content Descriptions -->
+    <string name="affirmation_image_cd">Affirmation image</string>
+    <!-- Bottom nav -->
+    <string name="nav_home">Home</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_profile">Profile</string>
+    <!-- Chat errors -->
+    <string name="chat_error_send_prefix">Error sending:</string>
+</resources>

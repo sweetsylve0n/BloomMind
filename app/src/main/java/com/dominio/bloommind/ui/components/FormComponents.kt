@@ -42,7 +42,7 @@ fun DatePickerField(
         trailingIcon = {
             Icon(
                 imageVector = Icons.Default.DateRange,
-                contentDescription = "Seleccionar fecha",
+                contentDescription = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.date_picker_cd),
                 modifier = Modifier.clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = LocalIndication.current,
@@ -56,7 +56,11 @@ fun DatePickerField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenderDropdown(selectedGender: String, onGenderSelected: (String) -> Unit) {
-    val genderOptions = listOf("She/Her", "He/Him", "Other")
+    val genderOptions = listOf(
+        androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.gender_option_she),
+        androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.gender_option_he),
+        androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.gender_option_other)
+    )
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
@@ -67,7 +71,7 @@ fun GenderDropdown(selectedGender: String, onGenderSelected: (String) -> Unit) {
             value = selectedGender,
             onValueChange = {},
             readOnly = true,
-            label = { Text("Género:") },
+            label = { Text(androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.gender_label)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
                 .menuAnchor()

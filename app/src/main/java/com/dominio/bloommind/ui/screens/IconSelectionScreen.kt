@@ -42,8 +42,8 @@ fun IconSelectionScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Bienvenido a BloomMind", style = MaterialTheme.typography.headlineMedium)
-        Text(text = "Antes de empezar, escoge tu icono", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(top = 8.dp, bottom = 24.dp))
+        Text(text = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.icon_selection_title), style = MaterialTheme.typography.headlineMedium)
+        Text(text = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.icon_selection_subtitle), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(top = 8.dp, bottom = 24.dp))
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -57,7 +57,7 @@ fun IconSelectionScreen(
 
                 Image(
                     painter = painterResource(id = resourceId),
-                    contentDescription = "Icono de perfil $iconName",
+                    contentDescription = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.profile_icon_desc, iconName),
                     modifier = Modifier
                         .size(120.dp)
                         .clip(CircleShape)
@@ -83,7 +83,7 @@ fun IconSelectionScreen(
             enabled = selectedIconId != null,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Siguiente")
+            Text(androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.next_button))
         }
     }
 }

@@ -54,6 +54,6 @@ class ProfileViewModelFactory(
             @Suppress("UNCHECKED_CAST")
             return ProfileViewModel(profileRepository) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        throw IllegalArgumentException("Clase de ViewModel desconocida")
     }
 }

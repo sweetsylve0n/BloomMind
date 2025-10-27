@@ -27,6 +27,10 @@ android {
         buildConfigField(
             "String", "GEMINI_API_KEY", "\"${secretProps["GEMINI_API_KEY"]}\""
         )
+        buildConfigField(
+            "String", "NINJA_API_KEY", "\"${secretProps["NINJA_API_KEY"]}\""
+        )
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true

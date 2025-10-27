@@ -1,3 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BloomMind</string>
+    <string name="app_name" translatable="false">BloomMind</string>
+    <!-- Mensajes de error y textos reutilizables (Español - default) -->
+    <string name="error_unknown">Error desconocido</string>
+    <string name="error_context_required">Se requiere Context para AffirmationRepository</string>
+    <string name="error_unknown_viewmodel">Clase de ViewModel desconocida</string>
+    <string name="error_not_allowed_fetch_affirmation">No está permitido obtener una nueva afirmación todavía y no hay caché disponible.</string>
+    <string name="error_empty_affirmation_list">Se recibió una lista vacía de afirmaciones</string>
+    <string name="error_not_allowed_fetch_advice">No está permitido obtener un nuevo consejo todavía.</string>
+    <string name="affirmation_card_prompt">Descubre lo que tenemos para ti hoy</string>
+    <!-- Chat -->
+    <string name="chat_quota_reached">Has alcanzado tu límite de hoy. ¡Regresa en 24 horas para continuar!</string>
+    <string name="chat_quota_remaining">Te quedan %d solicitudes restantes por hoy</string>
+    <string name="chat_input_hint">Escribe tu mensaje…</string>
+    <string name="chat_limit_reached">Límite alcanzado</string>
+    <string name="send_button">Enviar</string>
+    <!-- Icon selection -->
+    <string name="icon_selection_title">Bienvenido a BloomMind</string>
+    <string name="icon_selection_subtitle">Antes de empezar, escoge tu icono</string>
+    <string name="next_button">Siguiente</string>
+    <string name="profile_icon_desc">Icono de perfil %1$s</string>
+    <!-- Sign up -->
+    <string name="signup_intro">Dime un poco de ti</string>
+    <string name="label_name">Nombre:</string>
+    <string name="label_birthdate">Fecha de Nacimiento:</string>
+    <string name="label_email">Email:</string>
+    <string name="signup_save_continue">Guardar y continuar</string>
+    <!-- Profile -->
+    <string name="profile_delete_title">Eliminar Cuenta</string>
+    <string name="profile_delete_confirmation">¿Estás seguro de que quieres eliminar tu cuenta? Todos tus datos se perderán permanentemente.</string>
+    <string name="accept_button">Aceptar</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="save_changes_desc">Guardar cambios</string>
+    <string name="profile_title">Perfil</string>
+    <string name="delete_account_label">Eliminar Cuenta</string>
+    <!-- Form components -->
+    <string name="date_picker_cd">Seleccionar fecha</string>
+    <string name="gender_label">Género:</string>
+    <string name="gender_option_she">Ella/Élla</string>
+    <string name="gender_option_he">Él/Él</string>
+    <string name="gender_option_other">Otro</string>
+    <!-- Home -->
+    <string name="card_checkin_title">Check-in</string>
+    <string name="card_checkin_prompt">¿Cómo te sientes hoy?</string>
+    <string name="card_affirmation_title">Afirmación del Día</string>
+    <string name="card_tip_title">Tip de Hoy!</string>
+    <string name="emergency_carousel_title">Líneas de Ayuda</string>
+    <!-- Placeholder Screens -->
+    <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>
+    <!-- Content Descriptions -->
+    <string name="affirmation_image_cd">Imagen de afirmación</string>
+    <!-- Bottom nav -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_profile">Perfil</string>
+    <!-- Chat errors -->
+    <string name="chat_error_send_prefix">Error al enviar:</string>
 </resources>

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.dominio.bloommind.R
 class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
@@ -35,7 +36,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     fun sendMessage(userInput: String) {
         viewModelScope.launch {
             if (!quotaRepository.canSendNow()) {
-                _uiState.update { it.copy(error = "Límite de mensajes alcanzado por hoy.") }
+                _uiState.update { it.copy(error = getApplication<Application>().getString(R.string.chat_quota_reached)) }
                 return@launch
             }
 
@@ -65,7 +66,8 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                     )
                 }
             }.onFailure { exception ->
-                val errorMessage = Message(text = "Error al enviar: ${exception.message}", isFromUser = false, isError = true)
+                val prefix = getApplication<Application>().getString(R.string.chat_error_send_prefix)
+                val errorMessage = Message(text = "$prefix ${exception.message}", isFromUser = false, isError = true)
                 _uiState.update {
                     it.copy(
                         isSending = false,

@@ -58,20 +58,20 @@ fun UserDetailsStep(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Dime un poco de ti", style = MaterialTheme.typography.headlineMedium)
+        Text(text = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.signup_intro), style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(32.dp))
 
         OutlinedTextField(
             value = name,
             onValueChange = onNameChange,
-            label = { Text("Nombre:") },
+            label = { Text(androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.label_name)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         DatePickerField(
-            label = "Fecha de Nacimiento:",
+            label = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.label_birthdate),
             selectedDate = birthDate,
             onDateSelected = onBirthDateChange
         )
@@ -86,7 +86,7 @@ fun UserDetailsStep(
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
-            label = { Text("Email:") },
+            label = { Text(androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.label_email)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
@@ -97,7 +97,7 @@ fun UserDetailsStep(
             enabled = isButtonEnabled,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Guardar y continuar")
+            Text(androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.signup_save_continue))
         }
     }
 }

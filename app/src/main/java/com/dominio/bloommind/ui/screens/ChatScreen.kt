@@ -69,8 +69,8 @@ fun ChatScreen() {
 @Composable
 fun QuotaBanner(quotaLeft: Int, quotaReached: Boolean, warningThreshold: Int) {
     val bannerText = when {
-        quotaReached -> "Has alcanzado tu límite de hoy. ¡Regresa en 24 horas para continuar!"
-        quotaLeft <= warningThreshold -> "Te quedan $quotaLeft solicitudes restantes por hoy"
+        quotaReached -> androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.chat_quota_reached)
+        quotaLeft <= warningThreshold -> androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.chat_quota_remaining, quotaLeft)
         else -> null
     }
 
@@ -128,7 +128,7 @@ fun MessageInput(onSendMessage: (String) -> Unit, isEnabled: Boolean) {
         OutlinedTextField(
             value = userInput,
             onValueChange = { userInput = it },
-            label = { Text(if (isEnabled) "Escribe tu mensaje..." else "Límite alcanzado") },
+            label = { Text(if (isEnabled) androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.chat_input_hint) else androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.chat_limit_reached)) },
             modifier = Modifier.weight(1f),
             enabled = isEnabled,
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
@@ -153,7 +153,7 @@ fun MessageInput(onSendMessage: (String) -> Unit, isEnabled: Boolean) {
             },
             enabled = userInput.isNotBlank() && isEnabled
         ) {
-            Text("Enviar")
+            Text(androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.send_button))
         }
     }
 }
