@@ -31,19 +31,20 @@ Instrucciones para ejecutar
 
 2. Espere a que Android Studio sincronice el proyecto y descargue dependencias. Si solicita instalar algún SDK/Build Tools, acepte.
 
-3. Colocar la API Key (explicación abajo). Sin la clave, la funcionalidad de chat que usa la API externa puede no funcionar.
+3. Colocar la API Key (explicación abajo). Sin la clave, la funcionalidad de chat que usa la API externa puede no funcionar, asi como el API para las afirmaciones.
    
-   - Para poder demostrar la funcionalidad de chat en la entrega, por favor añada su `secret.properties` con la API Key antes de ejecutar la app.
+   - Para poder demostrar la funcionalidad de chat en la entrega, por favor añada su `secret.properties` con las API's Keys antes de ejecutar la app.
    - Hacer las modificaciones pertinentes (GeminiApiInterface URL,...)
      
 4. Seleccione el módulo `app` y ejecute (Run) en un emulador o dispositivo físico.
 
-Conteo general del avance 25%:
+Conteo general del avance 50%:
 -------------------------------------------------
 -Paleta de colores personalizada, asi como iconos, y elementos de Material3 a lo largo la navegación.
 -Chat: interfaz funcional de chat que envía mensajes al servicio de IA y muestra las respuestas en la UI con Jetpack Compose, manejo de limite diario (25 solicitudes).
 -Perfil (CRUD): lógica completa para crear, leer y actualizar el perfil de usuario (persistencia local mediante DataStore / repositorio). Me falta implementar la opción de eliminar la cuenta.
--Home: todavía no iniciada — pantalla/flujo principal pendiente de diseño e implementación.
+-Home: pantalla/flujo principal en implementación.
+-Check-in: en implementación.
 
 Estado general: arquitectura MVVM (Compose + ViewModel + Repositorio), llamadas de red encapsuladas en data/retrofit, y almacenamiento de preferencias en data/datastore.
    
