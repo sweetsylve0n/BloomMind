@@ -1,14 +1,14 @@
 Resumen 
 -----------------------------------------------
-BloomMind es una aplicación Android escrita en Kotlin (Jetpack Compose) desarrollada como proyecto de Programación Móvil, por mi persona, Silvia Chaves Mata. Mi intención es desarrollar un app de monitoreo emocional diario interactivo, con un chat integrado y además, información sobre los números de emergencia disponibles en Costa Rica para cualquier persona que se sienta en peligro y no sepa o tenga a quien llamar, estoy a medio camino todavía, pero muy motivada. En esta guía encontrará:
+BloomMind es una aplicación Android escrita en Kotlin (Jetpack Compose) desarrollada como proyecto de Programación Móvil, por mi persona, Silvia Chaves Mata. Mi intención es desarrollar un app de monitoreo emocional diario interactivo, inspirada en la estética de la serie de juegos de Animal Crossing, con un chat integrado, recopilación de datos de los últimos días y además, información sobre los números de emergencia disponibles en Costa Rica para cualquier persona que se sienta en peligro y no sepa o tenga a quien llamar. En esta guía encontrará:
 - Una explicación general de la arquitectura seguida.
-- Qué funcionalidades están preparadas/implementadas.
 - Instrucciones paso a paso para ejecutar la app en su equipo y cómo configurar la API Key (para la funcionalidad de chat).
+- Qué funcionalidades están preparadas/implementadas.
   
 Arquitectura general
 -------------------------------------------------
 - UI: Jetpack Compose.
-- Patrón recomendado: MVVM/Clean Architecture.
+- Patrón: MVVM/Clean Architecture.
   - View (Screens/Compose): presenta la UI.
   - ViewModel: mantiene el estado y coordina llamadas a repositorios.
   - Repository: abstrae acceso a datos (API, caché).
@@ -31,20 +31,20 @@ Instrucciones para ejecutar
 
 2. Espere a que Android Studio sincronice el proyecto y descargue dependencias. Si solicita instalar algún SDK/Build Tools, acepte.
 
-3. Colocar la API Key (explicación abajo). Sin la clave, la funcionalidad de chat que usa la API externa puede no funcionar, asi como el API para las afirmaciones.
+3. Colocar las APIs Keys (explicación abajo). Sin las keys, la funcionalidad de chat que usa la API externa de Gemini no podrá funcionar, asi como el Ninja API  para las afirmaciones.
    
-   - Para poder demostrar la funcionalidad de chat en la entrega, por favor añada su `secret.properties` con las API's Keys antes de ejecutar la app.
+   - Para poder demostrar la funcionalidad, por favor añada su `secret.properties` con las APIs Keys antes de ejecutar la app.
    - Hacer las modificaciones pertinentes (GeminiApiInterface URL,...)
      
 4. Seleccione el módulo `app` y ejecute (Run) en un emulador o dispositivo físico.
 
-Conteo general del avance 50%:
+Conteo general del avance 60%:
 -------------------------------------------------
--Paleta de colores personalizada, asi como iconos, y elementos de Material3 a lo largo la navegación.
--Chat: interfaz funcional de chat que envía mensajes al servicio de IA y muestra las respuestas en la UI con Jetpack Compose, manejo de limite diario (25 solicitudes).
--Perfil (CRUD): lógica completa para crear, leer y actualizar el perfil de usuario (persistencia local mediante DataStore / repositorio). Me falta implementar la opción de eliminar la cuenta.
--Home: pantalla/flujo principal en implementación.
--Check-in: en implementación.
+- Paleta de colores personalizada, asi como iconos, imagenes oficiales de Animal Crossing y elementos de Material3 a lo largo la navegación.
+- Chat: interfaz funcional de chat que envía mensajes al servicio de IA y muestra las respuestas en la UI con Jetpack Compose, manejo de limite diario (25 solicitudes).
+- Perfil (CRUD): lógica completa para crear, leer y actualizar el perfil de usuario (persistencia local mediante DataStore / repositorio) y eliminación de cuenta.
+- Home: flujo principal, redireccionamiento al check-in, la afirmación diaria, el tip diario, y líneas de emergencia.
+- Check-in: en implementación, redireccionamiento a tres pantallas según la emoción, y opción de redirigir e inicial una conversación en el chat.
 
 Estado general: arquitectura MVVM (Compose + ViewModel + Repositorio), llamadas de red encapsuladas en data/retrofit, y almacenamiento de preferencias en data/datastore.
    
