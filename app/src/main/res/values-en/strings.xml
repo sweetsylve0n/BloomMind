@@ -45,6 +45,11 @@
     <string name="card_affirmation_title">Daily Affirmation</string>
     <string name="card_tip_title">Today\'s Tip!</string>
     <string name="emergency_carousel_title">Help Lines</string>
+    <string name="go_back_home">Go back Home</string>
+    <!-- Emotions -->
+    <string name="emotion_bad">Bad</string>
+    <string name="emotion_okay">Okay</string>
+    <string name="emotion_good">Good</string>
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Check-in Screen (In development)</string>
     <!-- Content Descriptions -->
@@ -57,7 +62,10 @@
     <string name="chat_error_send_prefix">Error sending:</string>
     <!-- Emergency Card -->
     <string name="emergency_card_title">Help Lines</string>
-    <string name="emergency_card_prompt">If you need someone to talk to, here are some emergency numbers.</string>
+
+    <string name="emergency_card_prompt">If you need someone to talk to, here are some emergency
+            numbers.
+        </string>
     <string name="aqui_estoy_organization">Aquí Estoy Line</string>
     <string name="aqui_estoy_schedule">Mon-Fri: 2pm-10pm, Sat: 9am-4pm</string>
     <string name="aqui_estoy_description">Free service for psychological and emotional emergencies.</string>

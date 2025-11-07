@@ -46,6 +46,12 @@
     <string name="card_affirmation_title">Afirmación del Día</string>
     <string name="card_tip_title">Tip de Hoy!</string>
     <string name="emergency_carousel_title">Líneas de Ayuda</string>
+    <string name="go_back_home">Regresar al Inicio</string>
+    <!-- 감정 -->
+    <string name="emotion_bad">Mal</string>
+    <string name="emotion_okay">Okay</string>
+    <string name="emotion_good">Bien</string>
+
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>
     <!-- Content Descriptions -->S

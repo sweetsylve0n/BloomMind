@@ -23,6 +23,7 @@ import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.viewmodel.AdviceUiState
 import com.dominio.bloommind.viewmodel.HomeViewModel
 import com.dominio.bloommind.viewmodel.HomeViewModelFactory
+
 @Composable
 fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
@@ -39,7 +40,7 @@ fun HomeScreen(navController: NavController) {
         item {
             SimpleActionCard(
                 title = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.card_checkin_title),
-                onClick = { navController.navigate(Routes.CHECK_IN) }
+                onClick = { navController.navigate(Routes.CHECK_IN_GRAPH) }
             ) {
                 Text(text = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.card_checkin_prompt))
             }
@@ -62,9 +63,11 @@ fun HomeScreen(navController: NavController) {
                             CircularProgressIndicator()
                         }
                     }
+
                     is AdviceUiState.Success -> {
                         Text(text = state.advice.advice)
                     }
+
                     is AdviceUiState.Error -> {
                         Text(text = state.message)
                     }

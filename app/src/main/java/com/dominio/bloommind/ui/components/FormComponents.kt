@@ -6,14 +6,18 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.dominio.bloommind.R
 import java.util.*
+
 @Composable
 fun DatePickerField(
     label: String,
@@ -38,11 +42,13 @@ fun DatePickerField(
         onValueChange = {},
         label = { Text(label) },
         readOnly = true,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp),
         trailingIcon = {
             Icon(
                 imageVector = Icons.Default.DateRange,
-                contentDescription = androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.date_picker_cd),
+                contentDescription = stringResource(id = R.string.date_picker_cd),
                 modifier = Modifier.clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = LocalIndication.current,
@@ -57,31 +63,26 @@ fun DatePickerField(
 @Composable
 fun GenderDropdown(selectedGender: String, onGenderSelected: (String) -> Unit) {
     val genderOptions = listOf(
-        androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.gender_option_she),
-        androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.gender_option_he),
-        androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.gender_option_other)
+        stringResource(id = R.string.gender_option_she),
+        stringResource(id = R.string.gender_option_he),
+        stringResource(id = R.string.gender_option_other)
     )
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { expanded = !expanded }
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier.padding(bottom = 16.dp)
     ) {
-        TextField(
+        OutlinedTextField(
             value = selectedGender,
             onValueChange = {},
             readOnly = true,
-            label = { Text(androidx.compose.ui.res.stringResource(id = com.dominio.bloommind.R.string.gender_label)) },
+            label = { Text(stringResource(id = R.string.gender_label)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth(),
-            colors = TextFieldDefaults.colors(unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
-        )
         )
         ExposedDropdownMenu(
             expanded = expanded,
