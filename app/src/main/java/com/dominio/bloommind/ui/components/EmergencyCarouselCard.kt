@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -36,30 +38,34 @@ data class EmergencyContact(
     val description: String
 )
 
-val emergencyContacts = listOf(
-    EmergencyContact(
-        organization = "Línea Aquí Estoy",
-        phone = "800-273-7865",
-        schedule = "L-V: 2pm-10pm, S: 9am-4pm",
-        description = "Servicio gratuito para atención de urgencias psicológicas y emocionales."
-    ),
-    EmergencyContact(
-        organization = "Despacho de Apoyo Psicológico (DAP)",
-        phone = "9-1-1",
-        schedule = "24 horas del día",
-        description = "Ofrece apoyo emocional sin costo."
-    ),
-    EmergencyContact(
-        organization = "Colegio de Profesionales en Psicología",
-        phone = "2272-3774",
-        schedule = "Lunes a Viernes",
-        description = "Atención de urgencias psicológicas y emocionales."
+@Composable
+fun getEmergencyContacts(): List<EmergencyContact> {
+    return listOf(
+        EmergencyContact(
+            organization = stringResource(id = R.string.aqui_estoy_organization),
+            phone = stringResource(id = R.string.aqui_estoy_phone),
+            schedule = stringResource(id = R.string.aqui_estoy_schedule),
+            description = stringResource(id = R.string.aqui_estoy_description)
+        ),
+        EmergencyContact(
+            organization = stringResource(id = R.string.dap_organization),
+            phone = stringResource(id = R.string.dap_phone),
+            schedule = stringResource(id = R.string.dap_schedule),
+            description = stringResource(id = R.string.dap_description)
+        ),
+        EmergencyContact(
+            organization = stringResource(id = R.string.colegio_psicologos_organization),
+            phone = stringResource(id = R.string.colegio_psicologos_phone),
+            schedule = stringResource(id = R.string.colegio_psicologos_schedule),
+            description = stringResource(id = R.string.colegio_psicologos_description)
+        )
     )
-)
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EmergencyCarouselCard() {
+    val emergencyContacts = getEmergencyContacts()
     val pagerState = rememberPagerState(pageCount = { emergencyContacts.size })
 
     Card(
@@ -78,17 +84,28 @@ fun EmergencyCarouselCard() {
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(id = R.string.emergency_card_prompt),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
             Spacer(modifier = Modifier.height(16.dp))
 
             HorizontalPager(
                 state = pagerState,
+                modifier = Modifier.heightIn(min = 160.dp),
                 contentPadding = PaddingValues(horizontal = 32.dp),
                 pageSpacing = 16.dp
             ) { page ->
                 val contact = emergencyContacts[page]
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(8.dp)
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp)
                 ) {
                     Text(text = contact.organization, style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
                     Text(text = contact.phone, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(vertical = 2.dp))

@@ -48,7 +48,7 @@
     <string name="emergency_carousel_title">Líneas de Ayuda</string>
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>
-    <!-- Content Descriptions -->
+    <!-- Content Descriptions -->S
     <string name="affirmation_image_cd">Imagen de afirmación</string>
     <!-- Bottom nav -->
     <string name="nav_home">Inicio</string>
@@ -56,4 +56,19 @@
     <string name="nav_profile">Perfil</string>
     <!-- Chat errors -->
     <string name="chat_error_send_prefix">Error al enviar:</string>
+    <!-- Emergency Card -->
+    <string name="emergency_card_title">Líneas de Ayuda</string>
+    <string name="emergency_card_prompt">Si necesitas a alguien con quien hablar, aquí tienes algunos números de emergencia.</string>
+    <string name="aqui_estoy_organization">Línea Aquí Estoy</string>
+    <string name="aqui_estoy_phone" translatable="false">800-273-7865</string>
+    <string name="aqui_estoy_schedule">L-V: 2pm-10pm, S: 9am-4pm</string>
+    <string name="aqui_estoy_description">Servicio gratuito para atención de urgencias psicológicas y emocionales.</string>
+    <string name="dap_organization">Despacho de Apoyo Psicológico</string>
+    <string name="dap_phone" translatable="false">9-1-1</string>
+    <string name="dap_schedule">24 horas del día</string>
+    <string name="dap_description">Ofrece apoyo emocional sin costo.</string>
+    <string name="colegio_psicologos_organization">Colegio de Profesionales en Psicología</string>
+    <string name="colegio_psicologos_phone" translatable="false">2272-3774</string>
+    <string name="colegio_psicologos_schedule">Lunes a Viernes</string>
+    <string name="colegio_psicologos_description">Atención de urgencias psicológicas y emocionales.</string>
 </resources>

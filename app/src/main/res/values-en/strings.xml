@@ -55,4 +55,16 @@
     <string name="nav_profile">Profile</string>
     <!-- Chat errors -->
     <string name="chat_error_send_prefix">Error sending:</string>
+    <!-- Emergency Card -->
+    <string name="emergency_card_title">Help Lines</string>
+    <string name="emergency_card_prompt">If you need someone to talk to, here are some emergency numbers.</string>
+    <string name="aqui_estoy_organization">Aquí Estoy Line</string>
+    <string name="aqui_estoy_schedule">Mon-Fri: 2pm-10pm, Sat: 9am-4pm</string>
+    <string name="aqui_estoy_description">Free service for psychological and emotional emergencies.</string>
+    <string name="dap_organization">Psychological Support Office</string>
+    <string name="dap_schedule">24 hours a day</string>
+    <string name="dap_description">Offers emotional support at no cost.</string>
+    <string name="colegio_psicologos_organization">College of Professionals in Psychology</string>
+    <string name="colegio_psicologos_schedule">Monday to Friday</string>
+    <string name="colegio_psicologos_description">Attention to psychological and emotional emergencies.</string>
 </resources>
