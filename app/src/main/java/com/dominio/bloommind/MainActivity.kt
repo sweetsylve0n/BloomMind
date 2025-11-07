@@ -78,6 +78,7 @@ class MainActivity : ComponentActivity() {
                 val showBottomBar = currentRoute in navItems.map { it.route }
 
                 val showTopBar = currentRoute in listOf(
+                    Routes.AFFIRMATION_DETAIL, // Corrected: Show on the detail screen
                     Routes.CHECK_IN,
                     Routes.BAD_EMOTIONS,
                     Routes.OKAY_EMOTIONS,
@@ -91,8 +92,12 @@ class MainActivity : ComponentActivity() {
                                 title = { Text(stringResource(id = R.string.go_back_home)) },
                                 navigationIcon = {
                                     IconButton(onClick = {
-                                        navController.navigate(Routes.MAIN_GRAPH) {
-                                            popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
+                                        navController.navigate(BloomMindNavItems.Home.route) {
+                                            // Pop up to the home route, clearing the back stack
+                                            popUpTo(BloomMindNavItems.Home.route) {
+                                                inclusive = true
+                                            }
+                                            launchSingleTop = true
                                         }
                                     }) {
                                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back")
@@ -144,7 +149,11 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 navigation(startDestination = BloomMindNavItems.Home.route, route = Routes.MAIN_GRAPH) {
-                                    composable(BloomMindNavItems.Home.route) { HomeScreen(navController = navController) }
+                                    composable(BloomMindNavItems.Home.route) { 
+                                        if (state is ProfileState.LoggedIn) {
+                                            HomeScreen(navController = navController, userProfile = state.userProfile)
+                                        } 
+                                    }
                                     composable(BloomMindNavItems.Chat.route) { ChatScreen() }
 
                                     composable(BloomMindNavItems.Profile.route) { navBackStackEntry ->
@@ -156,7 +165,7 @@ class MainActivity : ComponentActivity() {
                                                 navController = navController,
                                                 newIconId = newIconId
                                             )
-                                            navBackStackEntry.savedStateHandle.remove<String>("newIconId")
+                                            // Do not remove the saved state handle here immediately
                                         }
                                     }
 

@@ -10,6 +10,7 @@ class AffirmationRepository(context: Context) {
     private val apiService = BuddhaRetrofitInstance.api
     private val quotaRepository = RequestQuotaRepository(context)
     private val appContext = context
+
     suspend fun getDailyAffirmation(): Result<AffirmationDto> {
         if (!quotaRepository.canFetchAffirmation()) {
             val cachedText = quotaRepository.getCachedAffirmation()
@@ -22,15 +23,11 @@ class AffirmationRepository(context: Context) {
         }
 
         return try {
-            val affirmationList = apiService.getAffirmation()
-            if (affirmationList.isNotEmpty()) {
-                val affirmationDto = affirmationList.first()
-                quotaRepository.saveAffirmation(affirmationDto.text)
-                affirmationDto.imageIndex = quotaRepository.getAffirmationImageIndex()
-                Result.success(affirmationDto)
-            } else {
-                Result.failure(Exception(appContext.getString(R.string.error_empty_affirmation_list)))
-            }
+            val affirmationDto = apiService.getAffirmation()
+            affirmationDto.imageIndex = quotaRepository.getAffirmationImageIndex()
+            quotaRepository.saveAffirmation(affirmationDto.text)
+            
+            Result.success(affirmationDto)
         } catch (e: Exception) {
             Result.failure(e)
         }

@@ -10,6 +10,7 @@
     <string name="error_not_allowed_fetch_advice">No está permitido obtener un nuevo consejo todavía.</string>
     <string name="affirmation_card_prompt">Descubre lo que tenemos para ti hoy</string>
     <!-- Chat -->
+    <string name="chat_welcome_prompt">¿Hablamos?</string>
     <string name="chat_quota_reached">Has alcanzado tu límite de hoy. ¡Regresa en 24 horas para continuar!</string>
     <string name="chat_quota_remaining">Te quedan %d solicitudes restantes por hoy</string>
     <string name="chat_input_hint">Escribe tu mensaje…</string>
@@ -41,13 +42,18 @@
     <string name="gender_option_he">Él/Él</string>
     <string name="gender_option_other">Otro</string>
     <!-- Home -->
+    <string name="greeting_morning">Buenos días, %1$s</string>
+    <string name="greeting_afternoon">Buenas tardes, %1$s</string>
+    <string name="greeting_evening">Buenas noches, %1$s</string>
+    <string name="ready_for_the_day_masculine">Listo para el día?</string>
+    <string name="ready_for_the_day_feminine">Lista para el día?</string>
     <string name="card_checkin_title">Check-in</string>
     <string name="card_checkin_prompt">¿Cómo te sientes hoy?</string>
     <string name="card_affirmation_title">Afirmación del Día</string>
     <string name="card_tip_title">Tip de Hoy!</string>
     <string name="emergency_carousel_title">Líneas de Ayuda</string>
     <string name="go_back_home">Regresar al Inicio</string>
-    <!-- 감정 -->
+    <!-- Emociones-->
     <string name="emotion_bad">Mal</string>
     <string name="emotion_okay">Okay</string>
     <string name="emotion_good">Bien</string>

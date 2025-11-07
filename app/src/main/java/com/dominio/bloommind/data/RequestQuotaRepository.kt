@@ -11,6 +11,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
+
 private val Context.requestQuotaDataStore: DataStore<Preferences> by preferencesDataStore(name = "request_quotas")
 
 class RequestQuotaRepository(context: Context) {
@@ -20,7 +22,7 @@ class RequestQuotaRepository(context: Context) {
     private object Keys {
         val LAST_AFFIRMATION_TIMESTAMP = longPreferencesKey("last_affirmation_timestamp")
         val CACHED_AFFIRMATION = stringPreferencesKey("cached_affirmation")
-        val AFFIRMATION_IMAGE_INDEX = intPreferencesKey("affirmation_image_index") // New key for image rotation
+        val AFFIRMATION_IMAGE_INDEX = intPreferencesKey("affirmation_image_index")
         val LAST_ADVICE_TIMESTAMP = longPreferencesKey("last_advice_timestamp")
         val CACHED_ADVICE = stringPreferencesKey("cached_advice")
     }
@@ -40,8 +42,7 @@ class RequestQuotaRepository(context: Context) {
 
     suspend fun saveAffirmation(affirmation: String) {
         dataStore.edit {
-            val currentIndex = it[Keys.AFFIRMATION_IMAGE_INDEX] ?: 0
-            val nextIndex = (currentIndex + 1) % 4
+            val nextIndex = Random.nextInt(0, 4)
 
             it[Keys.LAST_AFFIRMATION_TIMESTAMP] = System.currentTimeMillis()
             it[Keys.CACHED_AFFIRMATION] = affirmation

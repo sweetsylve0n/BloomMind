@@ -12,7 +12,7 @@ class GeminiService {
         try {
             val request = GeminiRequestDto(
                 contents = listOf(
-                    GeminiContent(parts = listOf(GeminiPart(text = "Responde a lo siguiente de forma amable, con empatia por el usuario, en un solo párrafo y haciendo una pregunta al final para continuar la conversacion: $userMessage")))
+                    GeminiContent(parts = listOf(GeminiPart(text = "Responde a lo siguiente sin emojis,de forma amable, con empatia por el usuario sin asumir que se siente mal o necesita una solucion, a menos que te lo diga a continuacion, en un solo párrafo y haciendo una pregunta al final para continuar la conversacion: $userMessage")))
                 ),
                 generationConfig = GenerationConfig(temperature = 0.8f, maxOutputTokens = 150)
             )

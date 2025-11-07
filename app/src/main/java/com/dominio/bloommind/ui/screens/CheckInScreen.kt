@@ -1,12 +1,14 @@
 package com.dominio.bloommind.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -23,35 +25,40 @@ import com.dominio.bloommind.ui.navigation.Routes
 
 @Composable
 fun CheckInScreen(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = stringResource(id = R.string.card_checkin_prompt),
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .offset(y = (-40).dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Button(onClick = { navController.navigate(Routes.BAD_EMOTIONS) }) {
-                Text(text = stringResource(id = R.string.emotion_bad))
-            }
+            Text(
+                text = stringResource(id = R.string.card_checkin_prompt),
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center
+            )
 
-            Button(onClick = { navController.navigate(Routes.OKAY_EMOTIONS) }) {
-                Text(text = stringResource(id = R.string.emotion_okay))
-            }
+            Spacer(modifier = Modifier.height(32.dp))
 
-            Button(onClick = { navController.navigate(Routes.GOOD_EMOTIONS) }) {
-                Text(text = stringResource(id = R.string.emotion_good))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(onClick = { navController.navigate(Routes.BAD_EMOTIONS) }) {
+                    Text(text = stringResource(id = R.string.emotion_bad))
+                }
+
+                Button(onClick = { navController.navigate(Routes.OKAY_EMOTIONS) }) {
+                    Text(text = stringResource(id = R.string.emotion_okay))
+                }
+
+                Button(onClick = { navController.navigate(Routes.GOOD_EMOTIONS) }) {
+                    Text(text = stringResource(id = R.string.emotion_good))
+                }
             }
         }
     }

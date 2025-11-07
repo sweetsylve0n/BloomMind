@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,9 +50,9 @@ fun ChatScreen() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.blanca),
-            contentDescription = "Chatbot Avatar", // Placeholder
+            contentDescription = "Chatbot Avatar",
             modifier = Modifier
-                .size(120.dp)
+                .size(140.dp)
                 .clip(CircleShape)
         )
 
@@ -90,7 +91,7 @@ fun QuotaBanner(quotaLeft: Int, quotaReached: Boolean, warningThreshold: Int) {
     val bannerText = when {
         quotaReached -> stringResource(id = R.string.chat_quota_reached)
         quotaLeft <= warningThreshold -> stringResource(id = R.string.chat_quota_remaining, quotaLeft)
-        else -> "¿Hablamos?" // Default welcome message
+        else -> stringResource(id = R.string.chat_welcome_prompt)
     }
 
     Text(
@@ -99,7 +100,8 @@ fun QuotaBanner(quotaLeft: Int, quotaReached: Boolean, warningThreshold: Int) {
             .fillMaxWidth()
             .padding(bottom = 8.dp),
         textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.bodyLarge,
+        fontWeight = FontWeight.Bold,
         color = if (quotaReached) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
     )
 }

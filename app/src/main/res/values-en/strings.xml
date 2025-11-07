@@ -9,6 +9,7 @@
     <string name="error_not_allowed_fetch_advice">Not allowed to fetch new advice yet.</string>
     <string name="affirmation_card_prompt">Discover what we have for you today</string>
     <!-- Chat -->
+    <string name="chat_welcome_prompt">Shall we talk?</string>
     <string name="chat_quota_reached">You have reached your limit for today. Come back in 24 hours to continue!</string>
     <string name="chat_quota_remaining">You have %d requests remaining today</string>
     <string name="chat_input_hint">Write your message…</string>
@@ -40,6 +41,11 @@
     <string name="gender_option_he">He/Him</string>
     <string name="gender_option_other">Other</string>
     <!-- Home -->
+    <string name="greeting_morning">Good morning, %1$s</string>
+    <string name="greeting_afternoon">Good afternoon, %1$s</string>
+    <string name="greeting_evening">Good night, %1$s</string>
+    <string name="ready_for_the_day_masculine">Ready for the day?</string>
+    <string name="ready_for_the_day_feminine">Ready for the day?</string>
     <string name="card_checkin_title">Check-in</string>
     <string name="card_checkin_prompt">How are you feeling today?</string>
     <string name="card_affirmation_title">Daily Affirmation</string>
