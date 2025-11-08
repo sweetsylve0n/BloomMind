@@ -29,6 +29,8 @@ import com.dominio.bloommind.ui.components.DatePickerField
 import com.dominio.bloommind.ui.components.GenderDropdown
 import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.ui.utils.IconProvider
+import com.dominio.bloommind.ui.utils.isDateInThePast
+import com.dominio.bloommind.ui.utils.isEmailValid
 import com.dominio.bloommind.viewmodel.ProfileViewModel
 
 @Composable
@@ -39,11 +41,30 @@ fun ProfileScreen(
     newIconId: String?
 ) {
     var name by remember(userProfile.name) { mutableStateOf(userProfile.name) }
-    var email by remember(userProfile.email) { mutableStateOf(userProfile.email) } // CORRECTED
+    var email by remember(userProfile.email) { mutableStateOf(userProfile.email) }
     var birthDate by remember(userProfile.birthDate) { mutableStateOf(userProfile.birthDate) }
     var gender by remember(userProfile.gender) { mutableStateOf(userProfile.gender) }
     var iconId by remember(userProfile.iconId) { mutableStateOf(userProfile.iconId) }
     var showDeleteDialog by remember { mutableStateOf(false) }
+
+    var nameError by remember { mutableStateOf<String?>(null) }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var birthDateError by remember { mutableStateOf<String?>(null) }
+
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    // Validation logic
+    LaunchedEffect(name) {
+        nameError = if (name.isBlank()) context.getString(R.string.error_empty_name) else null
+    }
+    LaunchedEffect(email) {
+        emailError = if (!isEmailValid(email)) context.getString(R.string.error_invalid_email) else null
+    }
+    LaunchedEffect(birthDate) {
+        birthDateError = if (!isDateInThePast(birthDate)) context.getString(R.string.error_future_date) else null
+    }
+
+    val isFormValid = nameError == null && emailError == null && birthDateError == null
 
     LaunchedEffect(newIconId) {
         if (newIconId != null) iconId = newIconId
@@ -87,9 +108,11 @@ fun ProfileScreen(
             if (hasChanges) {
                 FloatingActionButton(
                     onClick = {
-                        profileViewModel.updateProfile(name, email, birthDate, gender, iconId)
+                        if (isFormValid) {
+                            profileViewModel.updateProfile(name, email, birthDate, gender, iconId)
+                        }
                     },
-                    containerColor = MaterialTheme.colorScheme.primary,
+                    containerColor = if (isFormValid) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 ) {
                     Icon(Icons.Default.Save, contentDescription = stringResource(id = R.string.save_changes_desc))
@@ -118,10 +141,28 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            EditableProfileField(label = stringResource(id = R.string.label_name), value = name, onValueChange = { name = it })
-            EditableProfileField(label = stringResource(id = R.string.label_email), value = email, onValueChange = { email = it })
+            EditableProfileField(
+                label = stringResource(id = R.string.label_name),
+                value = name,
+                onValueChange = { name = it },
+                isError = nameError != null,
+                errorMessage = nameError
+            )
+            EditableProfileField(
+                label = stringResource(id = R.string.label_email),
+                value = email,
+                onValueChange = { email = it },
+                isError = emailError != null,
+                errorMessage = emailError
+            )
 
-            DatePickerField(label = stringResource(id = R.string.label_birthdate), selectedDate = birthDate, onDateSelected = { birthDate = it })
+            DatePickerField(
+                label = stringResource(id = R.string.label_birthdate),
+                selectedDate = birthDate,
+                onDateSelected = { birthDate = it },
+                isError = birthDateError != null,
+                errorMessage = birthDateError
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -132,7 +173,7 @@ fun ProfileScreen(
             Text(
                 text = stringResource(id = R.string.delete_account_label),
                 color = MaterialTheme.colorScheme.error,
-                fontWeight = FontWeight.Bold, // Make the text bold
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
@@ -178,7 +219,13 @@ private fun ProfileImage(iconId: String, onEditClick: () -> Unit) {
 }
 
 @Composable
-private fun EditableProfileField(label: String, value: String, onValueChange: (String) -> Unit) {
+private fun EditableProfileField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String?
+) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -186,6 +233,8 @@ private fun EditableProfileField(label: String, value: String, onValueChange: (S
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
+        isError = isError,
+        supportingText = { if (errorMessage != null) Text(errorMessage) },
         singleLine = true
     )
 }

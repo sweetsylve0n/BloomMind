@@ -9,6 +9,10 @@
     <string name="error_empty_affirmation_list">Se recibió una lista vacía de afirmaciones</string>
     <string name="error_not_allowed_fetch_advice">No está permitido obtener un nuevo consejo todavía.</string>
     <string name="affirmation_card_prompt">Descubre lo que tenemos para ti hoy</string>
+    <!-- Validation Errors -->
+    <string name="error_invalid_email">Formato de email inválido</string>
+    <string name="error_future_date">La fecha no puede ser en el futuro</string>
+    <string name="error_empty_name">El nombre no puede estar vacío</string>
     <!-- Chat -->
     <string name="chat_welcome_prompt">¿Hablamos?</string>
     <string name="chat_quota_reached">Has alcanzado tu límite de hoy. ¡Regresa en 24 horas para continuar!</string>

@@ -22,7 +22,9 @@ import java.util.*
 fun DatePickerField(
     label: String,
     selectedDate: String,
-    onDateSelected: (String) -> Unit
+    onDateSelected: (String) -> Unit,
+    isError: Boolean = false,
+    errorMessage: String? = null
 ) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
@@ -45,6 +47,8 @@ fun DatePickerField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
+        isError = isError,
+        supportingText = { if (errorMessage != null) Text(errorMessage) },
         trailingIcon = {
             Icon(
                 imageVector = Icons.Default.DateRange,

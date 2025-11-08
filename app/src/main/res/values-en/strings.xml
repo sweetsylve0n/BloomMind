@@ -8,6 +8,10 @@
     <string name="error_empty_affirmation_list">Empty affirmation list received</string>
     <string name="error_not_allowed_fetch_advice">Not allowed to fetch new advice yet.</string>
     <string name="affirmation_card_prompt">Discover what we have for you today</string>
+    <!-- Validation Errors -->
+    <string name="error_invalid_email">Invalid email format</string>
+    <string name="error_future_date">Date cannot be in the future</string>
+    <string name="error_empty_name">Name cannot be empty</string>
     <!-- Chat -->
     <string name="chat_welcome_prompt">Shall we talk?</string>
     <string name="chat_quota_reached">You have reached your limit for today. Come back in 24 hours to continue!</string>

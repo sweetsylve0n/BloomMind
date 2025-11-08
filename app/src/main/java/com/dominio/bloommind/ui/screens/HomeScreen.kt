@@ -53,7 +53,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         item {
-            Spacer(modifier = Modifier.height(20.dp)) // Added top padding
+            Spacer(modifier = Modifier.height(20.dp))
             GreetingHeader(userName = userProfile.name)
 
             val readyTextRes = if (userProfile.gender == stringResource(id = R.string.gender_option_she)) {
@@ -164,9 +164,9 @@ private fun GreetingHeader(userName: String) {
 
     Text(
         text = stringResource(id = greetingRes, userName),
-        style = MaterialTheme.typography.headlineLarge, // Bigger
-        fontWeight = FontWeight.Bold, // Bold
-        textAlign = TextAlign.Center, // Centered
+        style = MaterialTheme.typography.headlineLarge,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -180,7 +180,7 @@ private fun CharacterImage(
     Image(
         painter = painterResource(id = drawableRes),
         contentDescription = description,
-        modifier = Modifier.size(size), // Use the absolute size
-        contentScale = ContentScale.Fit // Show the full image without cropping
+        modifier = Modifier.size(size),
+        contentScale = ContentScale.Fit
     )
 }
