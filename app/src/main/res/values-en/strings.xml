@@ -61,6 +61,7 @@
     <string name="emotion_okay">Okay</string>
     <string name="emotion_good">Good</string>
     <!-- Check-in Emotions -->
+    <string name="emotions_selection_prompt">Which emotions best represent you right now?</string>
     <string name="emotion_anxious">Anxious</string>
     <string name="emotion_tired">Tired</string>
     <string name="emotion_confused">Confused</string>
@@ -85,6 +86,11 @@
     <string name="emotion_peaceful">Peaceful</string>
     <string name="emotion_satisfied">Satisfied</string>
     <string name="emotion_serene">Serene</string>
+    <string name="checkin_save_and_home">Save and go home</string>
+    <string name="checkin_talk_about_it">Talk about it</string>
+    <!-- Today's Emotions Card -->
+    <string name="todays_emotions_card_title">Today\'s Emotions</string>
+    <string name="todays_emotions_card_prompt">You haven\'t checked in yet. Tell us how you\'re feeling!</string>
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Check-in Screen (In development)</string>
     <!-- Content Descriptions -->
@@ -97,10 +103,7 @@
     <string name="chat_error_send_prefix">Error sending:</string>
     <!-- Emergency Card -->
     <string name="emergency_card_title">Help Lines</string>
-
-    <string name="emergency_card_prompt">If you need someone to talk to, here are some emergency
-            numbers.
-        </string>
+    <string name="emergency_card_prompt">If you need someone to talk to, here are some emergency numbers.</string>
     <string name="aqui_estoy_organization">Aquí Estoy Line</string>
     <string name="aqui_estoy_schedule">Mon-Fri: 2pm-10pm, Sat: 9am-4pm</string>
     <string name="aqui_estoy_description">Free service for psychological and emotional emergencies.</string>

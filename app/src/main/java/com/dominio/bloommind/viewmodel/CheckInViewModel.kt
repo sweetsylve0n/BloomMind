@@ -63,12 +63,14 @@ class CheckInViewModel : ViewModel() {
         }
     }
 
-    fun saveCheckIn(emotionRepository: EmotionRepository) {
-        viewModelScope.launch {
-            val emotionIds = _selectedEmotions.value.map { it.nameResId }.toSet()
-            emotionRepository.saveCheckIn(emotionIds)
-            clearSelection()
-        }
+    /**
+     * Saves the check-in and clears the selection. This is now a suspend function
+     * to ensure the save operation completes before navigating away.
+     */
+    suspend fun saveCheckIn(emotionRepository: EmotionRepository) {
+        val emotionIds = _selectedEmotions.value.map { it.nameResId }.toSet()
+        emotionRepository.saveCheckIn(emotionIds)
+        clearSelection()
     }
 
     private fun clearSelection() {

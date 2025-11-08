@@ -62,6 +62,7 @@
     <string name="emotion_okay">Okay</string>
     <string name="emotion_good">Bien</string>
     <!-- Check-in Emotions -->
+    <string name="emotions_selection_prompt">¿Qué emociones te representan mejor justo ahora?</string>
     <string name="emotion_anxious">Ansioso</string>
     <string name="emotion_tired">Cansado</string>
     <string name="emotion_confused">Confundido</string>
@@ -88,9 +89,12 @@
     <string name="emotion_serene">Sereno</string>
     <string name="checkin_save_and_home">Guardar y volver al inicio</string>
     <string name="checkin_talk_about_it">Hablar de esto</string>
+    <!-- Today's Emotions Card -->
+    <string name="todays_emotions_card_title">Tus emociones de hoy</string>
+    <string name="todays_emotions_card_prompt">Aún no has hecho tu check-in. ¡Cuéntanos cómo te sientes!</string>
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>
-    <!-- Content Descriptions -->S
+    <!-- Content Descriptions -->
     <string name="affirmation_image_cd">Imagen de afirmación</string>
     <!-- Bottom nav -->
     <string name="nav_home">Inicio</string>

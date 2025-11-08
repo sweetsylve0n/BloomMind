@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.AffirmationRepository
 import com.dominio.bloommind.data.AdviceRepository
+import com.dominio.bloommind.data.EmotionRepository
 import com.dominio.bloommind.data.dto.AdviceDto
 import com.dominio.bloommind.data.dto.AffirmationDto
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,10 +26,16 @@ sealed interface AdviceUiState {
     data class Error(val message: String) : AdviceUiState
 }
 
+sealed interface TodaysEmotionsUiState {
+    object Loading : TodaysEmotionsUiState
+    data class Success(val emotions: Set<Int>) : TodaysEmotionsUiState
+}
+
 class HomeViewModel(private val context: Context) : ViewModel() {
 
     private val affirmationRepository = AffirmationRepository(context)
     private val adviceRepository = AdviceRepository(context)
+    private val emotionRepository = EmotionRepository(context) // Added repository
 
     private val _affirmationState = MutableStateFlow<AffirmationUiState>(AffirmationUiState.Loading)
     val affirmationState = _affirmationState.asStateFlow()
@@ -36,9 +43,22 @@ class HomeViewModel(private val context: Context) : ViewModel() {
     private val _adviceState = MutableStateFlow<AdviceUiState>(AdviceUiState.Loading)
     val adviceState = _adviceState.asStateFlow()
 
+    // New state for today's emotions
+    private val _todaysEmotionsState = MutableStateFlow<TodaysEmotionsUiState>(TodaysEmotionsUiState.Loading)
+    val todaysEmotionsState = _todaysEmotionsState.asStateFlow()
+
     init {
         fetchDailyAffirmation()
         fetchDailyAdvice()
+        fetchTodaysEmotions() // Fetch emotions on init
+    }
+
+    fun fetchTodaysEmotions() { // Corrected: Made public by removing 'private'
+        viewModelScope.launch {
+            _todaysEmotionsState.value = TodaysEmotionsUiState.Loading
+            val emotions = emotionRepository.getTodaysEmotions()
+            _todaysEmotionsState.value = TodaysEmotionsUiState.Success(emotions)
+        }
     }
 
     fun fetchDailyAffirmation() {

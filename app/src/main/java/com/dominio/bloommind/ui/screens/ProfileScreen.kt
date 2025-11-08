@@ -164,8 +164,6 @@ fun ProfileScreen(
                 errorMessage = birthDateError
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-
             GenderDropdown(selectedGender = gender, onGenderSelected = { gender = it })
 
             Spacer(modifier = Modifier.weight(1f))

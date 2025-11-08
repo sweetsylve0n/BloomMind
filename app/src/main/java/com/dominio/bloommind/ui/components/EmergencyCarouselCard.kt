@@ -72,7 +72,7 @@ fun EmergencyCarouselCard() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         )
@@ -89,7 +89,8 @@ fun EmergencyCarouselCard() {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(id = R.string.emergency_card_prompt),
-                style = MaterialTheme.typography.bodyMedium,
+                // Corrected: Changed from bodyMedium to bodyLarge for consistency
+                style = MaterialTheme.typography.bodyLarge, 
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -112,7 +113,8 @@ fun EmergencyCarouselCard() {
                     Text(text = contact.organization, style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
                     Text(text = contact.phone, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(vertical = 2.dp))
                     Text(text = contact.schedule, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(bottom = 4.dp))
-                    Text(text = contact.description, style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+                    // Corrected: Changed from bodyMedium to bodyLarge for consistency
+                    Text(text = contact.description, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
                 }
             }
 

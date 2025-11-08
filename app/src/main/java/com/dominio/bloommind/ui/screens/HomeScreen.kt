@@ -16,6 +16,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -28,16 +29,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.UserProfile
 import com.dominio.bloommind.ui.components.EmergencyCarouselCard
 import com.dominio.bloommind.ui.components.SimpleActionCard
+import com.dominio.bloommind.ui.components.TodaysEmotionsCard
 import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.viewmodel.AdviceUiState
 import com.dominio.bloommind.viewmodel.HomeViewModel
 import com.dominio.bloommind.viewmodel.HomeViewModelFactory
+import com.dominio.bloommind.viewmodel.TodaysEmotionsUiState
 import java.util.Calendar
 
 @Composable
@@ -45,6 +50,17 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
     val context = LocalContext.current
     val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(context))
     val adviceState by homeViewModel.adviceState.collectAsState()
+    val todaysEmotionsState by homeViewModel.todaysEmotionsState.collectAsState()
+
+    // Corrected LaunchedEffect to ensure all data is refreshed when the screen becomes visible.
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    LaunchedEffect(lifecycleOwner) { // Keyed to lifecycleOwner to re-run when navigating back
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            homeViewModel.fetchDailyAffirmation()
+            homeViewModel.fetchDailyAdvice()
+            homeViewModel.fetchTodaysEmotions()
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -145,8 +161,26 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
             }
         }
 
+        // New Today's Emotions Card
+        item {
+            when (val state = todaysEmotionsState) {
+                is TodaysEmotionsUiState.Loading -> {
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                }
+                is TodaysEmotionsUiState.Success -> {
+                    TodaysEmotionsCard(emotions = state.emotions)
+                }
+            }
+        }
+
         item {
             EmergencyCarouselCard()
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(20.dp)) // Add some padding at the bottom
         }
     }
 }
