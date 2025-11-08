@@ -60,6 +60,31 @@
     <string name="emotion_bad">Bad</string>
     <string name="emotion_okay">Okay</string>
     <string name="emotion_good">Good</string>
+    <!-- Check-in Emotions -->
+    <string name="emotion_anxious">Anxious</string>
+    <string name="emotion_tired">Tired</string>
+    <string name="emotion_confused">Confused</string>
+    <string name="emotion_guilty">Guilty</string>
+    <string name="emotion_disappointed">Disappointed</string>
+    <string name="emotion_stressed">Stressed</string>
+    <string name="emotion_annoyed">Annoyed</string>
+    <string name="emotion_worried">Worried</string>
+    <string name="emotion_overwhelmed">Overwhelmed</string>
+    <string name="emotion_sad">Sad</string>
+    <string name="emotion_bored">Bored</string>
+    <string name="emotion_calm">Calm</string>
+    <string name="emotion_comfortable">Comfortable</string>
+    <string name="emotion_indifferent">Indifferent</string>
+    <string name="emotion_grateful">Grateful</string>
+    <string name="emotion_at_ease">At ease</string>
+    <string name="emotion_excited">Excited</string>
+    <string name="emotion_entertained">Entertained</string>
+    <string name="emotion_hopeful">Hopeful</string>
+    <string name="emotion_happy">Happy</string>
+    <string name="emotion_inspired">Inspired</string>
+    <string name="emotion_peaceful">Peaceful</string>
+    <string name="emotion_satisfied">Satisfied</string>
+    <string name="emotion_serene">Serene</string>
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Check-in Screen (In development)</string>
     <!-- Content Descriptions -->

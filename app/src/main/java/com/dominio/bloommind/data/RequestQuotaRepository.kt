@@ -5,12 +5,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import java.util.concurrent.TimeUnit
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.random.Random
 
 private val Context.requestQuotaDataStore: DataStore<Preferences> by preferencesDataStore(name = "request_quotas")
@@ -20,16 +21,22 @@ class RequestQuotaRepository(context: Context) {
     private val dataStore = context.requestQuotaDataStore
 
     private object Keys {
-        val LAST_AFFIRMATION_TIMESTAMP = longPreferencesKey("last_affirmation_timestamp")
+        // Switched from timestamp to date strings
+        val LAST_AFFIRMATION_DATE = stringPreferencesKey("last_affirmation_date")
         val CACHED_AFFIRMATION = stringPreferencesKey("cached_affirmation")
         val AFFIRMATION_IMAGE_INDEX = intPreferencesKey("affirmation_image_index")
-        val LAST_ADVICE_TIMESTAMP = longPreferencesKey("last_advice_timestamp")
+        val LAST_ADVICE_DATE = stringPreferencesKey("last_advice_date")
         val CACHED_ADVICE = stringPreferencesKey("cached_advice")
     }
 
+    private fun getCurrentDateString(): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return sdf.format(Date())
+    }
+
     suspend fun canFetchAffirmation(): Boolean {
-        val lastTimestamp = dataStore.data.map { it[Keys.LAST_AFFIRMATION_TIMESTAMP] ?: 0L }.first()
-        return has24HoursPassed(lastTimestamp)
+        val lastDate = dataStore.data.map { it[Keys.LAST_AFFIRMATION_DATE] ?: "" }.first()
+        return lastDate != getCurrentDateString()
     }
 
     suspend fun getCachedAffirmation(): String? {
@@ -42,18 +49,16 @@ class RequestQuotaRepository(context: Context) {
 
     suspend fun saveAffirmation(affirmation: String) {
         dataStore.edit {
-            val nextIndex = Random.nextInt(0, 4)
-
-            it[Keys.LAST_AFFIRMATION_TIMESTAMP] = System.currentTimeMillis()
+            val nextIndex = Random.nextInt(0, 32)
+            it[Keys.LAST_AFFIRMATION_DATE] = getCurrentDateString()
             it[Keys.CACHED_AFFIRMATION] = affirmation
             it[Keys.AFFIRMATION_IMAGE_INDEX] = nextIndex
         }
     }
 
-
     suspend fun canFetchAdvice(): Boolean {
-        val lastTimestamp = dataStore.data.map { it[Keys.LAST_ADVICE_TIMESTAMP] ?: 0L }.first()
-        return has24HoursPassed(lastTimestamp)
+        val lastDate = dataStore.data.map { it[Keys.LAST_ADVICE_DATE] ?: "" }.first()
+        return lastDate != getCurrentDateString()
     }
 
     suspend fun getCachedAdvice(): String? {
@@ -62,14 +67,8 @@ class RequestQuotaRepository(context: Context) {
 
     suspend fun saveAdvice(advice: String) {
         dataStore.edit {
-            it[Keys.LAST_ADVICE_TIMESTAMP] = System.currentTimeMillis()
+            it[Keys.LAST_ADVICE_DATE] = getCurrentDateString()
             it[Keys.CACHED_ADVICE] = advice
         }
-    }
-
-    private fun has24HoursPassed(lastTimestamp: Long): Boolean {
-        if (lastTimestamp == 0L) return true
-        val diff = System.currentTimeMillis() - lastTimestamp
-        return TimeUnit.MILLISECONDS.toHours(diff) >= 24
     }
 }

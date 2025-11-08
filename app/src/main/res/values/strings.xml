@@ -61,7 +61,33 @@
     <string name="emotion_bad">Mal</string>
     <string name="emotion_okay">Okay</string>
     <string name="emotion_good">Bien</string>
-
+    <!-- Check-in Emotions -->
+    <string name="emotion_anxious">Ansioso</string>
+    <string name="emotion_tired">Cansado</string>
+    <string name="emotion_confused">Confundido</string>
+    <string name="emotion_guilty">Culpable</string>
+    <string name="emotion_disappointed">Decepcionado</string>
+    <string name="emotion_stressed">Estresado</string>
+    <string name="emotion_annoyed">Molesto</string>
+    <string name="emotion_worried">Preocupado</string>
+    <string name="emotion_overwhelmed">Sobreestimulado</string>
+    <string name="emotion_sad">Triste</string>
+    <string name="emotion_bored">Aburrido</string>
+    <string name="emotion_calm">Calmado</string>
+    <string name="emotion_comfortable">Cómodo</string>
+    <string name="emotion_indifferent">Indiferente</string>
+    <string name="emotion_grateful">Agradecido</string>
+    <string name="emotion_at_ease">A gusto</string>
+    <string name="emotion_excited">Emocionado</string>
+    <string name="emotion_entertained">Entretenido</string>
+    <string name="emotion_hopeful">Esperanzado</string>
+    <string name="emotion_happy">Feliz</string>
+    <string name="emotion_inspired">Inspirado</string>
+    <string name="emotion_peaceful">Pacífico</string>
+    <string name="emotion_satisfied">Satisfecho</string>
+    <string name="emotion_serene">Sereno</string>
+    <string name="checkin_save_and_home">Guardar y volver al inicio</string>
+    <string name="checkin_talk_about_it">Hablar de esto</string>
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>
     <!-- Content Descriptions -->S

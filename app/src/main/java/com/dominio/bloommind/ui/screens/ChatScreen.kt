@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,17 +23,30 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dominio.bloommind.R
+import com.dominio.bloommind.data.datastore.ChatQuotaRepository
+import com.dominio.bloommind.data.internet.GeminiService
 import com.dominio.bloommind.ui.theme.ChatBubbleGray
 import com.dominio.bloommind.viewmodel.ChatViewModel
+import com.dominio.bloommind.viewmodel.ChatViewModelFactory
 import com.dominio.bloommind.viewmodel.Message
 import kotlinx.coroutines.launch
 
 @Composable
-fun ChatScreen() {
-    val chatViewModel: ChatViewModel = viewModel()
+fun ChatScreen(emotions: String?) {
+    val context = LocalContext.current
+    // This factory is now needed to pass parameters to the ViewModel
+    val chatViewModel: ChatViewModel = viewModel(
+        factory = ChatViewModelFactory(ChatQuotaRepository(context), GeminiService())
+    )
+
     val uiState by chatViewModel.uiState.collectAsState()
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+
+    // This will be called only once when the screen is first composed
+    LaunchedEffect(Unit) {
+        chatViewModel.initializeWithEmotions(emotions)
+    }
 
     LaunchedEffect(uiState.messages.size) {
         if (uiState.messages.isNotEmpty()) {

@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,21 +29,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.ProfileRepository
 import com.dominio.bloommind.ui.components.BottomNavigationBar
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
 import com.dominio.bloommind.ui.navigation.Routes
-import com.dominio.bloommind.ui.screens.AffirmationDetailScreen
-import com.dominio.bloommind.ui.screens.AffirmationScreen
-import com.dominio.bloommind.ui.screens.BadEmotionsScreen
-import com.dominio.bloommind.ui.screens.ChatScreen
-import com.dominio.bloommind.ui.screens.CheckInScreen
-import com.dominio.bloommind.ui.screens.GoodEmotionsScreen
-import com.dominio.bloommind.ui.screens.HomeScreen
-import com.dominio.bloommind.ui.screens.IconSelectionScreen
-import com.dominio.bloommind.ui.screens.OkayEmotionsScreen
-import com.dominio.bloommind.ui.screens.ProfileScreen
-import com.dominio.bloommind.ui.screens.SignUpScreen
+import com.dominio.bloommind.ui.screens.*
 import com.dominio.bloommind.ui.theme.BloomMindTheme
 import com.dominio.bloommind.viewmodel.ProfileState
 import com.dominio.bloommind.viewmodel.ProfileViewModel
@@ -66,24 +58,26 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val currentState by profileViewModel.profileState.collectAsStateWithLifecycle()
 
-                val navItems = listOf(
-                    BloomMindNavItems.Home,
-                    BloomMindNavItems.Chat,
-                    BloomMindNavItems.Profile
-                )
-
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
-                val showBottomBar = currentRoute in navItems.map { it.route }
+                // --- Corrected Navigation Logic Based on Your Plan ---
+                val baseRoute = currentRoute?.substringBefore("?")
 
-                val showTopBar = currentRoute in listOf(
-                    Routes.AFFIRMATION_DETAIL, // Corrected: Show on the detail screen
+                // 1. Show BottomBar ONLY on Home and Profile.
+                val showBottomBar = baseRoute == BloomMindNavItems.Home.route || baseRoute == BloomMindNavItems.Profile.route
+
+                // 2. Define routes that always have a TopAppBar
+                val routesWithTopBar = listOf(
+                    Routes.AFFIRMATION_DETAIL,
                     Routes.CHECK_IN,
                     Routes.BAD_EMOTIONS,
                     Routes.OKAY_EMOTIONS,
                     Routes.GOOD_EMOTIONS
                 )
+                // 3. Show TopAppBar on the defined routes OR if on any version of the Chat screen.
+                val isChatScreen = baseRoute == BloomMindNavItems.Chat.route
+                val showTopBar = isChatScreen || routesWithTopBar.contains(baseRoute)
 
                 Scaffold(
                     topBar = {
@@ -91,16 +85,8 @@ class MainActivity : ComponentActivity() {
                             TopAppBar(
                                 title = { Text(stringResource(id = R.string.go_back_home)) },
                                 navigationIcon = {
-                                    IconButton(onClick = {
-                                        navController.navigate(BloomMindNavItems.Home.route) {
-                                            // Pop up to the home route, clearing the back stack
-                                            popUpTo(BloomMindNavItems.Home.route) {
-                                                inclusive = true
-                                            }
-                                            launchSingleTop = true
-                                        }
-                                    }) {
-                                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back")
+                                    IconButton(onClick = { navigateToHome(navController) }) {
+                                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back to Home")
                                     }
                                 }
                             )
@@ -108,6 +94,7 @@ class MainActivity : ComponentActivity() {
                     },
                     bottomBar = {
                         if (showBottomBar) {
+                            val navItems = listOf(BloomMindNavItems.Home, BloomMindNavItems.Chat, BloomMindNavItems.Profile)
                             BottomNavigationBar(navController = navController, navItems)
                         }
                     }
@@ -120,11 +107,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         is ProfileState.LoggedIn, is ProfileState.NotLoggedIn -> {
-                            val startDestination = if (state is ProfileState.LoggedIn) {
-                                Routes.MAIN_GRAPH
-                            } else {
-                                Routes.AUTH_GRAPH
-                            }
+                            val startDestination = if (state is ProfileState.LoggedIn) Routes.MAIN_GRAPH else Routes.AUTH_GRAPH
 
                             NavHost(
                                 navController = navController,
@@ -149,12 +132,23 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 navigation(startDestination = BloomMindNavItems.Home.route, route = Routes.MAIN_GRAPH) {
-                                    composable(BloomMindNavItems.Home.route) { 
+                                    composable(BloomMindNavItems.Home.route) {
                                         if (state is ProfileState.LoggedIn) {
                                             HomeScreen(navController = navController, userProfile = state.userProfile)
-                                        } 
+                                        }
                                     }
-                                    composable(BloomMindNavItems.Chat.route) { ChatScreen() }
+                                    // Corrected Route Definition for Chat
+                                    composable(
+                                        route = BloomMindNavItems.Chat.route + "?emotions={emotions}",
+                                        arguments = listOf(navArgument("emotions") {
+                                            type = NavType.StringType
+                                            nullable = true
+                                            defaultValue = null
+                                        })
+                                    ) { backStackEntry ->
+                                        val emotions = backStackEntry.arguments?.getString("emotions")
+                                        ChatScreen(emotions = emotions)
+                                    }
 
                                     composable(BloomMindNavItems.Profile.route) { navBackStackEntry ->
                                         val newIconId = navBackStackEntry.savedStateHandle.get<String>("newIconId")
@@ -165,7 +159,6 @@ class MainActivity : ComponentActivity() {
                                                 navController = navController,
                                                 newIconId = newIconId
                                             )
-                                            // Do not remove the saved state handle here immediately
                                         }
                                     }
 
@@ -193,15 +186,25 @@ class MainActivity : ComponentActivity() {
 
                                 navigation(startDestination = Routes.CHECK_IN, route = Routes.CHECK_IN_GRAPH) {
                                     composable(Routes.CHECK_IN) { CheckInScreen(navController) }
-                                    composable(Routes.BAD_EMOTIONS) { BadEmotionsScreen() }
-                                    composable(Routes.OKAY_EMOTIONS) { OkayEmotionsScreen() }
-                                    composable(Routes.GOOD_EMOTIONS) { GoodEmotionsScreen() }
+                                    composable(Routes.BAD_EMOTIONS) { BadEmotionsScreen(navController) }
+                                    composable(Routes.OKAY_EMOTIONS) { OkayEmotionsScreen(navController) }
+                                    composable(Routes.GOOD_EMOTIONS) { GoodEmotionsScreen(navController) }
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun navigateToHome(navController: NavController) {
+        navController.navigate(BloomMindNavItems.Home.route) {
+            // Pop up to the home route and clear everything on top.
+            popUpTo(navController.graph.startDestinationId) {
+                inclusive = false
+            }
+            launchSingleTop = true
         }
     }
 }
