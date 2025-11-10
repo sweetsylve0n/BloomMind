@@ -19,7 +19,6 @@ private val Context.requestQuotaDataStore: DataStore<Preferences> by preferences
 class RequestQuotaRepository(context: Context) {
 
     private val dataStore = context.requestQuotaDataStore
-
     private object Keys {
         val LAST_AFFIRMATION_DATE = stringPreferencesKey("last_affirmation_date")
         val CACHED_AFFIRMATION = stringPreferencesKey("cached_affirmation")
