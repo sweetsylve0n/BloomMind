@@ -39,10 +39,13 @@ import com.dominio.bloommind.ui.components.EmergencyCarouselCard
 import com.dominio.bloommind.ui.components.SimpleActionCard
 import com.dominio.bloommind.ui.components.TodaysEmotionsCard
 import com.dominio.bloommind.ui.navigation.Routes
+import com.dominio.bloommind.viewmodel.AffirmationUiState
 import com.dominio.bloommind.viewmodel.AdviceUiState
 import com.dominio.bloommind.viewmodel.HomeViewModel
 import com.dominio.bloommind.viewmodel.HomeViewModelFactory
 import com.dominio.bloommind.viewmodel.TodaysEmotionsUiState
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.util.Calendar
 
 @Composable
@@ -51,10 +54,10 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
     val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(context))
     val adviceState by homeViewModel.adviceState.collectAsState()
     val todaysEmotionsState by homeViewModel.todaysEmotionsState.collectAsState()
+    val affirmationState by homeViewModel.affirmationState.collectAsState()
 
-    // Corrected LaunchedEffect to ensure all data is refreshed when the screen becomes visible.
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
-    LaunchedEffect(lifecycleOwner) { // Keyed to lifecycleOwner to re-run when navigating back
+    LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             homeViewModel.fetchDailyAffirmation()
             homeViewModel.fetchDailyAdvice()
@@ -119,11 +122,31 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                     CharacterImage(drawableRes = R.drawable.kabuki, description = "Kabuki", size = 140.dp)
                 }
                 Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                    val canClickAffirmation = affirmationState is AffirmationUiState.Success
                     SimpleActionCard(
                         title = stringResource(id = R.string.card_affirmation_title),
-                        onClick = { navController.navigate(Routes.AFFIRMATION_DETAIL) }
+                        onClick = {
+                            if (affirmationState is AffirmationUiState.Success) {
+                                val affirmation = (affirmationState as AffirmationUiState.Success).affirmation
+                                val encodedText = URLEncoder.encode(affirmation.text, StandardCharsets.UTF_8.name())
+                                navController.navigate("affirmation/$encodedText/${affirmation.imageIndex}")
+                            }
+                        },
+                        enabled = canClickAffirmation
                     ) {
-                        Text(text = stringResource(id = R.string.affirmation_card_prompt))
+                        when (affirmationState) {
+                            is AffirmationUiState.Loading -> {
+                                CircularProgressIndicator()
+                            }
+                            is AffirmationUiState.Success -> {
+                                // Corrected: Show the prompt, not the affirmation text itself.
+                                Text(text = stringResource(id = R.string.affirmation_card_prompt), textAlign = TextAlign.Center)
+                            }
+                            is AffirmationUiState.Error -> {
+                                val state = affirmationState as AffirmationUiState.Error
+                                Text(text = state.message, color = MaterialTheme.colorScheme.error)
+                            }
+                        }
                     }
                 }
             }
@@ -161,7 +184,6 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
             }
         }
 
-        // New Today's Emotions Card
         item {
             when (val state = todaysEmotionsState) {
                 is TodaysEmotionsUiState.Loading -> {
@@ -180,7 +202,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
         }
 
         item {
-            Spacer(modifier = Modifier.height(20.dp)) // Add some padding at the bottom
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }

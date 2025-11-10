@@ -4,6 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -29,7 +34,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.ProfileRepository
 import com.dominio.bloommind.ui.components.BottomNavigationBar
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
@@ -61,21 +65,17 @@ class MainActivity : ComponentActivity() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
-                // --- Corrected Navigation Logic Based on Your Plan ---
                 val baseRoute = currentRoute?.substringBefore("?")
 
-                // 1. Show BottomBar ONLY on Home and Profile.
                 val showBottomBar = baseRoute == BloomMindNavItems.Home.route || baseRoute == BloomMindNavItems.Profile.route
 
-                // 2. Define routes that always have a TopAppBar
                 val routesWithTopBar = listOf(
-                    Routes.AFFIRMATION_DETAIL,
                     Routes.CHECK_IN,
                     Routes.BAD_EMOTIONS,
                     Routes.OKAY_EMOTIONS,
-                    Routes.GOOD_EMOTIONS
+                    Routes.GOOD_EMOTIONS,
+                    Routes.AFFIRMATION
                 )
-                // 3. Show TopAppBar on the defined routes OR if on any version of the Chat screen.
                 val isChatScreen = baseRoute == BloomMindNavItems.Chat.route
                 val showTopBar = isChatScreen || routesWithTopBar.contains(baseRoute)
 
@@ -112,7 +112,11 @@ class MainActivity : ComponentActivity() {
                             NavHost(
                                 navController = navController,
                                 startDestination = startDestination,
-                                modifier = Modifier.padding(innerPadding)
+                                modifier = Modifier.padding(innerPadding),
+                                enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(300)) + fadeIn(animationSpec = tween(300)) },
+                                exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tween(300)) + fadeOut(animationSpec = tween(300)) },
+                                popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tween(300)) + fadeIn(animationSpec = tween(300)) },
+                                popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tween(300)) + fadeOut(animationSpec = tween(300)) }
                             ) {
                                 navigation(startDestination = Routes.ICON_SELECTION, route = Routes.AUTH_GRAPH) {
                                     composable(Routes.ICON_SELECTION) {
@@ -137,7 +141,6 @@ class MainActivity : ComponentActivity() {
                                             HomeScreen(navController = navController, userProfile = state.userProfile)
                                         }
                                     }
-                                    // Corrected Route Definition for Chat
                                     composable(
                                         route = BloomMindNavItems.Chat.route + "?emotions={emotions}",
                                         arguments = listOf(navArgument("emotions") {
@@ -169,9 +172,8 @@ class MainActivity : ComponentActivity() {
                                         })
                                     }
 
-                                    composable(Routes.AFFIRMATION_DETAIL) { AffirmationDetailScreen() }
                                     composable(
-                                        route = Routes.AFFIRMATION,
+                                        route = Routes.AFFIRMATION, // Restored to constant
                                         arguments = listOf(
                                             navArgument("affirmationText") { type = NavType.StringType },
                                             navArgument("imageIndex") { type = NavType.IntType }
@@ -200,8 +202,7 @@ class MainActivity : ComponentActivity() {
 
     private fun navigateToHome(navController: NavController) {
         navController.navigate(BloomMindNavItems.Home.route) {
-            // Pop up to the home route and clear everything on top.
-            popUpTo(navController.graph.startDestinationId) {
+            popUpTo(BloomMindNavItems.Home.route) {
                 inclusive = false
             }
             launchSingleTop = true
