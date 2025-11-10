@@ -8,7 +8,6 @@ import com.dominio.bloommind.data.retrofit.GeminiRetrofitInstance
 import com.dominio.bloommind.BuildConfig
 import retrofit2.awaitResponse
 class GeminiService {
-    // The function now takes the full, pre-formatted prompt.
     suspend fun sendMessage(prompt: String): Result<String> {
         try {
             val request = GeminiRequestDto(
