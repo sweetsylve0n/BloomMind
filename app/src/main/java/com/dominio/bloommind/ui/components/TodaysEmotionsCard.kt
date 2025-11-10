@@ -53,7 +53,7 @@ fun TodaysEmotionsCard(emotions: Set<Int>) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    maxItemsInEachRow = 4 // Adjust as needed
+                    maxItemsInEachRow = 4
                 ) {
                     emotions.forEach { emotionResId ->
                         EmotionPill(text = stringResource(id = emotionResId))

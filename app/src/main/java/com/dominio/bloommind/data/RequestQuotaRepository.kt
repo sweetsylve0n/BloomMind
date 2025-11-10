@@ -21,7 +21,6 @@ class RequestQuotaRepository(context: Context) {
     private val dataStore = context.requestQuotaDataStore
 
     private object Keys {
-        // Switched from timestamp to date strings
         val LAST_AFFIRMATION_DATE = stringPreferencesKey("last_affirmation_date")
         val CACHED_AFFIRMATION = stringPreferencesKey("cached_affirmation")
         val AFFIRMATION_IMAGE_INDEX = intPreferencesKey("affirmation_image_index")

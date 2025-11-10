@@ -47,10 +47,10 @@ fun GoodEmotionsScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // Make the whole block scrollable
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center // Center the whole content block vertically
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = stringResource(id = R.string.emotions_selection_prompt),
@@ -80,9 +80,8 @@ fun GoodEmotionsScreen(navController: NavController) {
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp)) // Spacer between emotions and actions
+        Spacer(modifier = Modifier.height(32.dp))
 
-        // Action buttons, now part of the centered & scrollable block
         Row(
             modifier = Modifier
                 .fillMaxWidth()

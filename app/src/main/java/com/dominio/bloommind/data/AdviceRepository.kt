@@ -18,18 +18,13 @@ class AdviceRepository(context: Context) {
             return if (cachedAdvice != null) {
                 Result.success(AdviceDto(cachedAdvice))
             } else {
-                // This case happens if the user can't fetch but there's no cache. 
-                // Should be rare, but we need to handle it.
                 Result.failure(Exception(appContext.getString(R.string.error_not_allowed_fetch_advice)))
             }
         }
 
-        // If we can fetch, get a new advice from the API.
         return try {
             val newAdvice = apiService.getAdvice(BuildConfig.NINJA_API_KEY)
-            // Save the new advice to the cache for today.
             quotaRepository.saveAdvice(newAdvice.advice)
-            // Return the new advice.
             Result.success(newAdvice)
         } catch (e: Exception) {
             Result.failure(e)

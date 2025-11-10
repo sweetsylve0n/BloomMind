@@ -200,7 +200,7 @@ private fun ProfileImage(iconId: String, onEditClick: () -> Unit) {
         )
         Icon(
             imageVector = Icons.Default.Edit,
-            contentDescription = "Editar foto", // This one is still hardcoded
+            contentDescription = "Editar foto",
             tint = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier
                 .size(32.dp)

@@ -65,7 +65,6 @@ class SignUpViewModel : ViewModel() {
     }
 
     fun isFormValid(): Boolean {
-        // Trigger validation for all fields in case they were not touched
         validateName(_name.value)
         validateEmail(_email.value)
         validateBirthDate(_birthDate.value)

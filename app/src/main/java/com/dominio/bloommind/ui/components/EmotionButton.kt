@@ -20,10 +20,9 @@ fun EmotionButton(
 ) {
     val buttonModifier = modifier
         .height(48.dp)
-        .widthIn(min = 150.dp) // Ensure buttons have a consistent minimum width
+        .widthIn(min = 150.dp)
 
     if (isSelected) {
-        // Selected state: A solid, filled button with primary theme colors
         Button(
             onClick = onClick,
             modifier = buttonModifier,
@@ -35,7 +34,6 @@ fun EmotionButton(
             Text(text)
         }
     } else {
-        // Unselected state: A button with only an outline
         OutlinedButton(
             onClick = onClick,
             modifier = buttonModifier,

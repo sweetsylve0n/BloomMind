@@ -105,7 +105,7 @@ fun ChatScreen(emotions: String?) {
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            items(uiState.messages) { message -> // Corrected: named the lambda parameter
+            items(uiState.messages) { message ->
                 MessageBubble(message)
             }
             if (uiState.isSending) {

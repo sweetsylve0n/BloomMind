@@ -49,8 +49,7 @@
     <string name="greeting_morning">Buenos días, %1$s</string>
     <string name="greeting_afternoon">Buenas tardes, %1$s</string>
     <string name="greeting_evening">Buenas noches, %1$s</string>
-    <string name="ready_for_the_day_masculine">Listo para el día?</string>
-    <string name="ready_for_the_day_feminine">Lista para el día?</string>
+    <string name="home_tagline">Respira profundo</string>
     <string name="card_checkin_title">Check-in</string>
     <string name="card_checkin_prompt">¿Cómo te sientes hoy?</string>
     <string name="card_affirmation_title">Afirmación del Día</string>

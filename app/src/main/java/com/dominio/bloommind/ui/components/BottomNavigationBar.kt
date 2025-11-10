@@ -37,14 +37,10 @@ fun BottomNavigationBar(navController: NavController, items: List<BloomMindNavIt
                 onClick = {
                     if (currentRoute != item.route) {
                         navController.navigate(item.route) {
-                            // Corrected: Pop up to the Home route, which is the start destination of this graph.
-                            // This avoids destroying the main navigation graph and correctly resets the stack.
                             popUpTo(BloomMindNavItems.Home.route) {
                                 saveState = true
                             }
-                            // Avoid multiple copies of the same destination when re-selecting the same item.
                             launchSingleTop = true
-                            // Restore state when re-selecting a previously selected item.
                             restoreState = true
                         }
                     }

@@ -43,8 +43,7 @@ fun IconSelectionScreen(
     onIconSelected: (String) -> Unit
 ) {
     val selectedIconId by iconSelectionViewModel.selectedIconId.collectAsState()
-    val icons = IconProvider.iconList // Use the dynamic list from IconProvider
-
+    val icons = IconProvider.iconList
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +55,7 @@ fun IconSelectionScreen(
         Text(text = stringResource(id = R.string.icon_selection_subtitle), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(top = 8.dp, bottom = 24.dp))
 
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2), // Back to 2 columns
+            columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(horizontal = 32.dp)
@@ -69,7 +68,7 @@ fun IconSelectionScreen(
                     painter = painterResource(id = resourceId),
                     contentDescription = stringResource(id = R.string.profile_icon_desc, iconName),
                     modifier = Modifier
-                        .size(120.dp) // Increased size back
+                        .size(120.dp)
                         .clip(CircleShape)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },

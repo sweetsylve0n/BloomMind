@@ -41,7 +41,6 @@ class ChatQuotaRepository(context: Context) {
         dataStore.edit { preferences ->
             val currentCount = preferences[PreferencesKeys.MESSAGE_COUNT] ?: 0
             preferences[PreferencesKeys.MESSAGE_COUNT] = currentCount + 1
-            // Also update the date to today, in case it was the first message of the day
             preferences[PreferencesKeys.LAST_CHAT_DATE] = getCurrentDateString()
         }
     }
@@ -53,7 +52,6 @@ class ChatQuotaRepository(context: Context) {
         val lastDate = preferences[PreferencesKeys.LAST_CHAT_DATE] ?: ""
         val count = preferences[PreferencesKeys.MESSAGE_COUNT] ?: 0
 
-        // If the saved date is not today, reset the counter.
         if (lastDate != today) {
             dataStore.edit {
                 it[PreferencesKeys.MESSAGE_COUNT] = 0

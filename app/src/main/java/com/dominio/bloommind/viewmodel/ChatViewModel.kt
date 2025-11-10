@@ -21,14 +21,9 @@ class ChatViewModel(
         loadQuota()
     }
 
-    /**
-     * To be called when the screen is created. If emotions are passed, it starts
-     * a contextual conversation with the AI without showing the prompt to the user.
-     */
     fun initializeWithEmotions(emotions: String?) {
         if (!emotions.isNullOrBlank()) {
             val systemPrompt = "El usuario acaba de hacer un check-in y se siente: $emotions. Inicia una conversación amable y empática, validando sus sentimientos y terminando con una pregunta abierta sobre si quiere hablar de ello. No menciones que eres una IA. Sé breve y natural."
-            // Send the prompt to the AI, but don't add it to the chat history and don't count it towards the quota.
             sendMessage(systemPrompt, isSystemMessage = true)
         }
     }

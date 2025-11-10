@@ -173,7 +173,7 @@ class MainActivity : ComponentActivity() {
                                     }
 
                                     composable(
-                                        route = Routes.AFFIRMATION, // Restored to constant
+                                        route = Routes.AFFIRMATION,
                                         arguments = listOf(
                                             navArgument("affirmationText") { type = NavType.StringType },
                                             navArgument("imageIndex") { type = NavType.IntType }

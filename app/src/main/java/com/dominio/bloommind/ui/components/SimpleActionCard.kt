@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 fun SimpleActionCard(
     title: String,
     onClick: () -> Unit = {},
-    enabled: Boolean = true, // New parameter with a default value
+    enabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     Card(
@@ -33,12 +33,12 @@ fun SimpleActionCard(
             containerColor = MaterialTheme.colorScheme.surface
         ),
         onClick = onClick,
-        enabled = enabled // Use the new parameter here
+        enabled = enabled
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 100.dp) // Ensure a minimum height
+                .heightIn(min = 100.dp)
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {

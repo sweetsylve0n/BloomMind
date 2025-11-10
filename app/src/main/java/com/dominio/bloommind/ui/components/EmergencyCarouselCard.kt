@@ -89,7 +89,6 @@ fun EmergencyCarouselCard() {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(id = R.string.emergency_card_prompt),
-                // Corrected: Changed from bodyMedium to bodyLarge for consistency
                 style = MaterialTheme.typography.bodyLarge, 
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -120,7 +119,6 @@ fun EmergencyCarouselCard() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Indicator dots
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center

@@ -75,13 +75,8 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
             Spacer(modifier = Modifier.height(20.dp))
             GreetingHeader(userName = userProfile.name)
 
-            val readyTextRes = if (userProfile.gender == stringResource(id = R.string.gender_option_she)) {
-                R.string.ready_for_the_day_feminine
-            } else {
-                R.string.ready_for_the_day_masculine
-            }
             Text(
-                text = stringResource(id = readyTextRes),
+                text = stringResource(id = R.string.home_tagline),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -107,7 +102,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                     }
                 }
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    CharacterImage(drawableRes = R.drawable.isabelle, description = "Isabelle", size = 150.dp)
+                    CharacterImage(drawableRes = R.drawable.kabuki2, description = "Kabuki", size = 160.dp)
                 }
             }
         }
@@ -119,7 +114,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    CharacterImage(drawableRes = R.drawable.kabuki, description = "Kabuki", size = 140.dp)
+                    CharacterImage(drawableRes = R.drawable.melba, description = "Melba", size = 150.dp)
                 }
                 Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                     val canClickAffirmation = affirmationState is AffirmationUiState.Success
@@ -139,7 +134,6 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                                 CircularProgressIndicator()
                             }
                             is AffirmationUiState.Success -> {
-                                // Corrected: Show the prompt, not the affirmation text itself.
                                 Text(text = stringResource(id = R.string.affirmation_card_prompt), textAlign = TextAlign.Center)
                             }
                             is AffirmationUiState.Error -> {
@@ -179,7 +173,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                     }
                 }
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    CharacterImage(drawableRes = R.drawable.shino, description = "Shino", size = 150.dp)
+                    CharacterImage(drawableRes = R.drawable.poppy, description = "Poppy", size = 140.dp)
                 }
             }
         }
@@ -202,7 +196,22 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
         }
 
         item {
-            Spacer(modifier = Modifier.height(20.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CharacterImage(
+                    drawableRes = R.drawable.sakura,
+                    description = "Sakura Tree",
+                    size = 300.dp
+                )
+            }
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(5.dp))
         }
     }
 }
