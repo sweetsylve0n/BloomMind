@@ -59,10 +59,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun ChatScreen(emotions: String?) {
     val context = LocalContext.current
-    val application = context.applicationContext as Application // Get application instance
+    val application = context.applicationContext as Application
     
     val chatViewModel: ChatViewModel = viewModel(
-        // Pass the application to the factory
         factory = ChatViewModelFactory(ChatQuotaRepository(context), GeminiService(), application)
     )
 

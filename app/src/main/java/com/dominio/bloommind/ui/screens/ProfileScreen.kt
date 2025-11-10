@@ -53,7 +53,6 @@ fun ProfileScreen(
 
     val context = androidx.compose.ui.platform.LocalContext.current
 
-    // Validation logic
     LaunchedEffect(name) {
         nameError = if (name.isBlank()) context.getString(R.string.error_empty_name) else null
     }

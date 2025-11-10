@@ -2,8 +2,10 @@ package com.dominio.bloommind.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -32,8 +34,11 @@ fun AffirmationScreen(
     val imageRes = context.resources.getIdentifier(resourceName, "drawable", context.packageName)
 
     Column(
-        modifier = Modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center // This will center the content vertically
     ) {
         Image(
             painter = painterResource(id = if (imageRes != 0) imageRes else R.drawable.icon1),

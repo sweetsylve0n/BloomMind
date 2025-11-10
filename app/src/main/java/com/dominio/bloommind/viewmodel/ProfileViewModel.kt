@@ -45,7 +45,6 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     }
 }
 
-//la factoriaaaaa
 class ProfileViewModelFactory(
     private val profileRepository: ProfileRepository
 ) : ViewModelProvider.Factory {

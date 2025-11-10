@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">BloomMind</string>
-    <!-- Mensajes de error y textos reutilizables (Español - default) -->
+    <!-- Mensajes de error -->
     <string name="error_unknown">Error desconocido</string>
     <string name="error_context_required">Se requiere Context para AffirmationRepository</string>
     <string name="error_unknown_viewmodel">Clase de ViewModel desconocida</string>
     <string name="error_not_allowed_fetch_affirmation">No está permitido obtener una nueva afirmación todavía y no hay caché disponible.</string>
     <string name="error_empty_affirmation_list">Se recibió una lista vacía de afirmaciones</string>
     <string name="error_not_allowed_fetch_advice">No está permitido obtener un nuevo consejo todavía.</string>
-    <string name="affirmation_card_prompt">Descubre lo que tenemos para ti hoy</string>
     <!-- Validation Errors -->
     <string name="error_invalid_email">Formato de email inválido</string>
     <string name="error_future_date">La fecha no puede ser en el futuro</string>
@@ -53,6 +52,7 @@
     <string name="card_checkin_title">Check-in</string>
     <string name="card_checkin_prompt">¿Cómo te sientes hoy?</string>
     <string name="card_affirmation_title">Afirmación del Día</string>
+    <string name="affirmation_card_prompt">Descubre lo que tenemos para ti hoy</string>
     <string name="card_tip_title">Tip de Hoy!</string>
     <string name="emergency_carousel_title">Líneas de Ayuda</string>
     <string name="go_back_home">Regresar al Inicio</string>

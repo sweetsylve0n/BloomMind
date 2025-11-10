@@ -42,18 +42,16 @@ class HomeViewModel(private val context: Context) : ViewModel() {
 
     private val _adviceState = MutableStateFlow<AdviceUiState>(AdviceUiState.Loading)
     val adviceState = _adviceState.asStateFlow()
-
-    // New state for today's emotions
     private val _todaysEmotionsState = MutableStateFlow<TodaysEmotionsUiState>(TodaysEmotionsUiState.Loading)
     val todaysEmotionsState = _todaysEmotionsState.asStateFlow()
 
     init {
         fetchDailyAffirmation()
         fetchDailyAdvice()
-        fetchTodaysEmotions() // Fetch emotions on init
+        fetchTodaysEmotions()
     }
 
-    fun fetchTodaysEmotions() { // Corrected: Made public by removing 'private'
+    fun fetchTodaysEmotions() {
         viewModelScope.launch {
             _todaysEmotionsState.value = TodaysEmotionsUiState.Loading
             val emotions = emotionRepository.getTodaysEmotions()

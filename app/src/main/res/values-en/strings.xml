@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- English Resources, Error messages -->
+    <!-- Error messages -->
     <string name="error_unknown">Unknown error</string>
     <string name="error_context_required">Context required for AffirmationRepository</string>
     <string name="error_unknown_viewmodel">Unknown ViewModel class</string>
     <string name="error_not_allowed_fetch_affirmation">Not allowed to fetch new affirmation yet, and no cache available.</string>
     <string name="error_empty_affirmation_list">Empty affirmation list received</string>
     <string name="error_not_allowed_fetch_advice">Not allowed to fetch new advice yet.</string>
-    <string name="affirmation_card_prompt">Discover what we have for you today</string>
     <!-- Validation Errors -->
     <string name="error_invalid_email">Invalid email format</string>
     <string name="error_future_date">Date cannot be in the future</string>
@@ -52,6 +51,7 @@
     <string name="card_checkin_title">Check-in</string>
     <string name="card_checkin_prompt">How are you feeling today?</string>
     <string name="card_affirmation_title">Daily Affirmation</string>
+    <string name="affirmation_card_prompt">Discover what we have for you today</string>
     <string name="card_tip_title">Today\'s Tip!</string>
     <string name="emergency_carousel_title">Help Lines</string>
     <string name="go_back_home">Go back Home</string>

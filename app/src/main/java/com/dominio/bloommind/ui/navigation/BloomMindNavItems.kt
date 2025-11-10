@@ -34,10 +34,4 @@ object Routes {
     const val GOOD_EMOTIONS = "good_emotions"
 
     const val AFFIRMATION = "affirmation/{affirmationText}/{imageIndex}"
-    fun createAffirmationRoute(affirmationText: String, imageIndex: Int) = "affirmation/$affirmationText/$imageIndex"
-    const val AFFIRMATION_DETAIL = "affirmation_detail"
-
-    const val MAIN_APP_GRAPH = "main_app_graph"
-    const val CATEGORIES = "categories"
-    const val CATEGORY_DETAIL = "category_detail"
 }

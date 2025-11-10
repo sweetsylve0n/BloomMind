@@ -1,13 +1,11 @@
 package com.dominio.bloommind.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.EmotionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 data class Emotion(val nameResId: Int)
 
@@ -63,10 +61,6 @@ class CheckInViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Saves the check-in and clears the selection. This is now a suspend function
-     * to ensure the save operation completes before navigating away.
-     */
     suspend fun saveCheckIn(emotionRepository: EmotionRepository) {
         val emotionIds = _selectedEmotions.value.map { it.nameResId }.toSet()
         emotionRepository.saveCheckIn(emotionIds)
