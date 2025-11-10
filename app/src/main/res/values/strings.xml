@@ -91,6 +91,9 @@
     <!-- Today's Emotions Card -->
     <string name="todays_emotions_card_title">Tus emociones de hoy</string>
     <string name="todays_emotions_card_prompt">Aún no has hecho tu check-in. ¡Cuéntanos cómo te sientes!</string>
+    <!-- Gemini Prompts -->
+    <string name="gemini_base_prompt">Responde a lo siguiente sin emojis, de forma amable, con empatía por el usuario sin asumir que se siente mal o necesita una solución, a menos que te lo diga a continuación, en un solo párrafo y haciendo una pregunta al final para continuar la conversación: %1$s</string>
+    <string name="gemini_initial_prompt">El usuario acaba de hacer un check-in y se siente: %1$s. Inicia una conversación amable y empática, validando sus sentimientos y terminando con una pregunta abierta sobre si quiere hablar de ello. No menciones que eres una IA. Sé breve y natural.</string>
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>
     <!-- Content Descriptions -->

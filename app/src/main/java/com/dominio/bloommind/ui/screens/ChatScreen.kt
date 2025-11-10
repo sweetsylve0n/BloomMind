@@ -1,5 +1,6 @@
 package com.dominio.bloommind.ui.screens
 
+import android.app.Application
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -58,8 +59,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun ChatScreen(emotions: String?) {
     val context = LocalContext.current
+    val application = context.applicationContext as Application // Get application instance
+    
     val chatViewModel: ChatViewModel = viewModel(
-        factory = ChatViewModelFactory(ChatQuotaRepository(context), GeminiService())
+        // Pass the application to the factory
+        factory = ChatViewModelFactory(ChatQuotaRepository(context), GeminiService(), application)
     )
 
     val uiState by chatViewModel.uiState.collectAsState()

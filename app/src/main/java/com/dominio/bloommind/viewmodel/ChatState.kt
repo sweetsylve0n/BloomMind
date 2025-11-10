@@ -1,5 +1,8 @@
 package com.dominio.bloommind.viewmodel
 
+import com.dominio.bloommind.data.datastore.ChatQuotaRepository
+
+
 data class Message(
     val text: String,
     val isFromUser: Boolean,
@@ -9,8 +12,7 @@ data class Message(
 data class ChatUiState(
     val messages: List<Message> = emptyList(),
     val isSending: Boolean = false,
-    val quotaLeft: Int = 0,
+    val quotaLeft: Int = ChatQuotaRepository.MAX_QUOTA,
     val quotaWarningThreshold: Int = 5,
-    val quotaReached: Boolean = false,
-    val error: String? = null
+    val quotaReached: Boolean = false
 )

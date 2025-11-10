@@ -8,11 +8,12 @@ import com.dominio.bloommind.data.retrofit.GeminiRetrofitInstance
 import com.dominio.bloommind.BuildConfig
 import retrofit2.awaitResponse
 class GeminiService {
-    suspend fun sendMessage(userMessage: String): Result<String> {
+    // The function now takes the full, pre-formatted prompt.
+    suspend fun sendMessage(prompt: String): Result<String> {
         try {
             val request = GeminiRequestDto(
                 contents = listOf(
-                    GeminiContent(parts = listOf(GeminiPart(text = "Responde a lo siguiente sin emojis,de forma amable, con empatia por el usuario sin asumir que se siente mal o necesita una solucion, a menos que te lo diga a continuacion, en un solo párrafo y haciendo una pregunta al final para continuar la conversacion: $userMessage")))
+                    GeminiContent(parts = listOf(GeminiPart(text = prompt)))
                 ),
                 generationConfig = GenerationConfig(temperature = 0.8f, maxOutputTokens = 150)
             )
@@ -30,17 +31,17 @@ class GeminiService {
                 } else {
                     val reason = body?.promptFeedback?.blockReason
                     if (reason != null) {
-                        Result.failure(Exception("La solicitud fue bloqueada por seguridad. Razón: $reason"))
+                        Result.failure(Exception("The request was blocked for safety reasons. Reason: $reason"))
                     } else {
-                        Result.failure(Exception("La respuesta de la API estaba vacía o en un formato inesperado."))
+                        Result.failure(Exception("The API response was empty or in an unexpected format."))
                     }
                 }
             } else {
-                val errorBody = response.errorBody()?.string() ?: "Cuerpo del error ilegible"
-                return Result.failure(Exception("Error de red ${response.code()}: $errorBody"))
+                val errorBody = response.errorBody()?.string() ?: "Unreadable error body"
+                return Result.failure(Exception("Network error ${response.code()}: $errorBody"))
             }
         } catch (e: Exception) {
-            return Result.failure(Exception("No se pudo conectar al servicio: ${e.message}", e))
+            return Result.failure(Exception("Could not connect to the service: ${e.message}", e))
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.dominio.bloommind.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.ChatQuotaRepository
 import com.dominio.bloommind.data.internet.GeminiService
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,10 +11,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+
 class ChatViewModel(
     private val quotaRepository: ChatQuotaRepository,
-    private val geminiService: GeminiService
-) : ViewModel() {
+    private val geminiService: GeminiService,
+    application: Application
+) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
@@ -23,7 +27,7 @@ class ChatViewModel(
 
     fun initializeWithEmotions(emotions: String?) {
         if (!emotions.isNullOrBlank()) {
-            val systemPrompt = "El usuario acaba de hacer un check-in y se siente: $emotions. Inicia una conversación amable y empática, validando sus sentimientos y terminando con una pregunta abierta sobre si quiere hablar de ello. No menciones que eres una IA. Sé breve y natural."
+            val systemPrompt = getApplication<Application>().getString(R.string.gemini_initial_prompt, emotions)
             sendMessage(systemPrompt, isSystemMessage = true)
         }
     }
@@ -42,17 +46,20 @@ class ChatViewModel(
     fun sendMessage(userInput: String, isSystemMessage: Boolean = false) {
         if (_uiState.value.isSending || (!isSystemMessage && _uiState.value.quotaReached)) return
 
-        if (!isSystemMessage) {
+        val prompt: String
+        if (isSystemMessage) {
+            prompt = userInput
+            _uiState.update { it.copy(isSending = true) }
+        } else {
             val userMessage = Message(text = userInput, isFromUser = true)
             _uiState.update {
                 it.copy(messages = it.messages + userMessage, isSending = true)
             }
-        } else {
-            _uiState.update { it.copy(isSending = true) }
+            prompt = getApplication<Application>().getString(R.string.gemini_base_prompt, userInput)
         }
 
         viewModelScope.launch {
-            val result = geminiService.sendMessage(userInput)
+            val result = geminiService.sendMessage(prompt)
             result.onSuccess {
                 val botMessage = Message(text = it, isFromUser = false)
                 _uiState.update { currentState ->
