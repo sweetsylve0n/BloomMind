@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -26,7 +26,6 @@ class EmotionRepository(context: Context) {
     }
 
     private fun getTimestamp(): String {
-        // Formato completo para permitir múltiples check-ins
         return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
     }
     
@@ -38,7 +37,6 @@ class EmotionRepository(context: Context) {
         if (serialized.isNullOrBlank()) return emptyMap()
         return serialized.splitToSequence('|')
             .mapNotNull { entry ->
-                // Usamos # como separador para no conflictos con la hora (HH:mm:ss)
                 val parts = entry.split("#")
                 if (parts.size != 2) return@mapNotNull null
                 val date = parts[0]
@@ -51,7 +49,7 @@ class EmotionRepository(context: Context) {
     private fun serializeHistory(map: Map<String, Set<Int>>): String {
         return map.entries.joinToString(separator = "|") { (date, set) ->
             val ids = set.joinToString(separator = ",")
-            "$date#$ids" // Usamos # como separador
+            "$date#$ids"
         }
     }
 
@@ -68,7 +66,6 @@ class EmotionRepository(context: Context) {
             
             map[timestamp] = emotionIds
 
-            // Ordenamos por fecha descendente (más reciente primero) y guardamos solo los últimos 5
             val kept = map.toSortedMap(compareByDescending { it }).entries.take(5).associate { it.toPair() }
             
             preferences[Keys.HISTORY] = serializeHistory(kept)
@@ -95,5 +92,16 @@ class EmotionRepository(context: Context) {
                 .take(n)
                 .map { it.key to it.value }
         }.first()
+    }
+
+    // NUEVA FUNCIÓN: Limpia todas las emociones y check-ins almacenados
+    suspend fun clearEmotions() {
+        dataStore.edit { preferences ->
+            preferences.remove(Keys.SAVED_EMOTIONS)
+            preferences.remove(Keys.LAST_CHECKIN_DATE)
+            preferences.remove(Keys.HISTORY)
+            // O alternativamente: preferences.clear() si este DataStore solo guarda eso
+            // preferences.clear()
+        }
     }
 }

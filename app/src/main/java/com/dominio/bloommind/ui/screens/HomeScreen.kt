@@ -186,25 +186,11 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                     }
                 }
                 is TodaysEmotionsUiState.Success -> {
-                    if (state.emotions.isEmpty()) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 12.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.checkin_screen_placeholder),
-                                style = MaterialTheme.typography.bodyLarge,
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    } else {
-                        TodaysEmotionsCard(
-                            emotions = state.emotions,
-                            onClick = { navController.navigate(Routes.EMOTIONS_HISTORY) }
-                        )
-                    }
+                    // CORRECCIÓN AQUÍ: Siempre mostramos TodaysEmotionsCard, esté vacía o llena.
+                    TodaysEmotionsCard(
+                        emotions = state.emotions,
+                        onClick = { navController.navigate(Routes.EMOTIONS_HISTORY) }
+                    )
                 }
             }
         }

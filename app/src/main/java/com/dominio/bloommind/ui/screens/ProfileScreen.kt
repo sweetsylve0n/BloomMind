@@ -29,9 +29,8 @@ import com.dominio.bloommind.ui.components.DatePickerField
 import com.dominio.bloommind.ui.components.GenderDropdown
 import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.ui.utils.IconProvider
-import com.dominio.bloommind.ui.utils.isDateInThePast
-import com.dominio.bloommind.ui.utils.isEmailValid
 import com.dominio.bloommind.viewmodel.ProfileViewModel
+import com.dominio.bloommind.ui.utils.ValidationUtils
 
 @Composable
 fun ProfileScreen(
@@ -47,23 +46,75 @@ fun ProfileScreen(
     var iconId by remember(userProfile.iconId) { mutableStateOf(userProfile.iconId) }
     var showDeleteDialog by remember { mutableStateOf(false) }
 
+    // Validation error states
     var nameError by remember { mutableStateOf<String?>(null) }
     var emailError by remember { mutableStateOf<String?>(null) }
     var birthDateError by remember { mutableStateOf<String?>(null) }
 
     val context = androidx.compose.ui.platform.LocalContext.current
 
-    LaunchedEffect(name) {
-        nameError = if (name.isBlank()) context.getString(R.string.error_empty_name) else null
-    }
-    LaunchedEffect(email) {
-        emailError = if (!isEmailValid(email)) context.getString(R.string.error_invalid_email) else null
-    }
-    LaunchedEffect(birthDate) {
-        birthDateError = if (!isDateInThePast(birthDate)) context.getString(R.string.error_future_date) else null
+    // Validación en tiempo real
+    // OJO: ahora actualizamos el error si el campo tiene contenido para dar feedback,
+    // pero también debemos permitir guardar SOLO si todo es valido.
+    
+    fun validate(): Boolean {
+         var valid = true
+         if (name.isBlank()) {
+             nameError = context.getString(R.string.error_empty_name)
+             valid = false
+         } else if (!ValidationUtils.isNameValid(name)) {
+             nameError = context.getString(R.string.error_invalid_name)
+             valid = false
+         } else {
+             nameError = null
+         }
+
+         if (email.isBlank()) {
+             emailError = context.getString(R.string.error_empty_email)
+             valid = false
+         } else if (!ValidationUtils.isEmailValid(email)) {
+             emailError = context.getString(R.string.error_invalid_email)
+             valid = false
+         } else {
+             emailError = null
+         }
+
+         if (birthDate.isBlank()) {
+             birthDateError = context.getString(R.string.error_empty_birthdate)
+             valid = false
+         } else if (!ValidationUtils.isBirthDateValid(birthDate)) {
+             birthDateError = context.getString(R.string.error_invalid_birthdate)
+             valid = false
+         } else {
+             birthDateError = null
+         }
+         
+         return valid
     }
 
-    val isFormValid = nameError == null && emailError == null && birthDateError == null
+    // Trigger validation whenever fields change to show errors immediately
+    LaunchedEffect(name) {
+        if (name.isNotEmpty()) {
+             if (!ValidationUtils.isNameValid(name)) nameError = context.getString(R.string.error_invalid_name)
+             else nameError = null
+        }
+    }
+    LaunchedEffect(email) {
+        if (email.isNotEmpty()) {
+            if (!ValidationUtils.isEmailValid(email)) emailError = context.getString(R.string.error_invalid_email)
+            else emailError = null
+        }
+    }
+    LaunchedEffect(birthDate) {
+        if (birthDate.isNotEmpty()) {
+            if (!ValidationUtils.isBirthDateValid(birthDate)) birthDateError = context.getString(R.string.error_invalid_birthdate)
+            else birthDateError = null
+        }
+    }
+    
+    // Estado de validez general para el botón FAB
+    val isFormValid = nameError == null && emailError == null && birthDateError == null && 
+                      name.isNotBlank() && email.isNotBlank() && birthDate.isNotBlank()
 
     LaunchedEffect(newIconId) {
         if (newIconId != null) iconId = newIconId
@@ -107,7 +158,8 @@ fun ProfileScreen(
             if (hasChanges) {
                 FloatingActionButton(
                     onClick = {
-                        if (isFormValid) {
+                        // Validamos todo al hacer click por seguridad
+                        if (validate()) {
                             profileViewModel.updateProfile(name, email, birthDate, gender, iconId)
                         }
                     },

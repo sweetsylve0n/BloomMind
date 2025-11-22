@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.ProfileRepository
-import com.dominio.bloommind.ui.utils.isDateInThePast
-import com.dominio.bloommind.ui.utils.isEmailValid
+import com.dominio.bloommind.ui.utils.ValidationUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -24,63 +23,36 @@ class SignUpViewModel : ViewModel() {
     private val _gender = MutableStateFlow("")
     val gender = _gender.asStateFlow()
 
-    private val _nameError = MutableStateFlow<Int?>(null)
-    val nameError = _nameError.asStateFlow()
-
-    private val _emailError = MutableStateFlow<Int?>(null)
-    val emailError = _emailError.asStateFlow()
-
-    private val _birthDateError = MutableStateFlow<Int?>(null)
-    val birthDateError = _birthDateError.asStateFlow()
+    // Validation error states are managed in the UI (SignUpScreen) using ValidationUtils directly
+    // to keep the logic consistent between SignUp and Profile.
+    // But if you want to keep state here, we can add it back.
+    // For now, the UI observes these values and calls ValidationUtils itself, 
+    // or we can expose the error state here.
+    // Given the refactor in SignUpScreen to use ValidationUtils locally, we'll keep this simple.
 
     fun onNameChange(newName: String) {
         _name.update { newName }
-        validateName(newName)
     }
 
     fun onEmailChange(newEmail: String) {
         _email.update { newEmail }
-        validateEmail(newEmail)
     }
 
     fun onBirthDateChange(newDate: String) {
         _birthDate.update { newDate }
-        validateBirthDate(newDate)
     }
 
     fun onGenderChange(newGender: String) {
         _gender.update { newGender }
     }
 
-    //faltan validaciones para cada campo, que acepten los caracteres correctos, el nombre no puede acepta numeros, y demas
-    private fun validateName(name: String) {
-        _nameError.value = if (name.isBlank()) R.string.error_empty_name else null
-    }
-
-    private fun validateEmail(email: String) {
-        _emailError.value = if (!isEmailValid(email)) R.string.error_invalid_email else null
-    }
-
-    private fun validateBirthDate(date: String) {
-        _birthDateError.value = if (date.isNotBlank() && !isDateInThePast(date)) R.string.error_future_date else null
-    }
-
-    fun isFormValid(): Boolean {
-        validateName(_name.value)
-        validateEmail(_email.value)
-        validateBirthDate(_birthDate.value)
-
-        return _name.value.isNotBlank() &&
-                _email.value.isNotBlank() &&
-                _birthDate.value.isNotBlank() &&
-                _gender.value.isNotBlank() &&
-                _nameError.value == null &&
-                _emailError.value == null &&
-                _birthDateError.value == null
-    }
-
     fun onSignUpClicked(profileRepository: ProfileRepository, iconId: String, onSignUpSuccess: () -> Unit) {
-        if (isFormValid()) {
+        // Double check validation before saving
+        if (ValidationUtils.isNameValid(_name.value) &&
+            ValidationUtils.isEmailValid(_email.value) &&
+            ValidationUtils.isBirthDateValid(_birthDate.value) &&
+            _gender.value.isNotBlank()
+        ) {
             viewModelScope.launch {
                 profileRepository.saveProfile(
                     name = _name.value,

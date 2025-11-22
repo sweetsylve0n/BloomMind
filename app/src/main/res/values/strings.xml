@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">BloomMind</string>
+    
     <!-- Mensajes de error -->
     <string name="error_unknown">Error desconocido</string>
     <string name="error_context_required">Se requiere Context para AffirmationRepository</string>
@@ -8,10 +9,16 @@
     <string name="error_not_allowed_fetch_affirmation">No está permitido obtener una nueva afirmación todavía y no hay caché disponible.</string>
     <string name="error_empty_affirmation_list">Se recibió una lista vacía de afirmaciones</string>
     <string name="error_not_allowed_fetch_advice">No está permitido obtener un nuevo consejo todavía.</string>
+    
     <!-- Validation Errors -->
     <string name="error_invalid_email">Formato de email inválido</string>
     <string name="error_future_date">La fecha no puede ser en el futuro</string>
     <string name="error_empty_name">El nombre no puede estar vacío</string>
+    <string name="error_invalid_name">El nombre debe contener solo letras y comenzar con mayúscula</string>
+    <string name="error_empty_email">El correo no puede estar vacío</string>
+    <string name="error_empty_birthdate">La fecha de nacimiento no puede estar vacía</string>
+    <string name="error_invalid_birthdate">La fecha de nacimiento debe ser válida y entre 1940-01-01 y 2012-12-31</string>
+
     <!-- Chat -->
     <string name="chat_welcome_prompt">¿Hablamos?</string>
     <string name="chat_quota_reached">Has alcanzado tu límite de hoy. ¡Regresa en 24 horas para continuar!</string>
@@ -19,17 +26,21 @@
     <string name="chat_input_hint">Escribe tu mensaje…</string>
     <string name="chat_limit_reached">Límite alcanzado</string>
     <string name="send_button">Enviar</string>
+    <string name="chat_error_send_prefix">Error al enviar:</string>
+
     <!-- Icon selection -->
     <string name="icon_selection_title">Bienvenido a BloomMind</string>
     <string name="icon_selection_subtitle">Antes de empezar, escoge tu icono</string>
     <string name="next_button">Siguiente</string>
     <string name="profile_icon_desc">Icono de perfil %1$s</string>
+
     <!-- Sign up -->
     <string name="signup_intro">Dime un poco de ti</string>
     <string name="label_name">Nombre:</string>
     <string name="label_birthdate">Fecha de Nacimiento:</string>
     <string name="label_email">Email:</string>
     <string name="signup_save_continue">Guardar y continuar</string>
+
     <!-- Profile -->
     <string name="profile_delete_title">Eliminar Cuenta</string>
     <string name="profile_delete_confirmation">¿Estás seguro de que quieres eliminar tu cuenta? Todos tus datos se perderán permanentemente.</string>
@@ -38,12 +49,14 @@
     <string name="save_changes_desc">Guardar cambios</string>
     <string name="profile_title">Perfil</string>
     <string name="delete_account_label">Eliminar Cuenta</string>
+
     <!-- Form components -->
     <string name="date_picker_cd">Seleccionar fecha</string>
     <string name="gender_label">Género:</string>
     <string name="gender_option_she">Ella/Élla</string>
     <string name="gender_option_he">Él/Él</string>
     <string name="gender_option_other">Otro</string>
+
     <!-- Home -->
     <string name="greeting_morning">Buenos días, %1$s</string>
     <string name="greeting_afternoon">Buenas tardes, %1$s</string>
@@ -56,10 +69,12 @@
     <string name="card_tip_title">Tip de Hoy!</string>
     <string name="emergency_carousel_title">Líneas de Ayuda</string>
     <string name="go_back_home">Regresar al Inicio</string>
-    <!-- Emociones-->
+
+    <!-- Emotions -->
     <string name="emotion_bad">Mal</string>
     <string name="emotion_okay">Okay</string>
     <string name="emotion_good">Bien</string>
+
     <!-- Check-in Emotions -->
     <string name="emotions_selection_prompt">¿Qué emociones te representan mejor justo ahora?</string>
     <string name="emotion_anxious">Ansioso</string>
@@ -88,35 +103,42 @@
     <string name="emotion_serene">Sereno</string>
     <string name="checkin_save_and_home">Guardar y volver al inicio</string>
     <string name="checkin_talk_about_it">Hablar de esto</string>
+
     <!-- Today's Emotions Card -->
     <string name="todays_emotions_card_title">Tus emociones de hoy</string>
     <string name="todays_emotions_card_prompt">Haz un check-in para descubrir más sobre tus emociones</string>
     <string name="todays_emotions_history_prompt">Revisa tu historial emocional</string>
+
     <!-- Gemini Prompts -->
     <string name="gemini_base_prompt">Responde a lo siguiente sin emojis, de forma amable, con empatía por el usuario sin asumir que se siente mal o necesita una solución, a menos que te lo diga a continuación, en un solo párrafo y haciendo una pregunta al final para continuar la conversación: %1$s</string>
     <string name="gemini_initial_prompt">El usuario acaba de hacer un check-in y se siente: %1$s. Inicia una conversación amable y empática, validando sus sentimientos y terminando con una pregunta abierta sobre si quiere hablar de ello. No menciones que eres una IA. Sé breve y natural.</string>
+
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>
     <string name="emotions_history_title">Historial de Emociones</string>
+
     <!-- Content Descriptions -->
     <string name="affirmation_image_cd">Imagen de afirmación</string>
+
     <!-- Bottom nav -->
     <string name="nav_home">Inicio</string>
     <string name="nav_chat">Chat</string>
     <string name="nav_profile">Perfil</string>
-    <!-- Chat errors -->
-    <string name="chat_error_send_prefix">Error al enviar:</string>
+
     <!-- Emergency Card -->
     <string name="emergency_card_title">Líneas de Ayuda</string>
     <string name="emergency_card_prompt">Si necesitas a alguien con quien hablar, aquí tienes algunos números de emergencia.</string>
+    
     <string name="aqui_estoy_organization">Línea Aquí Estoy</string>
     <string name="aqui_estoy_phone" translatable="false">800-273-7865</string>
     <string name="aqui_estoy_schedule">L-V: 2pm-10pm, S: 9am-4pm</string>
     <string name="aqui_estoy_description">Servicio gratuito para atención de urgencias psicológicas y emocionales.</string>
+    
     <string name="dap_organization">Despacho de Apoyo Psicológico</string>
     <string name="dap_phone" translatable="false">9-1-1</string>
     <string name="dap_schedule">24 horas del día</string>
     <string name="dap_description">Ofrece apoyo emocional sin costo.</string>
+    
     <string name="colegio_psicologos_organization">Colegio de Profesionales en Psicología</string>
     <string name="colegio_psicologos_phone" translatable="false">2272-3774</string>
     <string name="colegio_psicologos_schedule">Lunes a Viernes</string>

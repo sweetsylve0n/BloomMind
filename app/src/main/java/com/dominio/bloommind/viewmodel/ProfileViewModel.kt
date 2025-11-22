@@ -1,22 +1,28 @@
 package com.dominio.bloommind.viewmodel
 
-import kotlinx.coroutines.flow.map
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.dominio.bloommind.data.EmotionRepository
 import com.dominio.bloommind.data.datastore.ProfileRepository
 import com.dominio.bloommind.data.datastore.UserProfile
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+
 sealed class ProfileState {
     object Loading : ProfileState()
     data class LoggedIn(val userProfile: UserProfile) : ProfileState()
     object NotLoggedIn : ProfileState()
 }
 
-class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewModel() {
+class ProfileViewModel(
+    private val profileRepository: ProfileRepository,
+    private val emotionRepository: EmotionRepository
+) : ViewModel() {
 
     val profileState: StateFlow<ProfileState> = profileRepository.userProfileFlow
         .map { userProfile ->
@@ -41,18 +47,21 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     fun deleteProfile() {
         viewModelScope.launch {
             profileRepository.clearProfile()
+            emotionRepository.clearEmotions()
         }
     }
 }
 
 class ProfileViewModelFactory(
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
+    private val context: Context
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
+            val emotionRepository = EmotionRepository(context)
             @Suppress("UNCHECKED_CAST")
-            return ProfileViewModel(profileRepository) as T
+            return ProfileViewModel(profileRepository, emotionRepository) as T
         }
-        throw IllegalArgumentException("Clase de ViewModel desconocida")
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

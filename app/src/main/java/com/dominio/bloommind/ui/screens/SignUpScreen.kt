@@ -14,8 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,6 +28,7 @@ import com.dominio.bloommind.data.datastore.ProfileRepository
 import com.dominio.bloommind.ui.components.DatePickerField
 import com.dominio.bloommind.ui.components.GenderDropdown
 import com.dominio.bloommind.viewmodel.SignUpViewModel
+import com.dominio.bloommind.ui.utils.ValidationUtils
 
 @Composable
 fun SignUpScreen(
@@ -32,39 +37,96 @@ fun SignUpScreen(
     iconId: String,
     onSignUpComplete: () -> Unit
 ) {
+    val context = LocalContext.current
+
     val name by signUpViewModel.name.collectAsState()
     val email by signUpViewModel.email.collectAsState()
     val birthDate by signUpViewModel.birthDate.collectAsState()
     val gender by signUpViewModel.gender.collectAsState()
+    var nameError by remember { mutableStateOf<String?>(null) }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var birthDateError by remember { mutableStateOf<String?>(null) }
 
-    val nameErrorId by signUpViewModel.nameError.collectAsState()
-    val emailErrorId by signUpViewModel.emailError.collectAsState()
-    val birthDateErrorId by signUpViewModel.birthDateError.collectAsState()
+    // Función local para validar todos los campos
+    fun validateAll(): Boolean {
+        var isValid = true
+        
+        if (name.isBlank()) {
+            nameError = context.getString(R.string.error_empty_name)
+            isValid = false
+        } else if (!ValidationUtils.isNameValid(name)) {
+            nameError = context.getString(R.string.error_invalid_name)
+            isValid = false
+        } else {
+            nameError = null
+        }
 
-    val nameError = nameErrorId?.let { stringResource(id = it) }
-    val emailError = emailErrorId?.let { stringResource(id = it) }
-    val birthDateError = birthDateErrorId?.let { stringResource(id = it) }
+        if (email.isBlank()) {
+            emailError = context.getString(R.string.error_empty_email)
+            isValid = false
+        } else if (!ValidationUtils.isEmailValid(email)) {
+            emailError = context.getString(R.string.error_invalid_email)
+            isValid = false
+        } else {
+            emailError = null
+        }
 
-    val isFormValid = name.isNotBlank() && email.isNotBlank() && birthDate.isNotBlank() && gender.isNotBlank() && nameError == null && emailError == null && birthDateError == null
+        if (birthDate.isBlank()) {
+            birthDateError = context.getString(R.string.error_empty_birthdate)
+            isValid = false
+        } else if (!ValidationUtils.isBirthDateValid(birthDate)) {
+            birthDateError = context.getString(R.string.error_invalid_birthdate)
+            isValid = false
+        } else {
+            birthDateError = null
+        }
+        
+        if (gender.isBlank()) {
+             isValid = false
+        }
+
+        return isValid
+    }
+    
+    // Verificamos validez en tiempo real para habilitar/deshabilitar botón si se desea,
+    // aunque es mejor dejar el botón habilitado y mostrar errores al clickear.
+    // Aquí usaremos la estrategia de validar al cambiar para mostrar errores inmediatos.
 
     UserDetailsStep(
         name = name,
-        onNameChange = { signUpViewModel.onNameChange(it) },
+        onNameChange = {
+            signUpViewModel.onNameChange(it)
+            // Validación inmediata
+            nameError = if (it.isBlank()) null // No mostrar error mientras escribe vacio al inicio
+            else if (!ValidationUtils.isNameValid(it)) context.getString(R.string.error_invalid_name)
+            else null
+        },
         nameError = nameError,
         email = email,
-        onEmailChange = { signUpViewModel.onEmailChange(it) },
+        onEmailChange = {
+            signUpViewModel.onEmailChange(it)
+            emailError = if (it.isBlank()) null 
+            else if (!ValidationUtils.isEmailValid(it)) context.getString(R.string.error_invalid_email)
+            else null
+        },
         emailError = emailError,
         birthDate = birthDate,
-        onBirthDateChange = { signUpViewModel.onBirthDateChange(it) },
+        onBirthDateChange = {
+            signUpViewModel.onBirthDateChange(it)
+            birthDateError = if (it.isBlank()) null
+            else if (!ValidationUtils.isBirthDateValid(it)) context.getString(R.string.error_invalid_birthdate)
+            else null
+        },
         birthDateError = birthDateError,
         gender = gender,
         onGenderChange = { signUpViewModel.onGenderChange(it) },
         onSignUpClicked = {
-            if (isFormValid) {
+            if (validateAll()) {
                 signUpViewModel.onSignUpClicked(profileRepository, iconId, onSignUpComplete)
             }
         },
-        isButtonEnabled = isFormValid
+        // Habilitamos el botón solo si no hay errores visibles y los campos no están vacíos
+        isButtonEnabled = true // Dejamos siempre habilitado para que el usuario reciba feedback al presionar
     )
 }
 

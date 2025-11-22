@@ -28,11 +28,20 @@ fun TodaysEmotionsCard(
     emotions: Set<Int>,
     onClick: () -> Unit = {}
 ) {
+    // Solo habilitamos el click si hay emociones registradas
+    val isClickable = emotions.isNotEmpty()
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        onClick = onClick
+        onClick = {
+            if (isClickable) {
+                onClick()
+            }
+        },
+        // Opcional: deshabilitar el efecto de click si no es clickable
+        enabled = isClickable 
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -53,7 +62,6 @@ fun TodaysEmotionsCard(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             } else {
-                // He vuelto a poner las burbujas (pills) aquí como pediste
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,

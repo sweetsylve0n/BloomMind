@@ -11,6 +11,11 @@
     <string name="error_invalid_email">Invalid email format</string>
     <string name="error_future_date">Date cannot be in the future</string>
     <string name="error_empty_name">Name cannot be empty</string>
+    <!-- NEW: validation strings used in SignUp/Profile -->
+    <string name="error_invalid_name">Name must contain only letters and start with uppercase letters</string>
+    <string name="error_empty_email">Email cannot be empty</string>
+    <string name="error_empty_birthdate">Birthdate cannot be empty</string>
+    <string name="error_invalid_birthdate">Birthdate must be valid and between 1940-01-01 and 2012-12-31</string>
     <!-- Chat -->
     <string name="chat_welcome_prompt">Shall we talk?</string>
     <string name="chat_quota_reached">You have reached your limit for today. Come back in 24 hours to continue!</string>

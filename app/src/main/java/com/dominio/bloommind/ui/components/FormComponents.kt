@@ -29,15 +29,30 @@ fun DatePickerField(
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
+    // Calculate Date Bounds
+    // Max date: Dec 31, 2012 (approx 13 years old from 2025)
+    val maxDateCalendar = Calendar.getInstance()
+    maxDateCalendar.set(2012, Calendar.DECEMBER, 31)
+    
+    // Min date: Jan 1, 1940
+    val minDateCalendar = Calendar.getInstance()
+    minDateCalendar.set(1940, Calendar.JANUARY, 1)
+
     val datePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
-            onDateSelected("$selectedDay/${selectedMonth + 1}/$selectedYear")
+            // Format to YYYY-MM-DD for consistency with ISO format used in ValidationUtils
+            val formattedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+            onDateSelected(formattedDate)
         },
         calendar.get(Calendar.YEAR),
         calendar.get(Calendar.MONTH),
         calendar.get(Calendar.DAY_OF_MONTH)
     )
+    
+    // Apply limits to the DatePicker
+    datePickerDialog.datePicker.minDate = minDateCalendar.timeInMillis
+    datePickerDialog.datePicker.maxDate = maxDateCalendar.timeInMillis
 
     OutlinedTextField(
         value = selectedDate,
