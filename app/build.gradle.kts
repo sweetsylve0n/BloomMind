@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId = "com.dominio.bloommind"
         minSdk = 29
-        targetSdk = 35
+        targetSdk = 35 //revisar
         versionCode = 1
         versionName = "1.0"
 

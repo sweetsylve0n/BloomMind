@@ -112,7 +112,6 @@ fun EmergencyCarouselCard() {
                     Text(text = contact.organization, style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
                     Text(text = contact.phone, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(vertical = 2.dp))
                     Text(text = contact.schedule, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(bottom = 4.dp))
-                    // Corrected: Changed from bodyMedium to bodyLarge for consistency
                     Text(text = contact.description, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
                 }
             }

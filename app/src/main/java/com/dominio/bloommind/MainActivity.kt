@@ -74,11 +74,9 @@ class MainActivity : ComponentActivity() {
                     Routes.BAD_EMOTIONS,
                     Routes.OKAY_EMOTIONS,
                     Routes.GOOD_EMOTIONS,
-                    // EMOTIONS_HISTORY - const is defined in Routes.kt
                     Routes.EMOTIONS_HISTORY
                 )
                 val isChatScreen = baseRoute == BloomMindNavItems.Chat.route
-                // showTopBar if it's chat screen, one of the explicit routes, or an affirmation route (which has params)
                 val showTopBar = isChatScreen || routesWithTopBar.contains(baseRoute) || (baseRoute?.startsWith(Routes.AFFIRMATION_BASE) == true)
 
                 Scaffold(

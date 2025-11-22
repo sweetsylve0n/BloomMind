@@ -38,13 +38,11 @@ sealed interface LastCheckinsUiState {
 }
 
 class HomeViewModel(context: Context) : ViewModel() {
-
-    // avoid leaking an Activity/context by keeping only the applicationContext
     private val appContext = context.applicationContext
 
     private val affirmationRepository = AffirmationRepository(appContext)
     private val adviceRepository = AdviceRepository(appContext)
-    private val emotionRepository = EmotionRepository(appContext) // Added repository
+    private val emotionRepository = EmotionRepository(appContext)
 
     private val _affirmationState = MutableStateFlow<AffirmationUiState>(AffirmationUiState.Loading)
     val affirmationState = _affirmationState.asStateFlow()
@@ -115,7 +113,6 @@ class HomeViewModelFactory(private val context: Context) : ViewModelProvider.Fac
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            // pass applicationContext to the ViewModel to avoid leaking an Activity context
             return HomeViewModel(context.applicationContext) as T
         }
         throw IllegalArgumentException(context.getString(R.string.error_unknown_viewmodel))

@@ -113,7 +113,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    CharacterImage(drawableRes = R.drawable.melba, description = "Melba", size = 150.dp)
+                    CharacterImage(drawableRes = R.drawable.blanche, description = "Blanche", size = 150.dp)
                 }
                 Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                     val canClickAffirmation = affirmationState is AffirmationUiState.Success
@@ -172,7 +172,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                     }
                 }
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    CharacterImage(drawableRes = R.drawable.poppy, description = "Poppy", size = 140.dp)
+                    CharacterImage(drawableRes = R.drawable.annalisa, description = "Annalisa", size = 140.dp)
                 }
             }
         }
