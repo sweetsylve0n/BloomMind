@@ -52,6 +52,7 @@ class SignUpViewModel : ViewModel() {
         _gender.update { newGender }
     }
 
+    //faltan validaciones para cada campo, que acepten los caracteres correctos, el nombre no puede acepta numeros, y demas
     private fun validateName(name: String) {
         _nameError.value = if (name.isBlank()) R.string.error_empty_name else null
     }

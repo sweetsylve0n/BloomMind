@@ -31,11 +31,20 @@ sealed interface TodaysEmotionsUiState {
     data class Success(val emotions: Set<Int>) : TodaysEmotionsUiState
 }
 
-class HomeViewModel(private val context: Context) : ViewModel() {
+sealed interface LastCheckinsUiState {
+    object Loading : LastCheckinsUiState
+    data class Success(val entries: List<Pair<String, Set<Int>>>) : LastCheckinsUiState
+    data class Error(val message: String) : LastCheckinsUiState
+}
 
-    private val affirmationRepository = AffirmationRepository(context)
-    private val adviceRepository = AdviceRepository(context)
-    private val emotionRepository = EmotionRepository(context) // Added repository
+class HomeViewModel(context: Context) : ViewModel() {
+
+    // avoid leaking an Activity/context by keeping only the applicationContext
+    private val appContext = context.applicationContext
+
+    private val affirmationRepository = AffirmationRepository(appContext)
+    private val adviceRepository = AdviceRepository(appContext)
+    private val emotionRepository = EmotionRepository(appContext) // Added repository
 
     private val _affirmationState = MutableStateFlow<AffirmationUiState>(AffirmationUiState.Loading)
     val affirmationState = _affirmationState.asStateFlow()
@@ -44,6 +53,8 @@ class HomeViewModel(private val context: Context) : ViewModel() {
     val adviceState = _adviceState.asStateFlow()
     private val _todaysEmotionsState = MutableStateFlow<TodaysEmotionsUiState>(TodaysEmotionsUiState.Loading)
     val todaysEmotionsState = _todaysEmotionsState.asStateFlow()
+    private val _lastCheckinsState = MutableStateFlow<LastCheckinsUiState>(LastCheckinsUiState.Loading)
+    val lastCheckinsState = _lastCheckinsState.asStateFlow()
 
     init {
         fetchDailyAffirmation()
@@ -59,6 +70,18 @@ class HomeViewModel(private val context: Context) : ViewModel() {
         }
     }
 
+    fun fetchLastCheckins(n: Int = 5) {
+        viewModelScope.launch {
+            _lastCheckinsState.value = LastCheckinsUiState.Loading
+            try {
+                val entries = emotionRepository.getLastNCheckIns(n)
+                _lastCheckinsState.value = LastCheckinsUiState.Success(entries)
+            } catch (e: Exception) {
+                _lastCheckinsState.value = LastCheckinsUiState.Error(e.message ?: appContext.getString(R.string.error_unknown))
+            }
+        }
+    }
+
     fun fetchDailyAffirmation() {
         viewModelScope.launch {
             _affirmationState.value = AffirmationUiState.Loading
@@ -67,7 +90,7 @@ class HomeViewModel(private val context: Context) : ViewModel() {
                     _affirmationState.value = AffirmationUiState.Success(affirmation)
                 }
                 .onFailure { error ->
-                    val errorMessage = error.message ?: context.getString(R.string.error_unknown)
+                    val errorMessage = error.message ?: appContext.getString(R.string.error_unknown)
                     _affirmationState.value = AffirmationUiState.Error(errorMessage)
                 }
         }
@@ -81,7 +104,7 @@ class HomeViewModel(private val context: Context) : ViewModel() {
                     _adviceState.value = AdviceUiState.Success(advice)
                 }
                 .onFailure { error ->
-                    val errorMessage = error.message ?: context.getString(R.string.error_unknown)
+                    val errorMessage = error.message ?: appContext.getString(R.string.error_unknown)
                     _adviceState.value = AdviceUiState.Error(errorMessage)
                 }
         }
@@ -92,7 +115,8 @@ class HomeViewModelFactory(private val context: Context) : ViewModelProvider.Fac
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return HomeViewModel(context) as T
+            // pass applicationContext to the ViewModel to avoid leaking an Activity context
+            return HomeViewModel(context.applicationContext) as T
         }
         throw IllegalArgumentException(context.getString(R.string.error_unknown_viewmodel))
     }

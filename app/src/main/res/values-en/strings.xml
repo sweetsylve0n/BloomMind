@@ -89,12 +89,14 @@
     <string name="checkin_talk_about_it">Talk about it</string>
     <!-- Today's Emotions Card -->
     <string name="todays_emotions_card_title">Today\'s Emotions</string>
-    <string name="todays_emotions_card_prompt">You haven\'t checked in yet. Tell us how you\'re feeling!</string>
+    <string name="todays_emotions_card_prompt">Make a check-in to discover more about your emotions</string>
+    <string name="todays_emotions_history_prompt">Check your emotional history</string>
     <!-- Gemini Prompts -->
     <string name="gemini_base_prompt">Respond to the following without emojis, in a kind and empathetic manner, without assuming the user is feeling bad or needs a solution, unless they tell you so. Keep it to a single paragraph and end with a question to continue the conversation: %1$s</string>
     <string name="gemini_initial_prompt">The user just checked in and is feeling: %1$s. Start a kind and empathetic conversation, validating their feelings and ending with an open-ended question about whether they want to talk about it. Do not mention you are an AI. Be brief and natural.</string>
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Check-in Screen (In development)</string>
+    <string name="emotions_history_title">Emotions History</string>
     <!-- Content Descriptions -->
     <string name="affirmation_image_cd">Affirmation image</string>
     <!-- Bottom nav -->

@@ -30,15 +30,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.UserProfile
+import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.ui.components.EmergencyCarouselCard
 import com.dominio.bloommind.ui.components.SimpleActionCard
 import com.dominio.bloommind.ui.components.TodaysEmotionsCard
-import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.viewmodel.AffirmationUiState
 import com.dominio.bloommind.viewmodel.AdviceUiState
 import com.dominio.bloommind.viewmodel.HomeViewModel
@@ -56,7 +57,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
     val todaysEmotionsState by homeViewModel.todaysEmotionsState.collectAsState()
     val affirmationState by homeViewModel.affirmationState.collectAsState()
 
-    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             homeViewModel.fetchDailyAffirmation()
@@ -74,7 +75,6 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
         item {
             Spacer(modifier = Modifier.height(20.dp))
             GreetingHeader(userName = userProfile.name)
-
             Text(
                 text = stringResource(id = R.string.home_tagline),
                 style = MaterialTheme.typography.bodyLarge,
@@ -83,7 +83,6 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                     .fillMaxWidth()
                     .padding(top = 4.dp)
             )
-
             Spacer(modifier = Modifier.height(24.dp))
         }
 
@@ -178,6 +177,7 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
             }
         }
 
+
         item {
             when (val state = todaysEmotionsState) {
                 is TodaysEmotionsUiState.Loading -> {
@@ -186,7 +186,25 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                     }
                 }
                 is TodaysEmotionsUiState.Success -> {
-                    TodaysEmotionsCard(emotions = state.emotions)
+                    if (state.emotions.isEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 12.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.checkin_screen_placeholder),
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    } else {
+                        TodaysEmotionsCard(
+                            emotions = state.emotions,
+                            onClick = { navController.navigate(Routes.EMOTIONS_HISTORY) }
+                        )
+                    }
                 }
             }
         }

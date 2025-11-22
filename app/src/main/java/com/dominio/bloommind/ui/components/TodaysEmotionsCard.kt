@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,13 +22,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dominio.bloommind.R
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun TodaysEmotionsCard(emotions: Set<Int>) {
+fun TodaysEmotionsCard(
+    emotions: Set<Int>,
+    onClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        onClick = onClick
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -35,8 +40,7 @@ fun TodaysEmotionsCard(emotions: Set<Int>) {
         ) {
             Text(
                 text = stringResource(id = R.string.todays_emotions_card_title),
-                // Corrected: Changed from titleMedium to titleLarge for consistency
-                style = MaterialTheme.typography.titleLarge, 
+                style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -49,6 +53,7 @@ fun TodaysEmotionsCard(emotions: Set<Int>) {
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             } else {
+                // He vuelto a poner las burbujas (pills) aquí como pediste
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,

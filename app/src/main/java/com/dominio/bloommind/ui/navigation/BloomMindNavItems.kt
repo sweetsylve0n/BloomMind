@@ -16,22 +16,3 @@ sealed class BloomMindNavItems(
     object Chat : BloomMindNavItems("chat", R.string.nav_chat, Icons.AutoMirrored.Filled.Chat)
     object Profile : BloomMindNavItems("profile", R.string.nav_profile, Icons.Filled.AccountCircle)
 }
-
-object Routes {
-    const val AUTH_GRAPH = "auth_graph"
-    const val MAIN_GRAPH = "main_graph"
-    const val CHECK_IN_GRAPH = "check_in_graph"
-
-    const val ICON_SELECTION = "icon_selection"
-    const val SIGN_UP = "signup/{iconId}"
-    fun createSignUpRoute(iconId: String) = "signup/$iconId"
-
-    const val ICON_SELECTION_FROM_PROFILE = "icon_selection_from_profile"
-
-    const val CHECK_IN = "check_in"
-    const val BAD_EMOTIONS = "bad_emotions"
-    const val OKAY_EMOTIONS = "okay_emotions"
-    const val GOOD_EMOTIONS = "good_emotions"
-
-    const val AFFIRMATION = "affirmation/{affirmationText}/{imageIndex}"
-}

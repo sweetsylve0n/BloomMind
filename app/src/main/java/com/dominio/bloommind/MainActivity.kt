@@ -74,10 +74,12 @@ class MainActivity : ComponentActivity() {
                     Routes.BAD_EMOTIONS,
                     Routes.OKAY_EMOTIONS,
                     Routes.GOOD_EMOTIONS,
-                    Routes.AFFIRMATION
+                    // EMOTIONS_HISTORY - const is defined in Routes.kt
+                    Routes.EMOTIONS_HISTORY
                 )
                 val isChatScreen = baseRoute == BloomMindNavItems.Chat.route
-                val showTopBar = isChatScreen || routesWithTopBar.contains(baseRoute)
+                // showTopBar if it's chat screen, one of the explicit routes, or an affirmation route (which has params)
+                val showTopBar = isChatScreen || routesWithTopBar.contains(baseRoute) || (baseRoute?.startsWith(Routes.AFFIRMATION_BASE) == true)
 
                 Scaffold(
                     topBar = {
@@ -183,6 +185,10 @@ class MainActivity : ComponentActivity() {
                                         val imageIndex = backStackEntry.arguments?.getInt("imageIndex") ?: 0
                                         val decodedText = URLDecoder.decode(text, StandardCharsets.UTF_8.name())
                                         AffirmationScreen(affirmationText = decodedText, imageIndex = imageIndex)
+                                    }
+
+                                    composable(Routes.EMOTIONS_HISTORY) {
+                                        EmotionsHistoryScreen(navController = navController)
                                     }
                                 }
 
