@@ -61,9 +61,8 @@ Instrucciones para Ejecutar
 4. Ejecutar la App:
    - Selecciona el módulo `app` y ejecuta (Run) en un emulador o dispositivo físico.
 
-Estado y Funcionalidades Implementadas (≈85%)
+Estado y Funcionalidad Implementada
 -------------------------------------------------
-A continuación se detallan las funcionalidades implementadas hasta el momento:
 
 - Onboarding y Perfil (CRUD Completo):
   - Flujo completo para crear y editar un perfil de usuario (nombre, fecha de nacimiento, género, ícono).
@@ -73,6 +72,7 @@ A continuación se detallan las funcionalidades implementadas hasta el momento:
   - Saludo personalizado según la hora del día.
   - Tarjeta de emociones que se actualiza al instante después de cada check-in.
   - Carga proactiva: la afirmación y el consejo del día se descargan en segundo plano al entrar al Home, mostrando animaciones de carga y permitiendo navegación instantánea cuando los datos están listos.
+  - Carrusel informativo con líneas de ayuda de Costa Rica (números de emergencia y horarios).
 
 - Check-in Emocional:
   - Selección de hasta 4 emociones, agrupadas por categorías (Mal, Okay, Bien).
@@ -92,7 +92,6 @@ A continuación se detallan las funcionalidades implementadas hasta el momento:
 - Navegación y Experiencia:
   - Animaciones de transición (slide) implementadas en todo el `NavHost`.
   - BottomNavigationBar con lógica robusta para evitar errores de navegación y asegurar comportamiento predecible.
-  - Implementado carrusel informativo con líneas de ayuda de Costa Rica (números de emergencia y horarios).
 
 Notas finales
 -------------------------------------------------
