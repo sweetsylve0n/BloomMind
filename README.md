@@ -53,7 +53,7 @@ Instrucciones para Ejecutar
    - ¿Cómo obtener las claves?
      - Gemini Key: Ve a Google AI Studio (https://aistudio.google.com/app/apikey), inicia sesión y crea una clave de API.
      - Ninja Key: Ve a API-Ninjas (https://api-ninjas.com/profile), regístrate y copia la clave de tu perfil.
-     - Buddha API: Regístrate o consulta el servicio de Buddha en su sitio web para acceder a la documentación.
+     - Buddha API: Ve a Buddha API (https://buddha-api.com/), regístrate o consulta el servicio de Buddha para acceder a la documentación.
 
    - Nota: `secret.properties` está incluido en `.gitignore` para evitar subir claves al repositorio.
 
