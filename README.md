@@ -48,15 +48,14 @@ Instrucciones para Ejecutar
      ```properties
      GEMINI_API_KEY="TU_API_KEY_AQUI"
      NINJA_API_KEY="TU_API_KEY_AQUI"
-     BUDDHA_API_KEY="TU_API_KEY_AQUI" # opcional si usas el servicio de Buddha
      ```
 
    - ¿Cómo obtener las claves?
      - Gemini Key: Ve a Google AI Studio (https://aistudio.google.com/app/apikey), inicia sesión y crea una clave de API.
      - Ninja Key: Ve a API-Ninjas (https://api-ninjas.com/profile), regístrate y copia la clave de tu perfil.
-     - Buddha API: Regístrate o consulta la documentación del servicio de Buddha que uses para obtener la clave (si aplica).
+     - Buddha API: Regístrate o consulta el servicio de Buddha en su sitio web para acceder a la documentación.
 
-   - Nota: `secret.properties` está incluido en `.gitignore` para evitar subir claves al repositorio. No compartas tus claves públicamente.
+   - Nota: `secret.properties` está incluido en `.gitignore` para evitar subir claves al repositorio.
 
 4. Ejecutar la App:
    - Selecciona el módulo `app` y ejecuta (Run) en un emulador o dispositivo físico.
