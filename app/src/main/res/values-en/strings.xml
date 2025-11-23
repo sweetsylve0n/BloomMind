@@ -1,54 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Error messages -->
+    <!-- Errors -->
     <string name="error_unknown">Unknown error</string>
     <string name="error_context_required">Context required for AffirmationRepository</string>
     <string name="error_unknown_viewmodel">Unknown ViewModel class</string>
-    <string name="error_not_allowed_fetch_affirmation">Not allowed to fetch new affirmation yet, and no cache available.</string>
+    <string name="error_not_allowed_fetch_affirmation">Not allowed to fetch new affirmation yet.</string>
     <string name="error_empty_affirmation_list">Empty affirmation list received</string>
     <string name="error_not_allowed_fetch_advice">Not allowed to fetch new advice yet.</string>
-    <!-- Validation Errors -->
     <string name="error_invalid_email">Invalid email format</string>
     <string name="error_future_date">Date cannot be in the future</string>
     <string name="error_empty_name">Name cannot be empty</string>
-    <!-- NEW: validation strings used in SignUp/Profile -->
-    <string name="error_invalid_name">Name must contain only letters and start with uppercase letters</string>
+    <string name="error_invalid_name">Name must contain only letters and start with uppercase</string>
     <string name="error_empty_email">Email cannot be empty</string>
     <string name="error_empty_birthdate">Birthdate cannot be empty</string>
-    <string name="error_invalid_birthdate">Birthdate must be valid and between 1940-01-01 and 2012-12-31</string>
+    <string name="error_invalid_birthdate">Birthdate must be valid and between 1940 and 2012</string>
+    
     <!-- Chat -->
     <string name="chat_welcome_prompt">Shall we talk?</string>
-    <string name="chat_quota_reached">You have reached your limit for today. Come back in 24 hours to continue!</string>
-    <string name="chat_quota_remaining">You have %d requests remaining today</string>
+    <string name="chat_quota_reached">Limit reached today. Come back in 24h!</string>
+    <string name="chat_quota_remaining">You have %d requests remaining</string>
     <string name="chat_input_hint">Write your message…</string>
     <string name="chat_limit_reached">Limit reached</string>
     <string name="send_button">Send</string>
-    <!-- Icon selection -->
+    <string name="chat_error_send_prefix">Error sending:</string>
+    
+    <!-- UI -->
     <string name="icon_selection_title">Welcome to BloomMind</string>
-    <string name="icon_selection_subtitle">Before we start, pick your icon</string>
+    <string name="icon_selection_subtitle">Pick your icon</string>
     <string name="next_button">Next</string>
     <string name="profile_icon_desc">Profile icon %1$s</string>
-    <!-- Sign up -->
-    <string name="signup_intro">Tell us a bit about yourself</string>
+    <string name="signup_intro">Tell us about yourself</string>
     <string name="label_name">Name:</string>
     <string name="label_birthdate">Birthdate:</string>
     <string name="label_email">Email:</string>
     <string name="signup_save_continue">Save and continue</string>
-    <!-- Profile -->
     <string name="profile_delete_title">Delete Account</string>
-    <string name="profile_delete_confirmation">Are you sure you want to delete your account? All your data will be lost permanently.</string>
+    <string name="profile_delete_confirmation">Delete account? Data will be lost.</string>
     <string name="accept_button">Accept</string>
     <string name="cancel_button">Cancel</string>
     <string name="save_changes_desc">Save changes</string>
     <string name="profile_title">Profile</string>
     <string name="delete_account_label">Delete Account</string>
-    <!-- Form components -->
     <string name="date_picker_cd">Select date</string>
     <string name="gender_label">Gender:</string>
     <string name="gender_option_she">She/Her</string>
     <string name="gender_option_he">He/Him</string>
     <string name="gender_option_other">Other</string>
-    <!-- Home -->
     <string name="greeting_morning">Good morning, %1$s</string>
     <string name="greeting_afternoon">Good afternoon, %1$s</string>
     <string name="greeting_evening">Good night, %1$s</string>
@@ -60,12 +57,12 @@
     <string name="card_tip_title">Today\'s Tip!</string>
     <string name="emergency_carousel_title">Help Lines</string>
     <string name="go_back_home">Go back Home</string>
-    <!-- Emotions -->
+    
+    <!-- Emotions Names -->
     <string name="emotion_bad">Bad</string>
     <string name="emotion_okay">Okay</string>
     <string name="emotion_good">Good</string>
-    <!-- Check-in Emotions -->
-    <string name="emotions_selection_prompt">Which emotions best represent you right now?</string>
+    <string name="emotions_selection_prompt">Which emotions represent you right now?</string>
     <string name="emotion_anxious">Anxious</string>
     <string name="emotion_tired">Tired</string>
     <string name="emotion_confused">Confused</string>
@@ -90,36 +87,87 @@
     <string name="emotion_peaceful">Peaceful</string>
     <string name="emotion_satisfied">Satisfied</string>
     <string name="emotion_serene">Serene</string>
+    
+    <!-- Check-in & Prompts -->
     <string name="checkin_save_and_home">Save and go home</string>
     <string name="checkin_talk_about_it">Talk about it</string>
-    <!-- Today's Emotions Card -->
     <string name="todays_emotions_card_title">Today\'s Emotions</string>
     <string name="todays_emotions_card_prompt">Make a check-in to discover more about your emotions</string>
     <string name="todays_emotions_history_prompt">Check your emotional history</string>
-    <!-- Gemini Prompts -->
-    <string name="gemini_base_prompt">Respond to the following without emojis, in a kind and empathetic manner, without assuming the user is feeling bad or needs a solution, unless they tell you so. Keep it to a single paragraph and end with a question to continue the conversation: %1$s</string>
-    <string name="gemini_initial_prompt">The user just checked in and is feeling: %1$s. Start a kind and empathetic conversation, validating their feelings and ending with an open-ended question about whether they want to talk about it. Do not mention you are an AI. Be brief and natural.</string>
-    <!-- Placeholder Screens -->
-    <string name="checkin_screen_placeholder">Check-in Screen (In development)</string>
-    <string name="emotions_history_title">Emotions History</string>
-    <!-- Content Descriptions -->
+    <string name="gemini_base_prompt">Respond kindly, no emojis, single paragraph, end with question: %1$s</string>
+    <string name="gemini_initial_prompt">User feels %1$s. Start kind conversation, validate feelings, end with question. No AI mention.</string>
+    <string name="checkin_screen_placeholder">Check-in Screen</string>
+    <string name="emotions_history_title">Your emotions today</string>
+    <string name="recent_emotions_title">Your recent emotions</string>
     <string name="affirmation_image_cd">Affirmation image</string>
-    <!-- Bottom nav -->
+    
+    <!-- Navigation -->
     <string name="nav_home">Home</string>
     <string name="nav_chat">Chat</string>
     <string name="nav_profile">Profile</string>
-    <!-- Chat errors -->
-    <string name="chat_error_send_prefix">Error sending:</string>
-    <!-- Emergency Card -->
+    
+    <!-- Emergency -->
     <string name="emergency_card_title">Help Lines</string>
-    <string name="emergency_card_prompt">If you need someone to talk to, here are some emergency numbers.</string>
+    <string name="emergency_card_prompt">Emergency numbers if needed.</string>
     <string name="aqui_estoy_organization">Aquí Estoy Line</string>
     <string name="aqui_estoy_schedule">Mon-Fri: 2pm-10pm, Sat: 9am-4pm</string>
-    <string name="aqui_estoy_description">Free service for psychological and emotional emergencies.</string>
+    <string name="aqui_estoy_description">Free service for psychological emergencies.</string>
     <string name="dap_organization">Psychological Support Office</string>
     <string name="dap_schedule">24 hours a day</string>
     <string name="dap_description">Offers emotional support at no cost.</string>
     <string name="colegio_psicologos_organization">College of Professionals in Psychology</string>
-    <string name="colegio_psicologos_schedule">Monday to Friday</string>
-    <string name="colegio_psicologos_description">Attention to psychological and emotional emergencies.</string>
+    <string name="colegio_psicologos_schedule">Mon-Fri</string>
+    <string name="colegio_psicologos_description">Attention to psychological emergencies.</string>
+
+    <!-- Descriptions & Advice -->
+    <string name="desc_anxious">State of restlessness and tension about what might happen. Racing thoughts and lack of control.</string>
+    <string name="adv_anxious">Take a deep breath and focus on what you can handle right now.</string>
+    <string name="desc_tired">Feeling of physical or mental exhaustion that reduces energy and motivation.</string>
+    <string name="adv_tired">Allow yourself to rest and recover strength before continuing.</string>
+    <string name="desc_confused">Difficulty understanding a situation or making clear decisions.</string>
+    <string name="adv_confused">Pause and organize your ideas by writing them down or asking.</string>
+    <string name="desc_guilty">Emotion from feeling something wrong has been done or someone failed.</string>
+    <string name="adv_guilty">Acknowledge the mistake and seek to learn or repair it.</string>
+    <string name="desc_disappointed">Sadness or frustration due to unfulfilled expectations.</string>
+    <string name="adv_disappointed">Accept what happened and adjust your expectations.</string>
+    <string name="desc_stressed">State of tension due to excess internal or external demands.</string>
+    <string name="adv_stressed">Organize your tasks and release what is not urgent.</string>
+    <string name="desc_annoyed">Irritation about something that bothers or contradicts your values.</string>
+    <string name="adv_annoyed">Communicate your feelings calmly or step away.</string>
+    <string name="desc_worried">Thoughts focused on real or imaginary problems causing tension.</string>
+    <string name="adv_worried">Focus on practical solutions, not hypothetical scenarios.</string>
+    <string name="desc_overwhelmed">Excess of stimuli saturating the mind. Causes fatigue.</string>
+    <string name="adv_overwhelmed">Find a quiet space and disconnect.</string>
+    <string name="desc_sad">Emotional pain from loss, frustration, or memories.</string>
+    <string name="adv_sad">Allow yourself to feel and share with someone you trust.</string>
+    <string name="desc_bored">Lack of interest or motivation. Perceived as emptiness.</string>
+    <string name="adv_bored">Explore a new or creative activity.</string>
+    <string name="desc_calm">State of tranquility and emotional balance. Mental clarity.</string>
+    <string name="adv_calm">Maintain routines that reinforce this serenity.</string>
+    <string name="desc_comfortable">Physical and emotional well-being in a safe environment.</string>
+    <string name="adv_comfortable">Enjoy the moment and be grateful.</string>
+    <string name="desc_indifferent">Lack of interest or connection. Can be protection.</string>
+    <string name="adv_indifferent">Reflect if you need to involve more or let go.</string>
+    <string name="desc_grateful">Recognition of valuable things you have or receive.</string>
+    <string name="adv_grateful">Express your gratitude in words or actions.</string>
+    <string name="desc_at_ease">Fullness and satisfaction with the present. Peace.</string>
+    <string name="adv_at_ease">Preserve what gives you well-being and care for it.</string>
+    <string name="desc_excited">Positive energy towards something expected or new.</string>
+    <string name="adv_excited">Channel that energy into productive actions.</string>
+    <string name="desc_entertained">Enjoyment and pleasant distraction. Relaxing.</string>
+    <string name="adv_entertained">Dedicate time to fun without guilt.</string>
+    <string name="desc_hopeful">Confidence that future will bring something better.</string>
+    <string name="adv_hopeful">Feed hope with small steps towards goals.</string>
+    <string name="desc_happy">Joy and satisfaction with life. Positive energy.</string>
+    <string name="adv_happy">Share your happiness to multiply it.</string>
+    <string name="desc_inspired">Creative motivation driving new ideas.</string>
+    <string name="adv_inspired">Take advantage of momentum and create.</string>
+    <string name="desc_peaceful">Inner and outer harmony. Absence of conflict.</string>
+    <string name="adv_peaceful">Protect peace by avoiding unnecessary arguments.</string>
+    <string name="desc_satisfied">Content with achievements or experiences.</string>
+    <string name="adv_satisfied">Celebrate progress and acknowledge effort.</string>
+    <string name="desc_serene">Deep and stable tranquility. Emotional maturity.</string>
+    <string name="adv_serene">Maintain habits that strengthen inner stability.</string>
+    <string name="desc_default">A complex and valid emotion.</string>
+    <string name="adv_default">Take a moment to understand it.</string>
 </resources>

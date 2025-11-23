@@ -9,8 +9,6 @@
     <string name="error_not_allowed_fetch_affirmation">No está permitido obtener una nueva afirmación todavía y no hay caché disponible.</string>
     <string name="error_empty_affirmation_list">Se recibió una lista vacía de afirmaciones</string>
     <string name="error_not_allowed_fetch_advice">No está permitido obtener un nuevo consejo todavía.</string>
-    
-    <!-- Validation Errors -->
     <string name="error_invalid_email">Formato de email inválido</string>
     <string name="error_future_date">La fecha no puede ser en el futuro</string>
     <string name="error_empty_name">El nombre no puede estar vacío</string>
@@ -115,7 +113,8 @@
 
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>
-    <string name="emotions_history_title">Historial de Emociones</string>
+    <string name="emotions_history_title">Tus emociones de hoy</string>
+    <string name="recent_emotions_title">Tus emociones recientes</string>
 
     <!-- Content Descriptions -->
     <string name="affirmation_image_cd">Imagen de afirmación</string>
@@ -128,19 +127,68 @@
     <!-- Emergency Card -->
     <string name="emergency_card_title">Líneas de Ayuda</string>
     <string name="emergency_card_prompt">Si necesitas a alguien con quien hablar, aquí tienes algunos números de emergencia.</string>
-    
     <string name="aqui_estoy_organization">Línea Aquí Estoy</string>
     <string name="aqui_estoy_phone" translatable="false">800-273-7865</string>
     <string name="aqui_estoy_schedule">L-V: 2pm-10pm, S: 9am-4pm</string>
     <string name="aqui_estoy_description">Servicio gratuito para atención de urgencias psicológicas y emocionales.</string>
-    
     <string name="dap_organization">Despacho de Apoyo Psicológico</string>
     <string name="dap_phone" translatable="false">9-1-1</string>
     <string name="dap_schedule">24 horas del día</string>
     <string name="dap_description">Ofrece apoyo emocional sin costo.</string>
-    
     <string name="colegio_psicologos_organization">Colegio de Profesionales en Psicología</string>
     <string name="colegio_psicologos_phone" translatable="false">2272-3774</string>
     <string name="colegio_psicologos_schedule">Lunes a Viernes</string>
     <string name="colegio_psicologos_description">Atención de urgencias psicológicas y emocionales.</string>
+
+    <!-- Emotion Descriptions & Advice -->
+    <string name="desc_anxious">Estado de inquietud y tensión ante lo que podría suceder, acompañado de pensamientos acelerados y sensación de falta de control. Puede generar nerviosismo físico y mental.</string>
+    <string name="adv_anxious">Respira profundo y enfócate en lo que sí puedes manejar ahora.</string>
+    <string name="desc_tired">Sensación de agotamiento físico o mental que reduce la energía y la motivación. Puede aparecer tras esfuerzo prolongado o falta de descanso.</string>
+    <string name="adv_tired">Permítete descansar y recuperar fuerzas antes de continuar.</string>
+    <string name="desc_confused">Dificultad para comprender una situación o tomar decisiones claras. Se caracteriza por pensamientos dispersos y falta de dirección.</string>
+    <string name="adv_confused">Haz una pausa y organiza tus ideas escribiéndolas o preguntando.</string>
+    <string name="desc_guilty">Emoción que surge al sentir que se ha hecho algo incorrecto o se ha fallado a alguien. Puede generar peso emocional y autocrítica.</string>
+    <string name="adv_guilty">Reconoce el error y busca aprender o reparar lo que esté en tus manos.</string>
+    <string name="desc_disappointed">Tristeza o frustración por expectativas que no se cumplieron. Puede dejar sensación de vacío o pérdida de confianza.</string>
+    <string name="adv_disappointed">Acepta lo ocurrido y ajusta tus expectativas hacia lo que sí es posible.</string>
+    <string name="desc_stressed">Estado de tensión por exceso de demandas internas o externas. Se manifiesta en presión física, mental y emocional.</string>
+    <string name="adv_stressed">Organiza tus tareas y libera lo que no es urgente.</string>
+    <string name="desc_annoyed">Irritación o enojo por algo que incomoda o contradice tus valores. Puede ser pasajero o acumularse si no se expresa.</string>
+    <string name="adv_annoyed">Comunica tu sentir con calma o aléjate para recuperar equilibrio.</string>
+    <string name="desc_worried">Pensamientos centrados en problemas reales o imaginarios que generan tensión. Puede bloquear la acción y aumentar la ansiedad.</string>
+    <string name="adv_worried">Enfócate en soluciones prácticas y no en escenarios hipotéticos.</string>
+    <string name="desc_overwhelmed">Exceso de estímulos externos o internos que saturan la mente. Puede causar cansancio, irritación o dificultad para concentrarse.</string>
+    <string name="adv_overwhelmed">Busca un espacio tranquilo y desconéctate de lo que te abruma.</string>
+    <string name="desc_sad">Dolor emocional que surge por pérdidas, frustraciones o recuerdos. Puede disminuir la motivación y el interés en actividades.</string>
+    <string name="adv_sad">Permítete sentir y comparte tu emoción con alguien de confianza.</string>
+    <string name="desc_bored">Falta de interés o motivación en lo que se está haciendo. Se percibe como vacío o monotonía.</string>
+    <string name="adv_bored">Explora una actividad nueva o creativa que despierte tu curiosidad.</string>
+    <string name="desc_calm">Estado de tranquilidad y equilibrio emocional. Se caracteriza por claridad mental y ausencia de tensión.</string>
+    <string name="adv_calm">Mantén rutinas que refuercen esta serenidad.</string>
+    <string name="desc_comfortable">Sensación de bienestar físico y emocional en un entorno seguro. Se asocia con relajación y confianza.</string>
+    <string name="adv_comfortable">Disfruta el momento y agradece lo que te rodea.</string>
+    <string name="desc_indifferent">Falta de interés o conexión emocional hacia una situación. Puede ser una forma de protección o desapego.</string>
+    <string name="adv_indifferent">Reflexiona si necesitas involucrarte más o soltar lo que no te importa.</string>
+    <string name="desc_grateful">Reconocimiento de lo valioso que tienes o recibes. Genera satisfacción y fortalece vínculos.</string>
+    <string name="adv_grateful">Expresa tu gratitud en palabras o acciones concretas.</string>
+    <string name="desc_at_ease">Plenitud y satisfacción con lo que se vive en el presente. Se asocia con paz y disfrute.</string>
+    <string name="adv_at_ease">Conserva lo que te da bienestar y cuídalo.</string>
+    <string name="desc_excited">Energía positiva ante algo esperado o nuevo. Se manifiesta en entusiasmo y motivación.</string>
+    <string name="adv_excited">Canaliza esa energía en acciones productivas o creativas.</string>
+    <string name="desc_entertained">Estado de disfrute y distracción agradable. Permite desconectar de preocupaciones y relajarse.</string>
+    <string name="adv_entertained">Dedica tiempo a lo que te divierte sin sentir culpa.</string>
+    <string name="desc_hopeful">Confianza en que el futuro traerá algo mejor. Inspira perseverancia y optimismo.</string>
+    <string name="adv_hopeful">Alimenta esa esperanza con pasos pequeños hacia tus metas.</string>
+    <string name="desc_happy">Alegría y satisfacción con la vida o un momento específico. Se refleja en energía positiva y conexión con otros.</string>
+    <string name="adv_happy">Comparte tu felicidad para multiplicarla.</string>
+    <string name="desc_inspired">Motivación creativa o espiritual que impulsa nuevas ideas. Se percibe como claridad y entusiasmo.</string>
+    <string name="adv_inspired">Aprovecha el impulso y crea algo nuevo.</string>
+    <string name="desc_peaceful">Estado de armonía interior y exterior. Se caracteriza por ausencia de conflicto y serenidad.</string>
+    <string name="adv_peaceful">Protege tu paz evitando discusiones innecesarias.</string>
+    <string name="desc_satisfied">Contento por logros alcanzados o experiencias vividas. Refuerza la autoestima y la motivación.</string>
+    <string name="adv_satisfied">Celebra tus avances y reconoce tu esfuerzo.</string>
+    <string name="desc_serene">Tranquilidad profunda y estable que no se altera fácilmente. Se asocia con madurez emocional y equilibrio.</string>
+    <string name="adv_serene">Mantén hábitos que fortalezcan tu estabilidad interior.</string>
+    <string name="desc_default">Una emoción compleja y válida.</string>
+    <string name="adv_default">Tómate un momento para entenderla.</string>
 </resources>

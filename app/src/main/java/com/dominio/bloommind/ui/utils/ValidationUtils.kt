@@ -12,21 +12,17 @@ object ValidationUtils {
     fun isNameValid(name: String): Boolean {
         val trimmed = name.trim()
         if (trimmed.isEmpty()) return false
-        // Check characters (only letters and spaces)
         if (!nameRegex.matches(trimmed)) return false
-        
-        // Check capitalization for each word
+
         val words = trimmed.split(Regex("\\s+"))
         for (word in words) {
             if (word.isEmpty()) return false
-            // Check if first char is uppercase
             val firstChar = word[0]
             if (!firstChar.isUpperCase()) return false
         }
         return true
     }
 
-    // Standard email regex
     private val emailRegex = Regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
     
     fun isEmailValid(email: String): Boolean {
@@ -47,15 +43,13 @@ object ValidationUtils {
         } catch (_: DateTimeParseException) {
             return false
         }
-        
-        // Range: 1940 - 2012 (Age approx 13 to 85)
+
         val min = LocalDate.of(1940, 1, 1)
         val max = LocalDate.of(2012, 12, 31)
         
         return !(date.isBefore(min) || date.isAfter(max))
     }
-    
-    // Helper to calculate age if needed elsewhere
+
     fun ageFromDate(dateString: String): Int? {
          return try {
             val date = LocalDate.parse(dateString, formatter)

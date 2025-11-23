@@ -28,19 +28,24 @@ fun TodaysEmotionsCard(
     emotions: Set<Int>,
     onClick: () -> Unit = {}
 ) {
-    // Solo habilitamos el click si hay emociones registradas
     val isClickable = emotions.isNotEmpty()
 
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            // Forzamos que el color de fondo deshabilitado sea el mismo que el habilitado (Blanco/Surface)
+            // para evitar el tono "lila" o grisáceo por defecto.
+            disabledContainerColor = MaterialTheme.colorScheme.surface,
+            // Podemos ajustar la opacidad del contenido si deseamos que el texto se vea "apagado"
+            disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+        ),
         onClick = {
             if (isClickable) {
                 onClick()
             }
         },
-        // Opcional: deshabilitar el efecto de click si no es clickable
         enabled = isClickable 
     ) {
         Column(

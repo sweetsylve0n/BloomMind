@@ -48,7 +48,7 @@ import java.nio.charset.StandardCharsets
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
-    // Se pasa 'applicationContext' para que el ViewModel tenga acceso al EmotionRepository
+
     private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(profileRepository, applicationContext)
     }
