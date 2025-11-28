@@ -48,22 +48,20 @@ Instrucciones para Ejecutar
      ```properties
      GEMINI_API_KEY="TU_API_KEY_AQUI"
      NINJA_API_KEY="TU_API_KEY_AQUI"
-     BUDDHA_API_KEY="TU_API_KEY_AQUI" # opcional si usas el servicio de Buddha
      ```
 
    - ¿Cómo obtener las claves?
      - Gemini Key: Ve a Google AI Studio (https://aistudio.google.com/app/apikey), inicia sesión y crea una clave de API.
      - Ninja Key: Ve a API-Ninjas (https://api-ninjas.com/profile), regístrate y copia la clave de tu perfil.
-     - Buddha API: Regístrate o consulta la documentación del servicio de Buddha que uses para obtener la clave (si aplica).
+     - Buddha API: Ve a Buddha API (https://buddha-api.com/), regístrate o consulta el servicio de Buddha para acceder a la documentación.
 
-   - Nota: `secret.properties` está incluido en `.gitignore` para evitar subir claves al repositorio. No compartas tus claves públicamente.
+   - Nota: `secret.properties` está incluido en `.gitignore` para evitar subir claves al repositorio.
 
 4. Ejecutar la App:
    - Selecciona el módulo `app` y ejecuta (Run) en un emulador o dispositivo físico.
 
-Estado y Funcionalidades Implementadas (≈85%)
+Estado y Funcionalidad Implementada
 -------------------------------------------------
-A continuación se detallan las funcionalidades implementadas hasta el momento:
 
 - Onboarding y Perfil (CRUD Completo):
   - Flujo completo para crear y editar un perfil de usuario (nombre, fecha de nacimiento, género, ícono).
@@ -73,6 +71,7 @@ A continuación se detallan las funcionalidades implementadas hasta el momento:
   - Saludo personalizado según la hora del día.
   - Tarjeta de emociones que se actualiza al instante después de cada check-in.
   - Carga proactiva: la afirmación y el consejo del día se descargan en segundo plano al entrar al Home, mostrando animaciones de carga y permitiendo navegación instantánea cuando los datos están listos.
+  - Carrusel informativo con líneas de ayuda de Costa Rica (números de emergencia y horarios).
 
 - Check-in Emocional:
   - Selección de hasta 4 emociones, agrupadas por categorías (Mal, Okay, Bien).
@@ -92,7 +91,6 @@ A continuación se detallan las funcionalidades implementadas hasta el momento:
 - Navegación y Experiencia:
   - Animaciones de transición (slide) implementadas en todo el `NavHost`.
   - BottomNavigationBar con lógica robusta para evitar errores de navegación y asegurar comportamiento predecible.
-  - Implementado carrusel informativo con líneas de ayuda de Costa Rica (números de emergencia y horarios).
 
 Notas finales
 -------------------------------------------------
