@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.ChatQuotaRepository
+import com.dominio.bloommind.data.ChatHistoryRepository
 import com.dominio.bloommind.domain.SendGeminiMessage
 import com.dominio.bloommind.data.dto.GeminiContent
 import com.dominio.bloommind.data.dto.GeminiPart
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class ChatViewModel(
     private val quotaRepository: ChatQuotaRepository,
+    private val historyRepository: ChatHistoryRepository,
     private val sendGeminiMessage: SendGeminiMessage,
     application: Application
 ) : AndroidViewModel(application) {
@@ -27,17 +29,34 @@ class ChatViewModel(
 
     init {
         loadQuota()
+        loadHistory()
+    }
+
+    private fun loadHistory() {
+        viewModelScope.launch {
+            val session = historyRepository.getSession()
+            if (session.uiMessages.isNotEmpty()) {
+                _uiState.update { it.copy(messages = session.uiMessages) }
+                apiHistory.clear()
+                apiHistory.addAll(session.apiHistory)
+            }
+        }
     }
 
     fun initializeWithEmotions(emotions: String?) {
-        if (emotions.isNullOrBlank() || apiHistory.isNotEmpty()) return
+        if (emotions.isNullOrBlank()) return
 
-        val contextPrompt = getApplication<Application>().getString(R.string.gemini_initial_prompt, emotions)
-        
-        val content = GeminiContent(role = "user", parts = listOf(GeminiPart(text = contextPrompt)))
-        apiHistory.add(content)
-        
-        triggerGeminiResponse()
+        viewModelScope.launch {
+            // Solo inicializar si no hay historial previo O si el historial está vacío
+            if (apiHistory.isEmpty()) {
+                val contextPrompt = getApplication<Application>().getString(R.string.gemini_initial_prompt, emotions)
+                
+                val content = GeminiContent(role = "user", parts = listOf(GeminiPart(text = contextPrompt)))
+                apiHistory.add(content)
+                
+                triggerGeminiResponse()
+            }
+        }
     }
 
     private fun loadQuota() {
@@ -61,6 +80,8 @@ class ChatViewModel(
 
         val content = GeminiContent(role = "user", parts = listOf(GeminiPart(text = userInput)))
         apiHistory.add(content)
+        
+        saveCurrentState()
 
         triggerGeminiResponse()
     }
@@ -71,7 +92,6 @@ class ChatViewModel(
             
             val systemPrompt = getApplication<Application>().getString(R.string.gemini_system_instruction)
             
-            // Usar el UseCase en lugar de llamar al servicio directo
             val result = sendGeminiMessage(apiHistory, systemPrompt)
             
             result.onSuccess { responseText ->
@@ -84,6 +104,7 @@ class ChatViewModel(
                 }
                 
                 quotaRepository.incrementAndSave()
+                saveCurrentState() // Guardar estado tras respuesta
                 loadQuota()
             }.onFailure { error ->
                 val errorMessage = Message(text = "Error: ${error.message}", isFromUser = false, isError = true)
@@ -91,6 +112,21 @@ class ChatViewModel(
                     currentState.copy(messages = currentState.messages + errorMessage, isSending = false)
                 }
             }
+        }
+    }
+
+    private fun saveCurrentState() {
+        viewModelScope.launch {
+            historyRepository.saveSession(_uiState.value.messages, apiHistory)
+        }
+    }
+    
+    // Método opcional si quieres añadir un botón para borrar historial
+    fun clearChatHistory() {
+        viewModelScope.launch {
+            historyRepository.clearHistory()
+            _uiState.update { it.copy(messages = emptyList()) }
+            apiHistory.clear()
         }
     }
 }

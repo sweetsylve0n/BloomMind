@@ -50,6 +50,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.GeminiRepository
 import com.dominio.bloommind.data.datastore.ChatQuotaRepository
+import com.dominio.bloommind.data.ChatHistoryRepository
 import com.dominio.bloommind.domain.SendGeminiMessage
 import com.dominio.bloommind.ui.theme.ChatBubbleGray
 import com.dominio.bloommind.viewmodel.ChatViewModel
@@ -64,11 +65,12 @@ fun ChatScreen(emotions: String?) {
     
     // Construcción manual de dependencias (Idealmente usar Hilt/Koin)
     val quotaRepository = ChatQuotaRepository(context)
+    val historyRepository = ChatHistoryRepository(context)
     val geminiRepository = GeminiRepository()
     val sendGeminiMessage = SendGeminiMessage(geminiRepository)
 
     val chatViewModel: ChatViewModel = viewModel(
-        factory = ChatViewModelFactory(quotaRepository, sendGeminiMessage, application)
+        factory = ChatViewModelFactory(quotaRepository, historyRepository, sendGeminiMessage, application)
     )
 
     val uiState by chatViewModel.uiState.collectAsState()
@@ -79,6 +81,7 @@ fun ChatScreen(emotions: String?) {
         chatViewModel.initializeWithEmotions(emotions)
     }
 
+    // Scroll automático cuando llegan nuevos mensajes
     LaunchedEffect(uiState.messages.size) {
         if (uiState.messages.isNotEmpty()) {
             coroutineScope.launch {

@@ -95,9 +95,9 @@
     <string name="todays_emotions_card_prompt">Make a check-in to discover more about your emotions</string>
     <string name="todays_emotions_history_prompt">Check your emotional history</string>
 
-    <!-- UPDATED PROMPTS FOR CONTEXT AWARENESS -->
-    <string name="gemini_system_instruction">You are an empathetic, kind companion. Key instructions: 1) Always respond in the same language the user uses (If they write in English, respond in English; if Spanish, in Spanish). 2) No emojis. 3) Be brief, use a single paragraph. 4) Always end with an open question to invite further conversation. 5) Do not assume they need a solution unless explicitly asked.</string>
-    <string name="gemini_initial_prompt">User feels %1$s. Start the conversation based on these emotions.</string>
+    <!-- UPDATED PROMPTS FOR STRICT LANGUAGE ADHERENCE (ENGLISH) -->
+    <string name="gemini_system_instruction">You are an empathetic, kind companion. Mandatory instructions: 1) LANGUAGE: Your base language is ENGLISH. However, if the user writes in Spanish, YOU MUST switch and respond in Spanish immediately. 2) No emojis. 3) Be brief (one paragraph). 4) Always end with an open question. 5) No unasked solutions.</string>
+    <string name="gemini_initial_prompt">IMPORTANT: Respond in ENGLISH. User feels %1$s. Start conversation with empathy.</string>
 
     <string name="checkin_screen_placeholder">Check-in Screen</string>
     <string name="emotions_history_title">Your emotions today</string>

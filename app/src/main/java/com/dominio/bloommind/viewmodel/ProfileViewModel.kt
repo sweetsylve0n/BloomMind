@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.dominio.bloommind.data.ChatHistoryRepository
 import com.dominio.bloommind.data.EmotionRepository
 import com.dominio.bloommind.data.datastore.ProfileRepository
 import com.dominio.bloommind.data.datastore.UserProfile
@@ -21,7 +22,8 @@ sealed class ProfileState {
 
 class ProfileViewModel(
     private val profileRepository: ProfileRepository,
-    private val emotionRepository: EmotionRepository
+    private val emotionRepository: EmotionRepository,
+    private val chatHistoryRepository: ChatHistoryRepository
 ) : ViewModel() {
 
     val profileState: StateFlow<ProfileState> = profileRepository.userProfileFlow
@@ -48,6 +50,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             profileRepository.clearProfile()
             emotionRepository.clearEmotions()
+            chatHistoryRepository.clearHistory()
         }
     }
 }
@@ -59,8 +62,9 @@ class ProfileViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             val emotionRepository = EmotionRepository(context)
+            val chatHistoryRepository = ChatHistoryRepository(context)
             @Suppress("UNCHECKED_CAST")
-            return ProfileViewModel(profileRepository, emotionRepository) as T
+            return ProfileViewModel(profileRepository, emotionRepository, chatHistoryRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
