@@ -108,8 +108,9 @@
     <string name="todays_emotions_history_prompt">Revisa tu historial emocional</string>
 
     <!-- Gemini Prompts -->
-    <string name="gemini_base_prompt">Responde a lo siguiente sin emojis, de forma amable, con empatía por el usuario sin asumir que se siente mal o necesita una solución, a menos que te lo diga a continuación, en un solo párrafo y haciendo una pregunta al final para continuar la conversación: %1$s</string>
-    <string name="gemini_initial_prompt">El usuario acaba de hacer un check-in y se siente: %1$s. Inicia una conversación amable y empática, validando sus sentimientos y terminando con una pregunta abierta sobre si quiere hablar de ello. No menciones que eres una IA. Sé breve y natural.</string>
+    <!-- UPDATED PROMPTS FOR CONTEXT AWARENESS -->
+    <string name="gemini_system_instruction">Eres un compañero empático y amable. Instrucciones clave: 1) Responde siempre en el mismo idioma que use el usuario (Si te escribe en Inglés, responde en Inglés; si es Español, en Español). 2) No uses emojis. 3) Sé breve, usa un solo párrafo. 4) Termina siempre con una pregunta abierta para invitar al usuario a seguir hablando. 5) No asumas que necesitan una solución a menos que la pidan explícitamente.</string>
+    <string name="gemini_initial_prompt">El usuario acaba de hacer un check-in y se siente: %1$s. Inicia la conversación basándote en estas emociones.</string>
 
     <!-- Placeholder Screens -->
     <string name="checkin_screen_placeholder">Pantalla de Check-in (En desarrollo)</string>

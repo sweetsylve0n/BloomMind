@@ -48,8 +48,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dominio.bloommind.R
+import com.dominio.bloommind.data.GeminiRepository
 import com.dominio.bloommind.data.datastore.ChatQuotaRepository
-import com.dominio.bloommind.data.internet.GeminiService
+import com.dominio.bloommind.domain.SendGeminiMessage
 import com.dominio.bloommind.ui.theme.ChatBubbleGray
 import com.dominio.bloommind.viewmodel.ChatViewModel
 import com.dominio.bloommind.viewmodel.ChatViewModelFactory
@@ -61,8 +62,13 @@ fun ChatScreen(emotions: String?) {
     val context = LocalContext.current
     val application = context.applicationContext as Application
     
+    // Construcción manual de dependencias (Idealmente usar Hilt/Koin)
+    val quotaRepository = ChatQuotaRepository(context)
+    val geminiRepository = GeminiRepository()
+    val sendGeminiMessage = SendGeminiMessage(geminiRepository)
+
     val chatViewModel: ChatViewModel = viewModel(
-        factory = ChatViewModelFactory(ChatQuotaRepository(context), GeminiService(), application)
+        factory = ChatViewModelFactory(quotaRepository, sendGeminiMessage, application)
     )
 
     val uiState by chatViewModel.uiState.collectAsState()

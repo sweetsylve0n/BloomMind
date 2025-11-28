@@ -94,8 +94,11 @@
     <string name="todays_emotions_card_title">Today\'s Emotions</string>
     <string name="todays_emotions_card_prompt">Make a check-in to discover more about your emotions</string>
     <string name="todays_emotions_history_prompt">Check your emotional history</string>
-    <string name="gemini_base_prompt">Respond kindly, no emojis, single paragraph, end with question: %1$s</string>
-    <string name="gemini_initial_prompt">User feels %1$s. Start kind conversation, validate feelings, end with question. No AI mention.</string>
+
+    <!-- UPDATED PROMPTS FOR CONTEXT AWARENESS -->
+    <string name="gemini_system_instruction">You are an empathetic, kind companion. Key instructions: 1) Always respond in the same language the user uses (If they write in English, respond in English; if Spanish, in Spanish). 2) No emojis. 3) Be brief, use a single paragraph. 4) Always end with an open question to invite further conversation. 5) Do not assume they need a solution unless explicitly asked.</string>
+    <string name="gemini_initial_prompt">User feels %1$s. Start the conversation based on these emotions.</string>
+
     <string name="checkin_screen_placeholder">Check-in Screen</string>
     <string name="emotions_history_title">Your emotions today</string>
     <string name="recent_emotions_title">Your recent emotions</string>

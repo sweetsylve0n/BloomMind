@@ -5,31 +5,39 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.ChatQuotaRepository
-import com.dominio.bloommind.data.internet.GeminiService
+import com.dominio.bloommind.domain.SendGeminiMessage
+import com.dominio.bloommind.data.dto.GeminiContent
+import com.dominio.bloommind.data.dto.GeminiPart
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-
 class ChatViewModel(
     private val quotaRepository: ChatQuotaRepository,
-    private val geminiService: GeminiService,
+    private val sendGeminiMessage: SendGeminiMessage,
     application: Application
 ) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
 
+    // Mantener el historial completo para la API
+    private val apiHistory = mutableListOf<GeminiContent>()
+
     init {
         loadQuota()
     }
 
     fun initializeWithEmotions(emotions: String?) {
-        if (!emotions.isNullOrBlank()) {
-            val systemPrompt = getApplication<Application>().getString(R.string.gemini_initial_prompt, emotions)
-            sendMessage(systemPrompt, isSystemMessage = true)
-        }
+        if (emotions.isNullOrBlank() || apiHistory.isNotEmpty()) return
+
+        val contextPrompt = getApplication<Application>().getString(R.string.gemini_initial_prompt, emotions)
+        
+        val content = GeminiContent(role = "user", parts = listOf(GeminiPart(text = contextPrompt)))
+        apiHistory.add(content)
+        
+        triggerGeminiResponse()
     }
 
     private fun loadQuota() {
@@ -43,34 +51,42 @@ class ChatViewModel(
         }
     }
 
-    fun sendMessage(userInput: String, isSystemMessage: Boolean = false) {
-        if (_uiState.value.isSending || (!isSystemMessage && _uiState.value.quotaReached)) return
+    fun sendMessage(userInput: String) {
+        if (_uiState.value.isSending || _uiState.value.quotaReached) return
 
-        val prompt: String
-        if (isSystemMessage) {
-            prompt = userInput
-            _uiState.update { it.copy(isSending = true) }
-        } else {
-            val userMessage = Message(text = userInput, isFromUser = true)
-            _uiState.update {
-                it.copy(messages = it.messages + userMessage, isSending = true)
-            }
-            prompt = getApplication<Application>().getString(R.string.gemini_base_prompt, userInput)
+        val userMessage = Message(text = userInput, isFromUser = true)
+        _uiState.update {
+            it.copy(messages = it.messages + userMessage, isSending = true)
         }
 
+        val content = GeminiContent(role = "user", parts = listOf(GeminiPart(text = userInput)))
+        apiHistory.add(content)
+
+        triggerGeminiResponse()
+    }
+
+    private fun triggerGeminiResponse() {
         viewModelScope.launch {
-            val result = geminiService.sendMessage(prompt)
-            result.onSuccess {
-                val botMessage = Message(text = it, isFromUser = false)
+            _uiState.update { it.copy(isSending = true) }
+            
+            val systemPrompt = getApplication<Application>().getString(R.string.gemini_system_instruction)
+            
+            // Usar el UseCase en lugar de llamar al servicio directo
+            val result = sendGeminiMessage(apiHistory, systemPrompt)
+            
+            result.onSuccess { responseText ->
+                val botContent = GeminiContent(role = "model", parts = listOf(GeminiPart(text = responseText)))
+                apiHistory.add(botContent)
+                
+                val botMessage = Message(text = responseText, isFromUser = false)
                 _uiState.update { currentState ->
                     currentState.copy(messages = currentState.messages + botMessage, isSending = false)
                 }
-                if (!isSystemMessage) {
-                    quotaRepository.incrementAndSave()
-                    loadQuota()
-                }
-            }.onFailure {
-                val errorMessage = Message(text = "Error: ${it.message}", isFromUser = false, isError = true)
+                
+                quotaRepository.incrementAndSave()
+                loadQuota()
+            }.onFailure { error ->
+                val errorMessage = Message(text = "Error: ${error.message}", isFromUser = false, isError = true)
                 _uiState.update { currentState ->
                     currentState.copy(messages = currentState.messages + errorMessage, isSending = false)
                 }
