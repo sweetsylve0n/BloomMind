@@ -1,4 +1,4 @@
-package com.dominio.bloommind.data
+package com.dominio.bloommind.data.repository
 
 import com.dominio.bloommind.data.dto.GeminiContent
 import com.dominio.bloommind.data.internet.GeminiService

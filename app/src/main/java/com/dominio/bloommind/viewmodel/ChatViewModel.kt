@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.ChatQuotaRepository
-import com.dominio.bloommind.data.ChatHistoryRepository
-import com.dominio.bloommind.domain.SendGeminiMessage
+import com.dominio.bloommind.data.repository.ChatHistoryRepository
+import com.dominio.bloommind.domain.SendGeminiMessageUseCase
 import com.dominio.bloommind.data.dto.GeminiContent
 import com.dominio.bloommind.data.dto.GeminiPart
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,14 +17,13 @@ import kotlinx.coroutines.launch
 class ChatViewModel(
     private val quotaRepository: ChatQuotaRepository,
     private val historyRepository: ChatHistoryRepository,
-    private val sendGeminiMessage: SendGeminiMessage,
+    private val sendGeminiMessageUseCase: SendGeminiMessageUseCase,
     application: Application
 ) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
 
-    // Mantener el historial completo para la API
     private val apiHistory = mutableListOf<GeminiContent>()
 
     init {
@@ -92,7 +91,7 @@ class ChatViewModel(
             
             val systemPrompt = getApplication<Application>().getString(R.string.gemini_system_instruction)
             
-            val result = sendGeminiMessage(apiHistory, systemPrompt)
+            val result = sendGeminiMessageUseCase(apiHistory, systemPrompt)
             
             result.onSuccess { responseText ->
                 val botContent = GeminiContent(role = "model", parts = listOf(GeminiPart(text = responseText)))

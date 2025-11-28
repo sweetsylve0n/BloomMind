@@ -1,20 +1,21 @@
-package com.dominio.bloommind.data
+package com.dominio.bloommind.data.repository
 
 import android.content.Context
 import com.dominio.bloommind.BuildConfig
 import com.dominio.bloommind.data.dto.AdviceDto
 import com.dominio.bloommind.data.retrofit.NinjaRetrofitInstance
 import com.dominio.bloommind.R
+import com.dominio.bloommind.data.LocalContentDataSource
 
 class AdviceRepository(context: Context) {
 
     private val apiService = NinjaRetrofitInstance.api
-    private val quotaRepository = RequestQuotaRepository(context)
+    private val dataSource = LocalContentDataSource(context)
     private val appContext = context
 
     suspend fun getDailyAdvice(): Result<AdviceDto> {
-        if (!quotaRepository.canFetchAdvice()) {
-            val cachedAdvice = quotaRepository.getCachedAdvice()
+        if (!dataSource.canFetchAdvice()) {
+            val cachedAdvice = dataSource.getCachedAdvice()
             return if (cachedAdvice != null) {
                 Result.success(AdviceDto(cachedAdvice))
             } else {
@@ -24,7 +25,7 @@ class AdviceRepository(context: Context) {
 
         return try {
             val newAdvice = apiService.getAdvice(BuildConfig.NINJA_API_KEY)
-            quotaRepository.saveAdvice(newAdvice.advice)
+            dataSource.saveAdvice(newAdvice.advice)
             Result.success(newAdvice)
         } catch (e: Exception) {
             Result.failure(e)

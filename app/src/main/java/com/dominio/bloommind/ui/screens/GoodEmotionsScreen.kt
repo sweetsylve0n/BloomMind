@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dominio.bloommind.R
-import com.dominio.bloommind.data.EmotionRepository
+import com.dominio.bloommind.data.repository.EmotionRepository
 import com.dominio.bloommind.ui.components.EmotionButton
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
 import com.dominio.bloommind.ui.navigation.Routes

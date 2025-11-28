@@ -2,7 +2,7 @@ package com.dominio.bloommind.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.dominio.bloommind.R
-import com.dominio.bloommind.data.EmotionRepository
+import com.dominio.bloommind.data.repository.EmotionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

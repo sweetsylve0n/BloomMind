@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.dominio.bloommind.R
-import com.dominio.bloommind.data.AffirmationRepository
-import com.dominio.bloommind.data.AdviceRepository
-import com.dominio.bloommind.data.EmotionRepository
+import com.dominio.bloommind.data.repository.AdviceRepository
+import com.dominio.bloommind.data.repository.AffirmationRepository
+import com.dominio.bloommind.data.repository.EmotionRepository
 import com.dominio.bloommind.data.dto.AdviceDto
 import com.dominio.bloommind.data.dto.AffirmationDto
+import com.dominio.bloommind.domain.GetDailyAdviceUseCase
+import com.dominio.bloommind.domain.GetDailyAffirmationUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -37,12 +39,13 @@ sealed interface LastCheckinsUiState {
     data class Error(val message: String) : LastCheckinsUiState
 }
 
-class HomeViewModel(context: Context) : ViewModel() {
+class HomeViewModel(
+    private val getDailyAffirmationUseCase: GetDailyAffirmationUseCase,
+    private val getDailyAdviceUseCase: GetDailyAdviceUseCase,
+    private val emotionRepository: EmotionRepository,
+    context: Context
+) : ViewModel() {
     private val appContext = context.applicationContext
-
-    private val affirmationRepository = AffirmationRepository(appContext)
-    private val adviceRepository = AdviceRepository(appContext)
-    private val emotionRepository = EmotionRepository(appContext)
 
     private val _affirmationState = MutableStateFlow<AffirmationUiState>(AffirmationUiState.Loading)
     val affirmationState = _affirmationState.asStateFlow()
@@ -83,7 +86,7 @@ class HomeViewModel(context: Context) : ViewModel() {
     fun fetchDailyAffirmation() {
         viewModelScope.launch {
             _affirmationState.value = AffirmationUiState.Loading
-            affirmationRepository.getDailyAffirmation()
+            getDailyAffirmationUseCase()
                 .onSuccess { affirmation ->
                     _affirmationState.value = AffirmationUiState.Success(affirmation)
                 }
@@ -97,7 +100,7 @@ class HomeViewModel(context: Context) : ViewModel() {
     fun fetchDailyAdvice() {
         viewModelScope.launch {
             _adviceState.value = AdviceUiState.Loading
-            adviceRepository.getDailyAdvice()
+            getDailyAdviceUseCase()
                 .onSuccess { advice ->
                     _adviceState.value = AdviceUiState.Success(advice)
                 }
@@ -109,11 +112,24 @@ class HomeViewModel(context: Context) : ViewModel() {
     }
 }
 
-class HomeViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+class HomeViewModelFactory(
+    private val context: Context
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            val affirmationRepository = AffirmationRepository(context)
+            val adviceRepository = AdviceRepository(context)
+            val emotionRepository = EmotionRepository(context)
+            val getDailyAffirmationUseCase = GetDailyAffirmationUseCase(affirmationRepository)
+            val getDailyAdviceUseCase = GetDailyAdviceUseCase(adviceRepository)
+
             @Suppress("UNCHECKED_CAST")
-            return HomeViewModel(context.applicationContext) as T
+            return HomeViewModel(
+                getDailyAffirmationUseCase,
+                getDailyAdviceUseCase,
+                emotionRepository,
+                context.applicationContext
+            ) as T
         }
         throw IllegalArgumentException(context.getString(R.string.error_unknown_viewmodel))
     }

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.dominio.bloommind.data.ChatHistoryRepository
-import com.dominio.bloommind.data.EmotionRepository
+import com.dominio.bloommind.data.repository.ChatHistoryRepository
+import com.dominio.bloommind.data.repository.EmotionRepository
 import com.dominio.bloommind.data.datastore.ProfileRepository
 import com.dominio.bloommind.data.datastore.UserProfile
 import kotlinx.coroutines.flow.SharingStarted

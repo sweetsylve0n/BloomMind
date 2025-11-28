@@ -26,14 +26,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,10 +41,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dominio.bloommind.R
-import com.dominio.bloommind.data.GeminiRepository
+import com.dominio.bloommind.data.repository.GeminiRepository
 import com.dominio.bloommind.data.datastore.ChatQuotaRepository
-import com.dominio.bloommind.data.ChatHistoryRepository
-import com.dominio.bloommind.domain.SendGeminiMessage
+import com.dominio.bloommind.data.repository.ChatHistoryRepository
+import com.dominio.bloommind.domain.SendGeminiMessageUseCase
 import com.dominio.bloommind.ui.theme.ChatBubbleGray
 import com.dominio.bloommind.viewmodel.ChatViewModel
 import com.dominio.bloommind.viewmodel.ChatViewModelFactory
@@ -67,10 +60,10 @@ fun ChatScreen(emotions: String?) {
     val quotaRepository = ChatQuotaRepository(context)
     val historyRepository = ChatHistoryRepository(context)
     val geminiRepository = GeminiRepository()
-    val sendGeminiMessage = SendGeminiMessage(geminiRepository)
+    val sendGeminiMessageUseCase = SendGeminiMessageUseCase(geminiRepository)
 
     val chatViewModel: ChatViewModel = viewModel(
-        factory = ChatViewModelFactory(quotaRepository, historyRepository, sendGeminiMessage, application)
+        factory = ChatViewModelFactory(quotaRepository, historyRepository, sendGeminiMessageUseCase, application)
     )
 
     val uiState by chatViewModel.uiState.collectAsState()

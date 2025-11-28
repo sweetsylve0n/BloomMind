@@ -1,4 +1,4 @@
-package com.dominio.bloommind.data
+package com.dominio.bloommind.data.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -94,14 +94,11 @@ class EmotionRepository(context: Context) {
         }.first()
     }
 
-    // NUEVA FUNCIÓN: Limpia todas las emociones y check-ins almacenados
     suspend fun clearEmotions() {
         dataStore.edit { preferences ->
             preferences.remove(Keys.SAVED_EMOTIONS)
             preferences.remove(Keys.LAST_CHECKIN_DATE)
             preferences.remove(Keys.HISTORY)
-            // O alternativamente: preferences.clear() si este DataStore solo guarda eso
-            // preferences.clear()
         }
     }
 }

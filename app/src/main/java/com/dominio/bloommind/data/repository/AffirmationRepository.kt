@@ -1,20 +1,21 @@
-package com.dominio.bloommind.data
+package com.dominio.bloommind.data.repository
 
 import android.content.Context
 import com.dominio.bloommind.R
+import com.dominio.bloommind.data.LocalContentDataSource
 import com.dominio.bloommind.data.dto.AffirmationDto
 import com.dominio.bloommind.data.retrofit.BuddhaRetrofitInstance
 
 class AffirmationRepository(context: Context) {
 
     private val apiService = BuddhaRetrofitInstance.api
-    private val quotaRepository = RequestQuotaRepository(context)
+    private val dataSource = LocalContentDataSource(context)
     private val appContext = context
 
     suspend fun getDailyAffirmation(): Result<AffirmationDto> {
-        if (!quotaRepository.canFetchAffirmation()) {
-            val cachedText = quotaRepository.getCachedAffirmation()
-            val imageIndex = quotaRepository.getAffirmationImageIndex()
+        if (!dataSource.canFetchAffirmation()) {
+            val cachedText = dataSource.getCachedAffirmation()
+            val imageIndex = dataSource.getAffirmationImageIndex()
             return if (cachedText != null) {
                 Result.success(AffirmationDto(cachedText, imageIndex))
             } else {
@@ -25,9 +26,9 @@ class AffirmationRepository(context: Context) {
         return try {
             val newAffirmationText = apiService.getAffirmation().text
 
-            quotaRepository.saveAffirmation(newAffirmationText)
+            dataSource.saveAffirmation(newAffirmationText)
 
-            val newImageIndex = quotaRepository.getAffirmationImageIndex()
+            val newImageIndex = dataSource.getAffirmationImageIndex()
 
             val resultDto = AffirmationDto(newAffirmationText, newImageIndex)
             

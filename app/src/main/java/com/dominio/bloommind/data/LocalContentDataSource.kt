@@ -16,7 +16,7 @@ import kotlin.random.Random
 
 private val Context.requestQuotaDataStore: DataStore<Preferences> by preferencesDataStore(name = "request_quotas")
 
-class RequestQuotaRepository(context: Context) {
+class LocalContentDataSource(context: Context) {
 
     private val dataStore = context.requestQuotaDataStore
     private object Keys {

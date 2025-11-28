@@ -1,4 +1,4 @@
-package com.dominio.bloommind.data
+package com.dominio.bloommind.data.repository
 
 import android.content.Context
 import com.dominio.bloommind.data.dto.GeminiContent
@@ -24,9 +24,7 @@ class ChatHistoryRepository(private val context: Context) {
     suspend fun saveSession(uiMessages: List<Message>, apiHistory: List<GeminiContent>) {
         withContext(Dispatchers.IO) {
             try {
-                // Lógica de recorte (Sliding Window):
-                // Si superamos el límite, conservamos solo los últimos N mensajes.
-                // Esto evita que el archivo crezca infinitamente.
+                // Lógica de recorte (Sliding Window)
                 val trimmedUiMessages = if (uiMessages.size > MAX_HISTORY_LENGTH) {
                     uiMessages.takeLast(MAX_HISTORY_LENGTH)
                 } else {
