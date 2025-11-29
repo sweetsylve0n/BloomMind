@@ -6,6 +6,7 @@ BloomMind es una aplicación Android desarrollada en Kotlin nativo con Jetpack C
 
 La aplicación permite a los usuarios:
 - Registrar cómo se sienten a través de un check-in emocional.
+- Acceder a herramientas de regulación emocional.
 - Iniciar una conversación con una IA contextualizada según el check-in.
 - Recibir una afirmación y un consejo diario.
 - Guardar perfil y preferencias localmente.
@@ -21,6 +22,7 @@ Arquitectura y Tech Stack
 - Red: Retrofit para el consumo de APIs REST, con interceptores de OkHttp para logging y manejo de headers.
 - Persistencia Local: DataStore para guardar preferencias, perfil de usuario y estado de la app.
 - Navegación: Navigation Compose para gestionar rutas y transiciones entre pantallas.
+- Multimedia: AndroidX Media3 (ExoPlayer) para reproducción de video y Coil para carga eficiente de imágenes.
 - Dependencias: Gestionadas centralmente en `gradle/libs.versions.toml` (Compose BOM, Retrofit, Gson/Moshi, DataStore, etc.).
 
 APIs Externas
@@ -63,34 +65,37 @@ Instrucciones para Ejecutar
 Estado y Funcionalidad Implementada
 -------------------------------------------------
 
-- Onboarding y Perfil (CRUD Completo):
+- **Navegación y Bienvenida:**
+  - **Welcome Screen:** Pantalla de inicio con animación suave y temporizador automático que redirige al usuario según su estado de autenticación.
+  - Animaciones de transición (slide/fade) implementadas en todo el `NavHost`.
+
+- **Herramientas de Bienestar y Afrontamiento:**
+  - Ejercicio de Respiración, integra un reproductor de video (ExoPlayer) con una guía visual para la técnica de respiración 4-7-8.
+  - Mensaje dedicado al usuario, permite al usuario redactar un mensaje de apoyo para sí mismo cuando se siente bien.
+  - Recuperación Empática, si el usuario reporta un mal día y tiene un mensaje guardado, el Home muestra automáticamente una tarjeta especial con sus propias palabras de aliento.
+
+- **Onboarding y Perfil (CRUD Completo):**
   - Flujo completo para crear y editar un perfil de usuario (nombre, fecha de nacimiento, género, ícono).
   - El perfil se guarda localmente usando DataStore; permite editar y persistir preferencias.
 
-- Home Screen Dinámico:
+- **Home Screen Dinámico:**
   - Saludo personalizado según la hora del día.
   - Tarjeta de emociones que se actualiza al instante después de cada check-in.
-  - Carga proactiva: la afirmación y el consejo del día se descargan en segundo plano al entrar al Home, mostrando animaciones de carga y permitiendo navegación instantánea cuando los datos están listos.
-  - Carrusel informativo con líneas de ayuda de Costa Rica (números de emergencia y horarios).
+  - Carga proactiva de contenido diario.
+  - Carrusel informativo con líneas de ayuda de Costa Rica **con funcionalidad "Click-to-Call"** directa al marcador telefónico.
 
-- Check-in Emocional:
+- **Check-in Emocional:**
   - Selección de hasta 4 emociones, agrupadas por categorías (Mal, Okay, Bien).
-  - Permite realizar check-in múltiples veces al día; el último check-in sobrescribe el anterior para reflejar el estado emocional más reciente.
-  - Al realizar un check-in, se actualiza el contexto para el chat con IA si el usuario lo desea.
-  - Permite el acceso desde el Home un desglose descriptivo de las emociones recientes, así como una estadística de los últimos 5 registros realizados divididos por categorías, con información de día, hora y cantidad de emociones de cada registro almacenado. 
+  - Flujos diferenciados: "Mal" ofrece descanso, "Bien" ofrece guardar el momento.
+  - Al realizar un check-in, se actualiza el contexto para el chat con IA.
 
-- Chat con IA (Gemini):
+- **Chat con IA (Gemini):**
   - Interfaz de chat funcional con envío y recepción de mensajes.
-  - Inicio contextual: si se navega desde el check-in, la IA inicia la conversación basándose en las emociones seleccionadas.
-  - Límite de mensajes diario: 25 mensajes por día; este límite se reinicia cada día a las 00:00 del día local.
+  - Inicio contextual: la IA inicia la conversación basándose en las emociones seleccionadas.
+  - Límite de mensajes diario, incentivando la responsabilidad emocional, incluye un sistema de avisos visuales cuando quedan 10 o menos interacciones.
 
-- Contenido Diario Automatizado:
-  - Afirmación del día y consejo del día descargados automáticamente.
-  - El contenido (afirmación, consejo y límite de chat) se actualiza con el cambio de día natural para ofrecer contenido fresco cada mañana.
-
-- Navegación y Experiencia:
-  - Animaciones de transición (slide) implementadas en todo el `NavHost`.
-  - BottomNavigationBar con lógica robusta para evitar errores de navegación y asegurar comportamiento predecible.
+- **Contenido Diario Automatizado:**
+  - Afirmación del día y consejo del día descargados automáticamente y cacheados localmente.
 
 Notas finales
 -------------------------------------------------
