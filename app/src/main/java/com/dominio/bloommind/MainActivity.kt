@@ -4,11 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -82,7 +85,11 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     topBar = {
-                        if (showTopBar) {
+                        AnimatedVisibility(
+                            visible = showTopBar,
+                            enter = fadeIn(animationSpec = tween(300)) + slideInVertically(initialOffsetY = { -it }),
+                            exit = fadeOut(animationSpec = tween(300)) + slideOutVertically(targetOffsetY = { -it })
+                        ) {
                             TopAppBar(
                                 title = { Text(stringResource(id = R.string.go_back_home)) },
                                 navigationIcon = {
@@ -94,7 +101,11 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     bottomBar = {
-                        if (showBottomBar) {
+                        AnimatedVisibility(
+                            visible = showBottomBar,
+                            enter = fadeIn(animationSpec = tween(300)) + slideInVertically(initialOffsetY = { it }),
+                            exit = fadeOut(animationSpec = tween(300)) + slideOutVertically(targetOffsetY = { it })
+                        ) {
                             val navItems = listOf(BloomMindNavItems.Home, BloomMindNavItems.Chat, BloomMindNavItems.Profile)
                             BottomNavigationBar(navController = navController, navItems)
                         }
@@ -108,17 +119,27 @@ class MainActivity : ComponentActivity() {
                         }
 
                         is ProfileState.LoggedIn, is ProfileState.NotLoggedIn -> {
-                            val startDestination = if (state is ProfileState.LoggedIn) Routes.MAIN_GRAPH else Routes.AUTH_GRAPH
-
+                            // Siempre empezamos en WelcomeScreen
                             NavHost(
                                 navController = navController,
-                                startDestination = startDestination,
+                                startDestination = Routes.WELCOME,
                                 modifier = Modifier.padding(innerPadding),
                                 enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(300)) + fadeIn(animationSpec = tween(300)) },
                                 exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tween(300)) + fadeOut(animationSpec = tween(300)) },
                                 popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tween(300)) + fadeIn(animationSpec = tween(300)) },
                                 popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tween(300)) + fadeOut(animationSpec = tween(300)) }
                             ) {
+                                composable(Routes.WELCOME) {
+                                    WelcomeScreen(
+                                        onNavigateNext = {
+                                            val nextRoute = if (state is ProfileState.LoggedIn) Routes.MAIN_GRAPH else Routes.AUTH_GRAPH
+                                            navController.navigate(nextRoute) {
+                                                popUpTo(Routes.WELCOME) { inclusive = true }
+                                            }
+                                        }
+                                    )
+                                }
+
                                 navigation(startDestination = Routes.ICON_SELECTION, route = Routes.AUTH_GRAPH) {
                                     composable(Routes.ICON_SELECTION) {
                                         IconSelectionScreen(onIconSelected = { navController.navigate(Routes.createSignUpRoute(it)) })

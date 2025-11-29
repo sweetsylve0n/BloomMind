@@ -1,6 +1,7 @@
 package com.dominio.bloommind.ui.navigation
 
 object Routes {
+    const val WELCOME = "welcome"
     const val ICON_SELECTION = "icon_selection"
     const val SIGN_UP = "sign_up/{iconId}"
     const val AUTH_GRAPH = "auth_graph"

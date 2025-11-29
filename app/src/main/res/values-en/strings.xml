@@ -15,6 +15,9 @@
     <string name="error_empty_birthdate">Birthdate cannot be empty</string>
     <string name="error_invalid_birthdate">Birthdate must be valid and between 1940 and 2012</string>
     
+    <!-- Welcome Screen -->
+    <string name="welcome_app_title">BloomMind</string>
+
     <!-- Chat -->
     <string name="chat_welcome_prompt">Shall we talk?</string>
     <string name="chat_quota_reached">Limit reached today. Come back in 24h!</string>
@@ -25,8 +28,8 @@
     <string name="chat_error_send_prefix">Error sending:</string>
     
     <!-- UI -->
-    <string name="icon_selection_title">Welcome to BloomMind</string>
-    <string name="icon_selection_subtitle">Pick your icon</string>
+    <string name="icon_selection_title">Icon Selection</string>
+    <string name="icon_selection_subtitle">Choose the one that represents you best!</string>
     <string name="next_button">Next</string>
     <string name="profile_icon_desc">Profile icon %1$s</string>
     <string name="signup_intro">Tell us about yourself</string>
@@ -111,7 +114,7 @@
     
     <!-- Emergency -->
     <string name="emergency_card_title">Help Lines</string>
-    <string name="emergency_card_prompt">Emergency numbers if needed.</string>
+    <string name="emergency_card_prompt">If you find yourself in an emergency, or have no one to talk to, click on one of these lines to get help.</string>
     <string name="aqui_estoy_organization">Aquí Estoy Line</string>
     <string name="aqui_estoy_schedule">Mon-Fri: 2pm-10pm, Sat: 9am-4pm</string>
     <string name="aqui_estoy_description">Free service for psychological emergencies.</string>

@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name" translatable="false">BloomMind</string>
     
+    <!-- Welcome Screen -->
+    <string name="welcome_app_title">BloomMind</string>
+
     <!-- Mensajes de error -->
     <string name="error_unknown">Error desconocido</string>
     <string name="error_context_required">Se requiere Context para AffirmationRepository</string>
@@ -27,8 +30,8 @@
     <string name="chat_error_send_prefix">Error al enviar:</string>
 
     <!-- Icon selection -->
-    <string name="icon_selection_title">Bienvenido a BloomMind</string>
-    <string name="icon_selection_subtitle">Antes de empezar, escoge tu icono</string>
+    <string name="icon_selection_title">Selección de Icono</string>
+    <string name="icon_selection_subtitle">¡Escoge el que mejor te represente!</string>
     <string name="next_button">Siguiente</string>
     <string name="profile_icon_desc">Icono de perfil %1$s</string>
 
@@ -127,7 +130,7 @@
 
     <!-- Emergency Card -->
     <string name="emergency_card_title">Líneas de Ayuda</string>
-    <string name="emergency_card_prompt">Si necesitas a alguien con quien hablar, aquí tienes algunos números de emergencia.</string>
+    <string name="emergency_card_prompt">Si te encuentras en una emergencia, o no tienes con quien hablar, haz click en alguna de estas líneas para recibir ayuda.</string>
     <string name="aqui_estoy_organization">Línea Aquí Estoy</string>
     <string name="aqui_estoy_phone" translatable="false">800-273-7865</string>
     <string name="aqui_estoy_schedule">L-V: 2pm-10pm, S: 9am-4pm</string>

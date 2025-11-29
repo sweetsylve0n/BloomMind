@@ -203,19 +203,19 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
+                    .padding(top = 10.dp),
                 contentAlignment = Alignment.Center
             ) {
                 CharacterImage(
-                    drawableRes = R.drawable.sakura,
-                    description = "Sakura Tree",
+                    drawableRes = R.drawable.decorate,
+                    description = "Sweet home",
                     size = 300.dp
                 )
             }
         }
 
         item {
-            Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(2.dp))
         }
     }
 }
