@@ -109,6 +109,16 @@
     <string name="respiration_step_3">3. Exhale for 8 seconds.</string>
     <string name="start_button">Start</string>
 
+    <!-- Save Moment Screen (Good Emotions) -->
+    <string name="good_emotions_save_moment">Save this moment</string>
+    <string name="save_moment_title">Save this moment</string>
+    <string name="save_moment_subtitle">Take this moment to express your well-being, and leave a message for your future self who might be having a hard time. What would you say?</string>
+    <string name="save_moment_hint">Write your message here (max 3 lines)...</string>
+    <string name="save_moment_button">Save</string>
+    
+    <!-- Future Self Card -->
+    <string name="future_self_card_title">I want you to remember:</string>
+
     <!-- UPDATED PROMPTS FOR STRICT LANGUAGE ADHERENCE (ENGLISH) -->
     <string name="gemini_system_instruction">You are an empathetic, kind companion. Mandatory instructions: 1) LANGUAGE: Your base language is ENGLISH. However, if the user writes in Spanish, YOU MUST switch and respond in Spanish immediately. 2) No emojis. 3) Be brief (one paragraph). 4) Always end with an open question. 5) No unasked solutions.</string>
     <string name="gemini_initial_prompt">IMPORTANT: Respond in ENGLISH. User feels %1$s. Start conversation with empathy.</string>

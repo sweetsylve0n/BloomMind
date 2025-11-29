@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -36,12 +37,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.datastore.UserProfile
-import com.dominio.bloommind.ui.navigation.Routes
+import com.dominio.bloommind.data.repository.MessageRepository
 import com.dominio.bloommind.ui.components.EmergencyCarouselCard
+import com.dominio.bloommind.ui.components.FutureSelfCard
 import com.dominio.bloommind.ui.components.SimpleActionCard
 import com.dominio.bloommind.ui.components.TodaysEmotionsCard
-import com.dominio.bloommind.viewmodel.AffirmationUiState
+import com.dominio.bloommind.ui.navigation.Routes
 import com.dominio.bloommind.viewmodel.AdviceUiState
+import com.dominio.bloommind.viewmodel.AffirmationUiState
 import com.dominio.bloommind.viewmodel.HomeViewModel
 import com.dominio.bloommind.viewmodel.HomeViewModelFactory
 import com.dominio.bloommind.viewmodel.TodaysEmotionsUiState
@@ -56,6 +59,11 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
     val adviceState by homeViewModel.adviceState.collectAsState()
     val todaysEmotionsState by homeViewModel.todaysEmotionsState.collectAsState()
     val affirmationState by homeViewModel.affirmationState.collectAsState()
+
+    // DataStore para mensajes
+    val messageRepository = remember { MessageRepository(context) }
+    val futureMessage by messageRepository.futureMessage.collectAsState(initial = null)
+    val hasBadDay by messageRepository.hasBadDay.collectAsState(initial = false)
 
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(lifecycleOwner) {
@@ -186,12 +194,19 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
                     }
                 }
                 is TodaysEmotionsUiState.Success -> {
-                    // CORRECCIÓN AQUÍ: Siempre mostramos TodaysEmotionsCard, esté vacía o llena.
                     TodaysEmotionsCard(
                         emotions = state.emotions,
                         onClick = { navController.navigate(Routes.EMOTIONS_HISTORY) }
                     )
                 }
+            }
+        }
+
+        // Tarjeta del Yo Futuro
+        // Solo se muestra si hay un mal día (flag activado) Y existe un mensaje guardado
+        if (hasBadDay && !futureMessage.isNullOrBlank()) {
+            item {
+                FutureSelfCard(message = futureMessage ?: "")
             }
         }
 

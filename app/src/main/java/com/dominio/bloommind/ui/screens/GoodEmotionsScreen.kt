@@ -13,11 +13,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.repository.EmotionRepository
+import com.dominio.bloommind.data.repository.MessageRepository
 import com.dominio.bloommind.ui.components.EmotionButton
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
 import com.dominio.bloommind.ui.navigation.Routes
@@ -44,6 +47,9 @@ fun GoodEmotionsScreen(navController: NavController) {
     val selectedEmotions by viewModel.selectedEmotions.collectAsState()
     val context = LocalContext.current
     val emotionRepository = EmotionRepository(context)
+    
+    // Repositorio para desactivar la bandera
+    val messageRepository = remember { MessageRepository(context) }
     val scope = rememberCoroutineScope()
 
     Column(
@@ -83,42 +89,78 @@ fun GoodEmotionsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Button(
-                onClick = {
-                    scope.launch {
-                        viewModel.saveCheckIn(emotionRepository)
-                        navController.navigate(BloomMindNavItems.Home.route) {
-                            popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
-                            launchSingleTop = true
-                        }
-                    }
-                },
-                enabled = selectedEmotions.isNotEmpty(),
-                modifier = Modifier.weight(1f)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text(stringResource(id = R.string.checkin_save_and_home))
+                Button(
+                    onClick = {
+                        scope.launch {
+                            viewModel.saveCheckIn(emotionRepository)
+                            // Desactivamos bandera de mal día
+                            messageRepository.setBadDayFlag(false)
+                            
+                            navController.navigate(BloomMindNavItems.Home.route) {
+                                popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        }
+                    },
+                    enabled = selectedEmotions.isNotEmpty(),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.checkin_save_and_home),
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Button(
+                    onClick = {
+                        scope.launch {
+                            viewModel.saveCheckIn(emotionRepository)
+                            messageRepository.setBadDayFlag(false) // También aquí
+
+                            val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
+                            val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())
+                            navController.navigate("${BloomMindNavItems.Chat.route}?emotions=$encodedEmotions") {
+                                popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
+                            }
+                        }
+                    },
+                    enabled = selectedEmotions.isNotEmpty(),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.checkin_talk_about_it),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
+
+            // Botón: Guarda este momento
             Button(
                 onClick = {
                     scope.launch {
                         viewModel.saveCheckIn(emotionRepository)
-                        val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
-                        val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())
-                        navController.navigate("${BloomMindNavItems.Chat.route}?emotions=$encodedEmotions") {
-                            popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
-                        }
+                        // Aquí NO desactivamos la bandera necesariamente, porque vamos a guardar un mensaje
+                        // Pero la lógica principal es que si es Good Emotion, ya no es Bad Day.
+                        messageRepository.setBadDayFlag(false)
+                        
+                        navController.navigate(Routes.SAVE_MOMENT)
                     }
                 },
                 enabled = selectedEmotions.isNotEmpty(),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                )
             ) {
-                Text(stringResource(id = R.string.checkin_talk_about_it))
+                Text(text = stringResource(id = R.string.good_emotions_save_moment))
             }
         }
 

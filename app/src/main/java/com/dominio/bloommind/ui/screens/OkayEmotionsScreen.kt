@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.repository.EmotionRepository
+import com.dominio.bloommind.data.repository.MessageRepository
 import com.dominio.bloommind.ui.components.EmotionButton
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
 import com.dominio.bloommind.ui.navigation.Routes
@@ -44,6 +46,9 @@ fun OkayEmotionsScreen(navController: NavController) {
     val selectedEmotions by viewModel.selectedEmotions.collectAsState()
     val context = LocalContext.current
     val emotionRepository = EmotionRepository(context)
+    
+    // Repositorio para desactivar la bandera
+    val messageRepository = remember { MessageRepository(context) }
     val scope = rememberCoroutineScope()
 
     Column(
@@ -93,6 +98,9 @@ fun OkayEmotionsScreen(navController: NavController) {
                 onClick = {
                     scope.launch {
                         viewModel.saveCheckIn(emotionRepository)
+                        // Desactivar bandera de mal día
+                        messageRepository.setBadDayFlag(false)
+                        
                         navController.navigate(BloomMindNavItems.Home.route) {
                             popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
                             launchSingleTop = true
@@ -108,6 +116,8 @@ fun OkayEmotionsScreen(navController: NavController) {
                 onClick = {
                     scope.launch {
                         viewModel.saveCheckIn(emotionRepository)
+                        messageRepository.setBadDayFlag(false) // También aquí
+
                         val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
                         val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())
                         navController.navigate("${BloomMindNavItems.Chat.route}?emotions=$encodedEmotions") {

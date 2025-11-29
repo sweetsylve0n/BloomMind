@@ -79,7 +79,8 @@ class MainActivity : ComponentActivity() {
                     Routes.OKAY_EMOTIONS,
                     Routes.GOOD_EMOTIONS,
                     Routes.EMOTIONS_HISTORY,
-                    Routes.RESPIRATION // Agregamos la nueva ruta a la lista
+                    Routes.RESPIRATION,
+                    Routes.SAVE_MOMENT // Nueva ruta con TopBar
                 )
                 val isChatScreen = baseRoute == BloomMindNavItems.Chat.route
                 val showTopBar = isChatScreen || routesWithTopBar.contains(baseRoute) || (baseRoute?.startsWith(Routes.AFFIRMATION_BASE) == true)
@@ -120,7 +121,6 @@ class MainActivity : ComponentActivity() {
                         }
 
                         is ProfileState.LoggedIn, is ProfileState.NotLoggedIn -> {
-                            // Siempre empezamos en WelcomeScreen
                             NavHost(
                                 navController = navController,
                                 startDestination = Routes.WELCOME,
@@ -212,9 +212,13 @@ class MainActivity : ComponentActivity() {
                                         EmotionsHistoryScreen(navController = navController)
                                     }
 
-                                    // Agregamos la nueva pantalla de respiración al grafo principal
                                     composable(Routes.RESPIRATION) {
                                         RespirationScreen(navController = navController)
+                                    }
+
+                                    // Nueva pantalla: Save Moment
+                                    composable(Routes.SAVE_MOMENT) {
+                                        SaveMomentScreen(navController = navController)
                                     }
                                 }
 

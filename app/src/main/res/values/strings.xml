@@ -116,13 +116,22 @@
     <string name="respiration_step_3">3. Espirar durante 8 segundos.</string>
     <string name="start_button">Start</string>
 
+    <!-- Save Moment Screen (Good Emotions) -->
+    <string name="good_emotions_save_moment">Guarda este momento</string>
+    <string name="save_moment_title">Guarda este momento</string>
+    <string name="save_moment_subtitle">Aprovecha este momento para expresar tu bienestar, y déjale un mensaje a tu futuro yo que se encuentre en un mal momento. ¿Qué le dirías?</string>
+    <string name="save_moment_hint">Escribe tu mensaje aquí (máx. 3 líneas)...</string>
+    <string name="save_moment_button">Guardar</string>
+    
+    <!-- Future Self Card -->
+    <string name="future_self_card_title">Quiero que recuerdes:</string>
+
     <!-- Today's Emotions Card -->
     <string name="todays_emotions_card_title">Tus emociones de hoy</string>
     <string name="todays_emotions_card_prompt">Haz un check-in para descubrir más sobre tus emociones</string>
     <string name="todays_emotions_history_prompt">Revisa tu historial emocional</string>
 
     <!-- Gemini Prompts -->
-    <!-- UPDATED PROMPTS FOR STRICT LANGUAGE ADHERENCE -->
     <string name="gemini_system_instruction">Eres un compañero empático. Instrucciones obligatorias: 1) IDIOMA: Tu idioma principal es ESPAÑOL. Sin embargo, si el usuario te escribe en Inglés, DEBES cambiar y responder en Inglés inmediatamente. 2) No uses emojis. 3) Sé breve (un párrafo). 4) Termina con pregunta abierta. 5) No des soluciones no pedidas.</string>
     <string name="gemini_initial_prompt">IMPORTANTE: Responde en ESPAÑOL. El usuario se siente: %1$s. Inicia la conversación con empatía.</string>
 

@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dominio.bloommind.R
 import com.dominio.bloommind.data.repository.EmotionRepository
+import com.dominio.bloommind.data.repository.MessageRepository
 import com.dominio.bloommind.ui.components.EmotionButton
 import com.dominio.bloommind.ui.navigation.BloomMindNavItems
 import com.dominio.bloommind.ui.navigation.Routes
@@ -45,6 +47,9 @@ fun BadEmotionsScreen(navController: NavController) {
     val selectedEmotions by viewModel.selectedEmotions.collectAsState()
     val context = LocalContext.current
     val emotionRepository = EmotionRepository(context)
+    
+    // Instanciamos el repositorio de mensajes para activar el flag de "mal día"
+    val messageRepository = remember { MessageRepository(context) }
     val scope = rememberCoroutineScope()
 
     Column(
@@ -97,6 +102,9 @@ fun BadEmotionsScreen(navController: NavController) {
                     onClick = {
                         scope.launch {
                             viewModel.saveCheckIn(emotionRepository)
+                            // Activamos la bandera de mal día
+                            messageRepository.setBadDayFlag(true)
+                            
                             navController.navigate(BloomMindNavItems.Home.route) {
                                 popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
                                 launchSingleTop = true
@@ -115,6 +123,8 @@ fun BadEmotionsScreen(navController: NavController) {
                     onClick = {
                         scope.launch {
                             viewModel.saveCheckIn(emotionRepository)
+                            messageRepository.setBadDayFlag(true) // También aquí por si acaso
+
                             val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
                             val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())
                             navController.navigate("${BloomMindNavItems.Chat.route}?emotions=$encodedEmotions") {
@@ -136,12 +146,13 @@ fun BadEmotionsScreen(navController: NavController) {
             Button(
                 onClick = {
                     scope.launch {
-                        // Guardamos el check-in antes de navegar
                         viewModel.saveCheckIn(emotionRepository)
+                        messageRepository.setBadDayFlag(true) // También aquí
+                        
                         navController.navigate(Routes.RESPIRATION)
                     }
                 },
-                enabled = selectedEmotions.isNotEmpty(), // Solo habilitado si hay emociones seleccionadas
+                enabled = selectedEmotions.isNotEmpty(), 
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
