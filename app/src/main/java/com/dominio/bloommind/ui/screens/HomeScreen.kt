@@ -202,21 +202,18 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
         item {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
                 CharacterImage(
                     drawableRes = R.drawable.decorate,
                     description = "Sweet home",
-                    size = 300.dp
+                    size = 400.dp
                 )
             }
         }
 
-        item {
-            Spacer(modifier = Modifier.height(2.dp))
-        }
+
     }
 }
 
