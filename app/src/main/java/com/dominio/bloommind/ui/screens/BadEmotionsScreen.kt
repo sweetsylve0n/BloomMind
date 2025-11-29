@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -83,42 +84,71 @@ fun BadEmotionsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        // Fila de botones de acción
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Button(
-                onClick = {
-                    scope.launch {
-                        viewModel.saveCheckIn(emotionRepository)
-                        navController.navigate(BloomMindNavItems.Home.route) {
-                            popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
-                            launchSingleTop = true
-                        }
-                    }
-                },
-                enabled = selectedEmotions.isNotEmpty(),
-                modifier = Modifier.weight(1f)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text(stringResource(id = R.string.checkin_save_and_home))
+                Button(
+                    onClick = {
+                        scope.launch {
+                            viewModel.saveCheckIn(emotionRepository)
+                            navController.navigate(BloomMindNavItems.Home.route) {
+                                popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        }
+                    },
+                    enabled = selectedEmotions.isNotEmpty(),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.checkin_save_and_home),
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Button(
+                    onClick = {
+                        scope.launch {
+                            viewModel.saveCheckIn(emotionRepository)
+                            val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
+                            val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())
+                            navController.navigate("${BloomMindNavItems.Chat.route}?emotions=$encodedEmotions") {
+                                popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
+                            }
+                        }
+                    },
+                    enabled = selectedEmotions.isNotEmpty(),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.checkin_talk_about_it),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
+            
+            // Tercer botón para el ejercicio de respiración
             Button(
                 onClick = {
                     scope.launch {
+                        // Guardamos el check-in antes de navegar
                         viewModel.saveCheckIn(emotionRepository)
-                        val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
-                        val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())
-                        navController.navigate("${BloomMindNavItems.Chat.route}?emotions=$encodedEmotions") {
-                            popUpTo(Routes.CHECK_IN_GRAPH) { inclusive = true }
-                        }
+                        navController.navigate(Routes.RESPIRATION)
                     }
                 },
-                enabled = selectedEmotions.isNotEmpty(),
-                modifier = Modifier.weight(1f)
+                enabled = selectedEmotions.isNotEmpty(), // Solo habilitado si hay emociones seleccionadas
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                )
             ) {
-                Text(stringResource(id = R.string.checkin_talk_about_it))
+                Text(text = stringResource(id = R.string.bad_emotions_take_break))
             }
         }
 

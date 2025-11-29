@@ -15,6 +15,7 @@ object Routes {
     const val AFFIRMATION_BASE = "affirmation"
     const val ICON_SELECTION_FROM_PROFILE = "icon_selection_from_profile"
     const val EMOTIONS_HISTORY = "emotions_history"
+    const val RESPIRATION = "respiration"
 
     fun createSignUpRoute(iconId: String) = "sign_up/$iconId"
 }

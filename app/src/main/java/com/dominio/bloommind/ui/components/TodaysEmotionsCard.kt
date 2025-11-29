@@ -15,8 +15,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,25 +30,37 @@ fun TodaysEmotionsCard(
     emotions: Set<Int>,
     onClick: () -> Unit = {}
 ) {
-    val isClickable = emotions.isNotEmpty()
+    val context = LocalContext.current
+
+    // 1. Filtramos y convertimos los IDs a texto válido.
+    // Si un ID falla (es corrupto), se descarta (retorna null y mapNotNull lo ignora).
+    val validEmotionsTexts = remember(emotions) {
+        emotions.mapNotNull { id ->
+            try {
+                context.getString(id)
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
+
+    // 2. Determinamos si hay contenido válido para mostrar
+    val hasContent = validEmotionsTexts.isNotEmpty()
 
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
-            // Forzamos que el color de fondo deshabilitado sea el mismo que el habilitado (Blanco/Surface)
-            // para evitar el tono "lila" o grisáceo por defecto.
             disabledContainerColor = MaterialTheme.colorScheme.surface,
-            // Podemos ajustar la opacidad del contenido si deseamos que el texto se vea "apagado"
             disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
         ),
         onClick = {
-            if (isClickable) {
+            if (hasContent) {
                 onClick()
             }
         },
-        enabled = isClickable 
+        enabled = hasContent 
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -59,7 +73,9 @@ fun TodaysEmotionsCard(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (emotions.isEmpty()) {
+            // 3. Si NO hay emociones válidas (porque estaba vacío o eran corruptas), 
+            // mostramos el mensaje de invitación (prompt).
+            if (!hasContent) {
                 Text(
                     text = stringResource(id = R.string.todays_emotions_card_prompt),
                     style = MaterialTheme.typography.bodyMedium,
@@ -67,14 +83,15 @@ fun TodaysEmotionsCard(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             } else {
+                // 4. Si hay emociones válidas, las mostramos
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     maxItemsInEachRow = 4
                 ) {
-                    emotions.forEach { emotionResId ->
-                        EmotionPill(text = stringResource(id = emotionResId))
+                    validEmotionsTexts.forEach { emotionText ->
+                        EmotionPill(text = emotionText)
                     }
                 }
             }

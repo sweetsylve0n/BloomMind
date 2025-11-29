@@ -105,6 +105,17 @@
     <string name="checkin_save_and_home">Guardar y volver al inicio</string>
     <string name="checkin_talk_about_it">Hablar de esto</string>
 
+    <!-- Respiration Screen -->
+    <string name="bad_emotions_take_break">Tómate un descanso</string>
+    <string name="respiration_title">Tómate un descanso</string>
+    <string name="respiration_subtitle_1">Sabemos que a veces es difícil sobrellevar las cosas. Date un momento para respirar y reconectar con el presente.</string>
+    <string name="respiration_subtitle_2">Cuando te sientas listo, pulsa el botón start y sigue las indicaciones:</string>
+    <string name="respiration_exercise_title">Ejercicio de Respiración: Calmando el cuerpo y la mente</string>
+    <string name="respiration_step_1">1. Inspirar durante 4 segundos.</string>
+    <string name="respiration_step_2">2. Retener el aire durante 7 segundos.</string>
+    <string name="respiration_step_3">3. Espirar durante 8 segundos.</string>
+    <string name="start_button">Start</string>
+
     <!-- Today's Emotions Card -->
     <string name="todays_emotions_card_title">Tus emociones de hoy</string>
     <string name="todays_emotions_card_prompt">Haz un check-in para descubrir más sobre tus emociones</string>

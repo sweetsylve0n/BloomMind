@@ -78,7 +78,8 @@ class MainActivity : ComponentActivity() {
                     Routes.BAD_EMOTIONS,
                     Routes.OKAY_EMOTIONS,
                     Routes.GOOD_EMOTIONS,
-                    Routes.EMOTIONS_HISTORY
+                    Routes.EMOTIONS_HISTORY,
+                    Routes.RESPIRATION // Agregamos la nueva ruta a la lista
                 )
                 val isChatScreen = baseRoute == BloomMindNavItems.Chat.route
                 val showTopBar = isChatScreen || routesWithTopBar.contains(baseRoute) || (baseRoute?.startsWith(Routes.AFFIRMATION_BASE) == true)
@@ -209,6 +210,11 @@ class MainActivity : ComponentActivity() {
 
                                     composable(Routes.EMOTIONS_HISTORY) {
                                         EmotionsHistoryScreen(navController = navController)
+                                    }
+
+                                    // Agregamos la nueva pantalla de respiración al grafo principal
+                                    composable(Routes.RESPIRATION) {
+                                        RespirationScreen(navController = navController)
                                     }
                                 }
 

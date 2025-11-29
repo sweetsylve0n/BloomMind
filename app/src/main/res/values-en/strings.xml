@@ -98,6 +98,17 @@
     <string name="todays_emotions_card_prompt">Make a check-in to discover more about your emotions</string>
     <string name="todays_emotions_history_prompt">Check your emotional history</string>
 
+    <!-- Respiration Screen -->
+    <string name="bad_emotions_take_break">Take a break</string>
+    <string name="respiration_title">Take a break</string>
+    <string name="respiration_subtitle_1">We know that sometimes things are hard to handle. Give yourself a moment to breathe and reconnect with the present.</string>
+    <string name="respiration_subtitle_2">When you feel ready, press the start button and follow the instructions:</string>
+    <string name="respiration_exercise_title">Breathing Exercise: Calming the body and mind</string>
+    <string name="respiration_step_1">1. Inhale for 4 seconds.</string>
+    <string name="respiration_step_2">2. Hold breath for 7 seconds.</string>
+    <string name="respiration_step_3">3. Exhale for 8 seconds.</string>
+    <string name="start_button">Start</string>
+
     <!-- UPDATED PROMPTS FOR STRICT LANGUAGE ADHERENCE (ENGLISH) -->
     <string name="gemini_system_instruction">You are an empathetic, kind companion. Mandatory instructions: 1) LANGUAGE: Your base language is ENGLISH. However, if the user writes in Spanish, YOU MUST switch and respond in Spanish immediately. 2) No emojis. 3) Be brief (one paragraph). 4) Always end with an open question. 5) No unasked solutions.</string>
     <string name="gemini_initial_prompt">IMPORTANT: Respond in ENGLISH. User feels %1$s. Start conversation with empathy.</string>
