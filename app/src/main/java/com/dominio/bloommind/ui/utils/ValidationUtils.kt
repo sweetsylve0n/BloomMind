@@ -5,8 +5,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 object ValidationUtils {
-    // Regex for name: allows letters (including accents/other languages) and spaces.
-    // Ensures start of the string is a letter.
+
     private val nameRegex = Regex("^[\\p{L}]+(?:[ ]+[\\p{L}]+)*$")
 
     fun isNameValid(name: String): Boolean {

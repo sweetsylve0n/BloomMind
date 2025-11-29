@@ -24,7 +24,7 @@ class ChatQuotaRepository(context: Context) {
     private val dataStore = context.chatQuotaDataStore
 
     companion object {
-        const val MAX_QUOTA = 25
+        const val MAX_QUOTA = 50
     }
 
     private object PreferencesKeys {

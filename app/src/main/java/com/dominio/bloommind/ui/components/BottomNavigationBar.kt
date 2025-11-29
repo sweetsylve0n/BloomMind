@@ -35,7 +35,6 @@ fun BottomNavigationBar(navController: NavController, items: List<BloomMindNavIt
                         contentDescription = stringResource(id = item.displayNameRes)
                     ) 
                 },
-                // label eliminado para mostrar solo iconos
                 selected = isSelected,
                 onClick = {
                     if (currentRoute != item.route) {

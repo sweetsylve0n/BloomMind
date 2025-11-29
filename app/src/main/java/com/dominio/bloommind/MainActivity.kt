@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
                     Routes.GOOD_EMOTIONS,
                     Routes.EMOTIONS_HISTORY,
                     Routes.RESPIRATION,
-                    Routes.SAVE_MOMENT // Nueva ruta con TopBar
+                    Routes.SAVE_MOMENT
                 )
                 val isChatScreen = baseRoute == BloomMindNavItems.Chat.route
                 val showTopBar = isChatScreen || routesWithTopBar.contains(baseRoute) || (baseRoute?.startsWith(Routes.AFFIRMATION_BASE) == true)
@@ -215,8 +215,7 @@ class MainActivity : ComponentActivity() {
                                     composable(Routes.RESPIRATION) {
                                         RespirationScreen(navController = navController)
                                     }
-
-                                    // Nueva pantalla: Save Moment
+                                    
                                     composable(Routes.SAVE_MOMENT) {
                                         SaveMomentScreen(navController = navController)
                                     }

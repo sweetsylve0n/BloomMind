@@ -55,8 +55,6 @@ import kotlinx.coroutines.launch
 fun ChatScreen(emotions: String?) {
     val context = LocalContext.current
     val application = context.applicationContext as Application
-    
-    // Construcción manual de dependencias (Idealmente usar Hilt/Koin)
     val quotaRepository = ChatQuotaRepository(context)
     val historyRepository = ChatHistoryRepository(context)
     val geminiRepository = GeminiRepository()
@@ -74,7 +72,6 @@ fun ChatScreen(emotions: String?) {
         chatViewModel.initializeWithEmotions(emotions)
     }
 
-    // Scroll automático cuando llegan nuevos mensajes
     LaunchedEffect(uiState.messages.size) {
         if (uiState.messages.isNotEmpty()) {
             coroutineScope.launch {

@@ -59,8 +59,6 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
     val adviceState by homeViewModel.adviceState.collectAsState()
     val todaysEmotionsState by homeViewModel.todaysEmotionsState.collectAsState()
     val affirmationState by homeViewModel.affirmationState.collectAsState()
-
-    // DataStore para mensajes
     val messageRepository = remember { MessageRepository(context) }
     val futureMessage by messageRepository.futureMessage.collectAsState(initial = null)
     val hasBadDay by messageRepository.hasBadDay.collectAsState(initial = false)
@@ -202,8 +200,6 @@ fun HomeScreen(navController: NavController, userProfile: UserProfile) {
             }
         }
 
-        // Tarjeta del Yo Futuro
-        // Solo se muestra si hay un mal día (flag activado) Y existe un mensaje guardado
         if (hasBadDay && !futureMessage.isNullOrBlank()) {
             item {
                 FutureSelfCard(message = futureMessage ?: "")

@@ -45,17 +45,11 @@ fun ProfileScreen(
     var gender by remember(userProfile.gender) { mutableStateOf(userProfile.gender) }
     var iconId by remember(userProfile.iconId) { mutableStateOf(userProfile.iconId) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-
-    // Validation error states
     var nameError by remember { mutableStateOf<String?>(null) }
     var emailError by remember { mutableStateOf<String?>(null) }
     var birthDateError by remember { mutableStateOf<String?>(null) }
 
     val context = androidx.compose.ui.platform.LocalContext.current
-
-    // Validación en tiempo real
-    // OJO: ahora actualizamos el error si el campo tiene contenido para dar feedback,
-    // pero también debemos permitir guardar SOLO si todo es valido.
     
     fun validate(): Boolean {
          var valid = true
@@ -92,7 +86,6 @@ fun ProfileScreen(
          return valid
     }
 
-    // Trigger validation whenever fields change to show errors immediately
     LaunchedEffect(name) {
         if (name.isNotEmpty()) {
              if (!ValidationUtils.isNameValid(name)) nameError = context.getString(R.string.error_invalid_name)
@@ -111,8 +104,7 @@ fun ProfileScreen(
             else birthDateError = null
         }
     }
-    
-    // Estado de validez general para el botón FAB
+
     val isFormValid = nameError == null && emailError == null && birthDateError == null && 
                       name.isNotBlank() && email.isNotBlank() && birthDate.isNotBlank()
 
@@ -158,7 +150,6 @@ fun ProfileScreen(
             if (hasChanges) {
                 FloatingActionButton(
                     onClick = {
-                        // Validamos todo al hacer click por seguridad
                         if (validate()) {
                             profileViewModel.updateProfile(name, email, birthDate, gender, iconId)
                         }

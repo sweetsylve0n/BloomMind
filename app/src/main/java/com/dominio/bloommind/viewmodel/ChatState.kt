@@ -13,6 +13,6 @@ data class ChatUiState(
     val messages: List<Message> = emptyList(),
     val isSending: Boolean = false,
     val quotaLeft: Int = ChatQuotaRepository.MAX_QUOTA,
-    val quotaWarningThreshold: Int = 5,
+    val quotaWarningThreshold: Int = 10,
     val quotaReached: Boolean = false
 )

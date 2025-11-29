@@ -46,8 +46,6 @@ fun OkayEmotionsScreen(navController: NavController) {
     val selectedEmotions by viewModel.selectedEmotions.collectAsState()
     val context = LocalContext.current
     val emotionRepository = EmotionRepository(context)
-    
-    // Repositorio para desactivar la bandera
     val messageRepository = remember { MessageRepository(context) }
     val scope = rememberCoroutineScope()
 
@@ -98,7 +96,6 @@ fun OkayEmotionsScreen(navController: NavController) {
                 onClick = {
                     scope.launch {
                         viewModel.saveCheckIn(emotionRepository)
-                        // Desactivar bandera de mal día
                         messageRepository.setBadDayFlag(false)
                         
                         navController.navigate(BloomMindNavItems.Home.route) {
@@ -116,7 +113,7 @@ fun OkayEmotionsScreen(navController: NavController) {
                 onClick = {
                     scope.launch {
                         viewModel.saveCheckIn(emotionRepository)
-                        messageRepository.setBadDayFlag(false) // También aquí
+                        messageRepository.setBadDayFlag(false)
 
                         val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
                         val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())

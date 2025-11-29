@@ -37,7 +37,7 @@ fun WelcomeScreen(
 
     LaunchedEffect(Unit) {
         isVisible = true
-        delay(700L) // Duración de 2 segundos
+        delay(700L)
         onNavigateNext()
     }
 

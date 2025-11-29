@@ -46,19 +46,18 @@ fun SaveMomentScreen(navController: NavController) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Contenido con scroll y padding inferior para no tapar la imagen
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
-                .padding(bottom = 140.dp), // Espacio reservado para la imagen
+                .padding(bottom = 140.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(id = R.string.save_moment_title),
                 style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold, // Texto en negrita
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center
             )
@@ -106,13 +105,12 @@ fun SaveMomentScreen(navController: NavController) {
             }
         }
 
-        // Imagen Shino pegada al fondo
         Image(
             painter = painterResource(id = R.drawable.shino2),
             contentDescription = "Shino",
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .size(300.dp) // Tamaño ajustado para shino2
+                .size(300.dp)
                 .padding(bottom = 16.dp)
         )
     }

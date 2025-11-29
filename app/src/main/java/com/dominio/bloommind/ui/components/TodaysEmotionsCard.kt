@@ -32,8 +32,7 @@ fun TodaysEmotionsCard(
 ) {
     val context = LocalContext.current
 
-    // 1. Filtramos y convertimos los IDs a texto válido.
-    // Si un ID falla (es corrupto), se descarta (retorna null y mapNotNull lo ignora).
+
     val validEmotionsTexts = remember(emotions) {
         emotions.mapNotNull { id ->
             try {
@@ -44,7 +43,6 @@ fun TodaysEmotionsCard(
         }
     }
 
-    // 2. Determinamos si hay contenido válido para mostrar
     val hasContent = validEmotionsTexts.isNotEmpty()
 
     Card(
@@ -73,8 +71,7 @@ fun TodaysEmotionsCard(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 3. Si NO hay emociones válidas (porque estaba vacío o eran corruptas), 
-            // mostramos el mensaje de invitación (prompt).
+
             if (!hasContent) {
                 Text(
                     text = stringResource(id = R.string.todays_emotions_card_prompt),
@@ -83,7 +80,7 @@ fun TodaysEmotionsCard(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             } else {
-                // 4. Si hay emociones válidas, las mostramos
+
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,

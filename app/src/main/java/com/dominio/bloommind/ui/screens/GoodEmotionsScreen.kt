@@ -47,8 +47,7 @@ fun GoodEmotionsScreen(navController: NavController) {
     val selectedEmotions by viewModel.selectedEmotions.collectAsState()
     val context = LocalContext.current
     val emotionRepository = EmotionRepository(context)
-    
-    // Repositorio para desactivar la bandera
+
     val messageRepository = remember { MessageRepository(context) }
     val scope = rememberCoroutineScope()
 
@@ -101,7 +100,6 @@ fun GoodEmotionsScreen(navController: NavController) {
                     onClick = {
                         scope.launch {
                             viewModel.saveCheckIn(emotionRepository)
-                            // Desactivamos bandera de mal día
                             messageRepository.setBadDayFlag(false)
                             
                             navController.navigate(BloomMindNavItems.Home.route) {
@@ -122,7 +120,7 @@ fun GoodEmotionsScreen(navController: NavController) {
                     onClick = {
                         scope.launch {
                             viewModel.saveCheckIn(emotionRepository)
-                            messageRepository.setBadDayFlag(false) // También aquí
+                            messageRepository.setBadDayFlag(false)
 
                             val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
                             val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())
@@ -141,13 +139,10 @@ fun GoodEmotionsScreen(navController: NavController) {
                 }
             }
 
-            // Botón: Guarda este momento
             Button(
                 onClick = {
                     scope.launch {
                         viewModel.saveCheckIn(emotionRepository)
-                        // Aquí NO desactivamos la bandera necesariamente, porque vamos a guardar un mensaje
-                        // Pero la lógica principal es que si es Good Emotion, ya no es Bad Day.
                         messageRepository.setBadDayFlag(false)
                         
                         navController.navigate(Routes.SAVE_MOMENT)

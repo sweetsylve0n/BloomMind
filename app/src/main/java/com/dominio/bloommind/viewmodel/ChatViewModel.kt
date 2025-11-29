@@ -46,7 +46,6 @@ class ChatViewModel(
         if (emotions.isNullOrBlank()) return
 
         viewModelScope.launch {
-            // Solo inicializar si no hay historial previo O si el historial está vacío
             if (apiHistory.isEmpty()) {
                 val contextPrompt = getApplication<Application>().getString(R.string.gemini_initial_prompt, emotions)
                 
@@ -64,7 +63,11 @@ class ChatViewModel(
             val quotaLeft = ChatQuotaRepository.MAX_QUOTA - quotaInfo.count
             val hasReachedLimit = quotaInfo.count >= ChatQuotaRepository.MAX_QUOTA
             _uiState.update {
-                it.copy(quotaLeft = quotaLeft, quotaReached = hasReachedLimit)
+                it.copy(
+                    quotaLeft = quotaLeft, 
+                    quotaReached = hasReachedLimit,
+                    quotaWarningThreshold = 10
+                )
             }
         }
     }
@@ -103,7 +106,7 @@ class ChatViewModel(
                 }
                 
                 quotaRepository.incrementAndSave()
-                saveCurrentState() // Guardar estado tras respuesta
+                saveCurrentState()
                 loadQuota()
             }.onFailure { error ->
                 val errorMessage = Message(text = "Error: ${error.message}", isFromUser = false, isError = true)
@@ -120,7 +123,7 @@ class ChatViewModel(
         }
     }
     
-    // Método opcional si quieres añadir un botón para borrar historial
+
     fun clearChatHistory() {
         viewModelScope.launch {
             historyRepository.clearHistory()

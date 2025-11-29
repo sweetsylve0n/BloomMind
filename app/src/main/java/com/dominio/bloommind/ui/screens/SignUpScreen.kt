@@ -47,7 +47,6 @@ fun SignUpScreen(
     var emailError by remember { mutableStateOf<String?>(null) }
     var birthDateError by remember { mutableStateOf<String?>(null) }
 
-    // Función local para validar todos los campos
     fun validateAll(): Boolean {
         var isValid = true
         
@@ -87,17 +86,13 @@ fun SignUpScreen(
 
         return isValid
     }
-    
-    // Verificamos validez en tiempo real para habilitar/deshabilitar botón si se desea,
-    // aunque es mejor dejar el botón habilitado y mostrar errores al clickear.
-    // Aquí usaremos la estrategia de validar al cambiar para mostrar errores inmediatos.
+
 
     UserDetailsStep(
         name = name,
         onNameChange = {
             signUpViewModel.onNameChange(it)
-            // Validación inmediata
-            nameError = if (it.isBlank()) null // No mostrar error mientras escribe vacio al inicio
+            nameError = if (it.isBlank()) null
             else if (!ValidationUtils.isNameValid(it)) context.getString(R.string.error_invalid_name)
             else null
         },
@@ -125,8 +120,7 @@ fun SignUpScreen(
                 signUpViewModel.onSignUpClicked(profileRepository, iconId, onSignUpComplete)
             }
         },
-        // Habilitamos el botón solo si no hay errores visibles y los campos no están vacíos
-        isButtonEnabled = true // Dejamos siempre habilitado para que el usuario reciba feedback al presionar
+        isButtonEnabled = true
     )
 }
 

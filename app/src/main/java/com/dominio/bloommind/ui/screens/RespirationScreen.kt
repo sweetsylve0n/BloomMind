@@ -166,7 +166,6 @@ fun RespirationScreen(navController: NavController) {
                 .fillMaxWidth(0.60f)
                 .aspectRatio(9f / 16f)
                 .clip(RoundedCornerShape(16.dp))
-                // Fondo del contenedor Compose (ya estaba bien)
                 .background(MaterialTheme.colorScheme.background) 
         ) {
             AndroidView(
@@ -176,10 +175,6 @@ fun RespirationScreen(navController: NavController) {
                         useController = false 
                         setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING)
                         resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
-                        
-                        // AQUÍ ESTÁ EL CAMBIO CLAVE:
-                        // En lugar de transparente, usamos el color de fondo de la app.
-                        // Esto cubre el cuadro negro hasta que el video carga el primer frame.
                         setShutterBackgroundColor(backgroundColorArgb)
                     }
                 },

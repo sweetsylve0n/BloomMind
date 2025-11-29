@@ -30,12 +30,12 @@ fun CheckInScreen(navController: NavController) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Contenido principal centrado
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(bottom = 200.dp), // Espacio para la imagen inferior
+                .padding(bottom = 200.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -65,13 +65,12 @@ fun CheckInScreen(navController: NavController) {
             }
         }
 
-        // Imagen pegada al fondo
         Image(
             painter = painterResource(id = R.drawable.tree2),
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .size(300.dp) // Hacemos el árbol más grande
+                .size(300.dp)
         )
     }
 }

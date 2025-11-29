@@ -18,13 +18,12 @@ class ChatHistoryRepository(private val context: Context) {
     private val gson = Gson()
     private val fileName = "bloom_chat_history.json"
     
-    // Límite de mensajes para mantener el rendimiento y no saturar a Gemini
+
     private val MAX_HISTORY_LENGTH = 75
 
     suspend fun saveSession(uiMessages: List<Message>, apiHistory: List<GeminiContent>) {
         withContext(Dispatchers.IO) {
             try {
-                // Lógica de recorte (Sliding Window)
                 val trimmedUiMessages = if (uiMessages.size > MAX_HISTORY_LENGTH) {
                     uiMessages.takeLast(MAX_HISTORY_LENGTH)
                 } else {

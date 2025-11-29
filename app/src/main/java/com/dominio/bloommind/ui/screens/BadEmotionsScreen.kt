@@ -47,8 +47,6 @@ fun BadEmotionsScreen(navController: NavController) {
     val selectedEmotions by viewModel.selectedEmotions.collectAsState()
     val context = LocalContext.current
     val emotionRepository = EmotionRepository(context)
-    
-    // Instanciamos el repositorio de mensajes para activar el flag de "mal día"
     val messageRepository = remember { MessageRepository(context) }
     val scope = rememberCoroutineScope()
 
@@ -89,7 +87,6 @@ fun BadEmotionsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Fila de botones de acción
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -102,7 +99,6 @@ fun BadEmotionsScreen(navController: NavController) {
                     onClick = {
                         scope.launch {
                             viewModel.saveCheckIn(emotionRepository)
-                            // Activamos la bandera de mal día
                             messageRepository.setBadDayFlag(true)
                             
                             navController.navigate(BloomMindNavItems.Home.route) {
@@ -123,7 +119,7 @@ fun BadEmotionsScreen(navController: NavController) {
                     onClick = {
                         scope.launch {
                             viewModel.saveCheckIn(emotionRepository)
-                            messageRepository.setBadDayFlag(true) // También aquí por si acaso
+                            messageRepository.setBadDayFlag(true)
 
                             val emotionNames = selectedEmotions.joinToString(", ") { context.getString(it.nameResId) }
                             val encodedEmotions = URLEncoder.encode(emotionNames, StandardCharsets.UTF_8.name())
@@ -141,13 +137,12 @@ fun BadEmotionsScreen(navController: NavController) {
                     )
                 }
             }
-            
-            // Tercer botón para el ejercicio de respiración
+
             Button(
                 onClick = {
                     scope.launch {
                         viewModel.saveCheckIn(emotionRepository)
-                        messageRepository.setBadDayFlag(true) // También aquí
+                        messageRepository.setBadDayFlag(true)
                         
                         navController.navigate(Routes.RESPIRATION)
                     }
