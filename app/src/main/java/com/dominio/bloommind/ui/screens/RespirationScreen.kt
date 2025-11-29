@@ -117,7 +117,7 @@ fun RespirationScreen(navController: NavController) {
             textAlign = TextAlign.Center
         )
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(18.dp))
         
         Text(
             text = stringResource(id = R.string.respiration_subtitle_2),
@@ -125,11 +125,11 @@ fun RespirationScreen(navController: NavController) {
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Text(
             text = stringResource(id = R.string.respiration_exercise_title),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.secondary,
             textAlign = TextAlign.Center
@@ -159,12 +159,12 @@ fun RespirationScreen(navController: NavController) {
             )
         }
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
         Box(
             modifier = Modifier
-                .fillMaxWidth(0.60f)
-                .aspectRatio(9f / 16f)
+                .fillMaxWidth(0.70f)
+                .aspectRatio(4f / 5f)
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.background) 
         ) {
@@ -174,7 +174,7 @@ fun RespirationScreen(navController: NavController) {
                         player = exoPlayer
                         useController = false 
                         setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING)
-                        resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                        resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT 
                         setShutterBackgroundColor(backgroundColorArgb)
                     }
                 },
